@@ -3,14 +3,9 @@ swagger: "2.0"
 info:
   description: "API for TA Coordinator service."
   version: "1.0.0"
-  title: "TA Coord"
-  termsOfService: ""
+  title: "TA Coordinator"
   contact:
-    name: "ItWorkedYesturday"
     url: "https://github.com/csc302-2017-spring/proj-ItWorkedYesterday"
-  license:
-    name: "MIT"
-    url: "http://opensource.org/licenses/MIT"
 host: "localhost:8080"
 basePath: "/api"
 schemes:
