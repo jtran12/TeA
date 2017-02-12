@@ -1,5 +1,4 @@
 # Architecture
-======
 
 The overall system will be divided between three main components as follows:
 
