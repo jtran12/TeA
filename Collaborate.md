@@ -14,14 +14,14 @@
     
 2. **Name:** Jason Tran	
 
-    **Experience:** Software industry experience in the security sector, CSC454 project and pitch experience 
-    
+    **Experience:** Software industry experience in the security sector, CSC454 project and pitch experience
+    
     **Strengths:** Good presentation skills, good communication skills
-    
+    
     **Skills:** Node.js, AHK, MongoDB, Ruby, React, angularjs
-    
+    
     **Schedule (Free):** generally weekends, Thursdays, and an hour after lecture 5-6
-    
+    
 3. **Name:**
 	
     **Experience:**
