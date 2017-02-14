@@ -32,15 +32,15 @@
     
     **Schedule (Free):**
     
-4. **Name:**
+4. **Name:** Andrew Xia
 	
-    **Experience:**
+    **Experience:** Significant work experience with large scale systems in both industry and research contexts.
     
-    **Strengths:**
+    **Strengths:** Organization and management skills
     
-    **Skills:**
+    **Skills:** Java, Node.js, AngularJS, C#, Python
     
-    **Schedule (Free):**
+    **Schedule (Free):** typically weekends or afternoons
     
 5. **Name:**
 	
