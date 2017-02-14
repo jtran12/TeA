@@ -22,15 +22,15 @@
     
     **Schedule (Free):** generally weekends, Thursdays, and an hour after lecture 5-6
     
-3. **Name:**
+3. **Name:** Ayodeji Oyewole
 	
-    **Experience:**
+    **Experience:** Over 2 years of work experience at IBM, Bell Mobility; Team experience in CSC309, CSC301, CSC458
     
-    **Strengths:**
+    **Strengths:** Software architecture planning, experience with both front-end and back-end
     
-    **Skills:**
+    **Skills:** Ruby, PHP, Python, MySQL, DB2, JavaScript, Ajax, Django, jQuery
     
-    **Schedule (Free):**
+    **Schedule (Free):** M, T, F: Before 1pm & After 5pm; W: N/A; R: Before 3pm & After 6pm; Weekends: All day
     
 4. **Name:** Andrew Xia
 	
