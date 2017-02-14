@@ -52,15 +52,15 @@
     
     **Schedule (Free):** Tuesdays (after 4pm) and Friday (after 5pm) and all day Saturday.
     
-6. **Name:**
+6. **Name:** Ken Wei Lee
 	
-    **Experience:**
+    **Experience:** Multitude of group projects in 300 and 400 level courses
     
-    **Strengths:**
+    **Strengths:** Management, Co-ordination, Communication, Initiative
     
-    **Skills:**
+    **Skills:** Node.js, PostreSQL, MySQL, Java, C, Python
     
-    **Schedule (Free):**
+    **Schedule (Free):** Always free, all the time.
     
 7. **Name:** Timothy Pan
 	
