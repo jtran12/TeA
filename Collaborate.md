@@ -4,13 +4,13 @@
 
 1. **Name:** Vera Sipicki
 	
-    **Experience:** CSC301 final project, CSC309 final project, Wordpress
+    **Experience:** CSC301 final project, CSC309 final project, Wordpress, CSC400+ courses,
     
     **Strengths:** Works consistently and daily, willing to pull many all-nighters to get an application working
     
-    **Skills:** Node.js, MongoDB, PostgreSQL, MySQL, Handlebars, Mustache, Jade
+    **Skills:** Node.js, MongoDB, PostgreSQL, MySQL, Handlebars, Mustache, Jade, C#
     
-    **Schedule (Free):** M, T, R before 4; W, F after 5 
+    **Schedule (Free):** M, T, R before 4; W, F after 5; Weekends any time
     
 2. **Name:** Jason Tran	
 
@@ -75,7 +75,7 @@
 
 ### Past Meetings
 
-**When:** Every Monday, Friday, 5-6+
+**When:** Every Monday, Friday, 5-6
 
 **Where:** Bahen (Great Hall, BA1200, and when desperate, the hallways), Gernstein booked rooms
 
@@ -98,10 +98,12 @@ Estimated time: ~1+ hours
 
 #### February 10th
 
+The team mainly finalized the scope of the project. The member responsible for the front-end design presented their mockups and other members critiqued it. 
 
+Estimated time: 1 hour
 
 #### February 14th
-The whole team showed up to finish designing the API and to document it in OpenApi format using Swagger.
+The whole team showed up to finish designing the API and to document it in OpenApi format using Swagger. The Use Cases were thoroughly examined to allow the team to create all necessary fields for the JSON objects the application will use. Also the routes were created for the RESTful API that correspond to each use case. The Database Schema and table format was also concluded. Everybody decided to break off into groups and assign future tasks.
 
 Estimated time: 3 hours
 
@@ -116,13 +118,15 @@ In the future, we plan to have meetings at a booked room in Gernstein for privac
 ### Methodology
 Our team will be using the Kanban software development methodology for the course of this project. As we have all had experience with Scrum, we decided against it because we felt that the management criteria that would fit best would be "Work in Progress" (WIP). By using this method, we hope to optimize not only the flow of work items but team cooperation as well. Since every column on the Kanban board represents a WIP limit, we can ensure that the whole team will be helping to clear the state bfefore permitting new work items. This allows us to organize our minimum viable product (MVP) better since we will not be working all over the place but in a more organized method. Each state will represent a substantial portion of the application such as a group of use cases.
 
+Unfortunately the Scrum methodology is too structured for the given time constraints. The use cases were optimized to act similar to a Scrum backlog. And since the design was created thoroughly, each team member has a high understanding of their work items. The work items were split in a method that allowed them to be independent of one another which eliminates the need to use Scrum's synchronization benefits. 
+
 ### Strategy for Dividing Work
 For the beginning of the project, we divided the write ups, wireframes, test research and basic application set up (database, server) equally. Designing the API was only done when all group members were present
 
-We divided the team into front-end and back-end groups, 3 and 4 members respectively, by taking into account preferred work and experience. Front-end will split up their goals by assigning each member to work on a specific view. Back-end will split up their goals by assigning one member to work with the database and queries, another member to work with HTTP methods for RESTful APIs and the last two will be working with our recommendation system for TA selection. Lastly, one member will work on taking notes during each meeting and posting them on Google Docs where any member can add details.
+We divided the team into front-end and back-end groups, 3 and 4 members respectively, by taking into account preferred work and experience. Front-end will split up their goals by assigning each member to work on a specific view. Back-end will split up their goals by assigning each member to a particular route of the API. Each back-end member will be responsible for programming the HTTP methods for RESTful APIs for one the following routes: applicants, applications, courses. The last member of the back-end will begin to work on the  recommendation system for TA selection. Lastly, one member will usually work on taking notes of all plans during each meeting and posting them on Google Docs.
 
 ### Github
-Each member will be responsible for creating tests after each job they completed. Also each member will be working on separate branches and merging with the main only if they have tested and completed the task successfully. 
+Each member will be responsible for creating tests before each job is implemented/completed. Also each member will be working on separate branches and merging with the main only if they have tested and completed the task successfully. 
 
 There will be two CI people in the group that will ensure flawless integration: the front-end leader and the back-end leader. 
 
@@ -132,3 +136,5 @@ There will be two CI people in the group that will ensure flawless integration: 
 
 ### Tracking Progress
 Since we were all enthusiastic about learning how to use JIRA, we would like to use it to limit WIPs and track story cards, issues and bugs. By keeping track of the Kanban board, we will be able to identify bottlenecks in the progress visually and improve our process in order to avoid them in the future. JIRA will be integrated with Github for ease of use. Since it is able to visualize team performance through flow diagrams and control charts, we will use that to get a good idea of our progress and it will be included in our documentation for reference.
+
+Alternatively if the professor cannot set up JIRA, we will use Github and it's issues to track all of our story cards, issues and bugs. Github also supports visual graphics of progress through commit activity, code frequency, and impact charts so we will use those. We will also track issues opened/closed and create burndown charts.
