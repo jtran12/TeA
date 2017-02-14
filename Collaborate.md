@@ -62,15 +62,15 @@
     
     **Schedule (Free):**
     
-7. **Name:**
+7. **Name:** Timothy Pan
 	
-    **Experience:**
+    **Experience:** Past projects with Nodejs and Ruby on Rails
     
-    **Strengths:**
+    **Strengths:** Carryover knowledge from past projects
     
-    **Skills:**
+    **Skills:** Nodejs, Ruby on Rails, jQuery, Postgres
     
-    **Schedule (Free):**
+    **Schedule (Free):** Early mornings and evenings
 
 
 ### Past Meetings
