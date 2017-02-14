@@ -42,15 +42,15 @@
     
     **Schedule (Free):** typically weekends or afternoons
     
-5. **Name:**
+5. **Name:** Tony Hongjin Lee
 	
-    **Experience:**
+    **Experience:** Currently up to one year in startup from UofT Hatchery program for a mentoring platform. 
     
-    **Strengths:**
+    **Strengths:** Desire to learn and implement best practices.
     
-    **Skills:**
+    **Skills:** Javascript, Angular2, ngrx, SQL
     
-    **Schedule (Free):**
+    **Schedule (Free):** Tuesdays (after 4pm) and Friday (after 5pm) and all day Saturday.
     
 6. **Name:**
 	
