@@ -22,6 +22,10 @@ Travis
 -------------
 
 Using the .travis.yml file in our repo we set it up specifying the language as node_js.
+We will need to tell Travis CI to start monitoring our project in the travis profile page.
+Having a status button for travis for the README.md would also be helpful in letting people know that the project passes unit tests
+however, it is not required.
+
 
 Test Driven Development
 -------------
