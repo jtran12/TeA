@@ -2,7 +2,7 @@
 
 ### TA Coordinator Use Cases
 
-Given the short time frame, we have decided to focus on the TA coordinator use cases (all 18 of them). The TA coordinator uses the app more than anybody else, also, the flaws of the current app is more of a burden for the TA coordinator than it is for anybody else. For that reason as well as the limited timeframe, the team is focusing on making life easier for the TA coordinator.
+Given the short time frame, we have decided to focus on the TA coordinator use cases (all 18 of them). The TA coordinator uses the app more than anybody else, also, the flaws of the current app are more of a burden for the TA coordinator than it for anybody else. For that reason, as well as the limited timeframe, the team is focusing on making life easier for the TA coordinator.
 
 ### Assumptions about the Applicant Endpoint
 While designing and implementing solutions for the TA coordinator use cases, we would work under the assumption that all the applicant use cases have been implemented and that we have all the required data from the applicant side to use on the TA coordinator side.
@@ -15,4 +15,4 @@ Karen Reid mentioned some "rules" she has to follow when considering which appli
 
 ### Learning Goals
 
-The recurring theme regarding learning goals is to gain some experience working with languages and frameworks that are in very high demand in today’s job market. We are also working on our ability to take simple user stories and turn them into software solutions that perfectly satisfies what the user had in mind. Finally, we will be following the Kanban workflow methodology, a first for some of us. The experience working in a Kanban team would be a great reference point when considering its pros and cons in our future endeavours.
+The recurring theme regarding learning goals is to gain some experience working with languages and frameworks that are in very high demand in todayâ€™s job market. We are also working on our ability to take simple user stories and turn them into software solutions that perfectly satisfies what the user had in mind. Finally, we will be following the Kanban workflow methodology, a first for some of us. The experience working in a Kanban team would be a great reference point when considering its pros and cons in our future endeavours.
