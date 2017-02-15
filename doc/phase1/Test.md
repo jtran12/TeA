@@ -16,14 +16,14 @@ layers, technologies, and languages. This allows us to ask whether or not our ap
 
 This testing ensures that data integrity is maintained between various system components and systems.
 
-Along with this, having set up the aforementioned and later unit tests. We can utilize continuous integration (CI) with either travis or Jenkins (probably travis) in order to run tests for each commit.
+Along with this, having set up the aforementioned and later unit tests, we can utilize continuous integration (CI) with either Travis or Jenkins (probably Travis) in order to run tests for each commit.
 
 Travis
 -------------
 
 Using the .travis.yml file in our repo we set it up specifying the language as node_js.
-We will need to tell Travis CI to start monitoring our project in the travis profile page.
-Having a status button for travis for the README.md would also be helpful in letting people know that the project passes unit tests
+We will need to tell Travis CI to start monitoring our project in the Travis profile page.
+Having a status button for Travis for the README.md would also be helpful in letting people know that the project passes unit tests
 however, it is not required.
 In case of a build failure, Travis CI will send emails to the commit author and repository owner. In this way, the developer that pushed the code is immediately alerted and can then fix the integration errors.
 
@@ -35,4 +35,4 @@ Before building features, we write tests that fails but falls within the require
 
 Continuous integration will help by also providing revertible checkpoints in case of failure.
 
-As well as the aforementioned notes, every member of the group must do a complete build and run (and pass) all unit tests before committing changes. Integration tests will be ran automatically on travis when it detects a new commit
+As well as the aforementioned notes, every member of the group must do a complete build and run (and pass) all unit tests before committing changes. Integration tests will be ran automatically on Travis when it detects a new commit.
