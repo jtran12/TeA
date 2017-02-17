@@ -28,4 +28,16 @@ The Applicant Recommendation Service will be built in Javascript with a NodeJS s
 
 The image below displays the preliminary tables planned for the Postgres database that will be used to hold all of the data used for this service.
 
-![](https://lh3.googleusercontent.com/Ol51IvmIt-VsjMZ3voLjrjObrVcBmAfbSpcww65HMKz4V4AQgym5jeaYmRblOG3lPm5gGX_UVz337GUH3RgNUBTdMGa-NZTAl66bvlqUOQcDh4Ad5vWuSFgNpD-33rNy1zre=w696-h900-no)
+#### Applicants  
+TA applicants personal information and TA history is stored in this table. TA's are identified by their utorid. If they do not have one, they will be assigned a random id generated from their first and last name until they have recieved an official utorid to enter. The courses they have accepted and declined TA offers for will be saved for future reference.
+
+#### Courses  
+Stores the requirements for one course. The course is identified by the course code term, however that data is also available individually in order to allow searching for specific courses across terms, or all courses within one term.
+
+#### Applications  
+Stores applications TAs have submitted for a course. Keeps track of the status of the application, such as if an offer has been extended and the TA's response. 
+
+#### Groups  
+Allows admin to create groups of students for planning purposes. For example, this could be used to keep track of TA's who frequently TA the same course, or to present candidates to instructors for their opinion. Only the utorids are saved since the full profiles can be easily accessed.
+
+![](https://lh3.googleusercontent.com/1gLVXiaeO3V8WP8mdbIRM1-MUbU0kZaCe8XixwP1D2wIPdIS2TlLHs-2l4qz9sve7sCqE2bHhQ7_K9oVxFP3sBR_KrTe4pnwYu196FUt5S58PR8QVvNKg41uEK9HlEkjUedx=w478-h618-no)
