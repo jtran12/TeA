@@ -107,11 +107,17 @@ Karen Reid mentioned some "rules" she has to follow when considering which appli
 
 1. Prioritize graduate over undergraduate applicants.
 
-2. Prioritize an applicant's field of study whether graduate or not (computer science TAs for computer science classes).
+2. Exhaust list of applicants from the department of Computer science before making offers to applicants from other departments.
 
-3. Prioritize people with more experience (either allow input or check if they TAed at the school before)
+3. Prioritize based on how many times an applicant has taught a course in the past.
 
-4. If given enough time, a rating system where professors can rate the performance of TAs. Highest rating recommended first.
+4. Applicants give a ranking of courses they would like to TA, prioritize based on each applicant’s preferences.
+
+5. Consider that each graduate has to be made at least one offer.
+
+6. Consider that you need to match previous hours of Phd applicants.
+
+7. If given enough time, a rating system where professors can rate the performance of TAs. Highest rating recommended first.
 
 ### Learning Goals
 
