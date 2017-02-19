@@ -1,5 +1,7 @@
 # Architecture
 
+![](https://github.com/csc302-2017-spring/proj-ItWorkedYesterday/blob/master/doc/phase1/AppUML.png?raw=true)
+
 The overall system will be divided between three main components as follows:
 
 ### TA Coordinator Client Application
@@ -28,16 +30,4 @@ The Applicant Recommendation Service will be built in Javascript with a NodeJS s
 
 The image below displays the preliminary tables planned for the Postgres database that will be used to hold all of the data used for this service.
 
-#### Applicants  
-TA applicants personal information and TA history is stored in this table. TA's are identified by their utorid. If they do not have one, they will be assigned a random id generated from their first and last name until they have recieved an official utorid to enter. The courses they have accepted and declined TA offers for will be saved for future reference.
-
-#### Courses  
-Stores the requirements for one course. The course is identified by the course code term, however that data is also available individually in order to allow searching for specific courses across terms, or all courses within one term.
-
-#### Applications  
-Stores applications TAs have submitted for a course. Keeps track of the status of the application, such as if an offer has been extended and the TA's response. 
-
-#### Groups  
-Allows admin to create groups of students for planning purposes. For example, this could be used to keep track of TA's who frequently TA the same course, or to present candidates to instructors for their opinion. Only the utorids are saved since the full profiles can be easily accessed.
-
-![](https://lh3.googleusercontent.com/1gLVXiaeO3V8WP8mdbIRM1-MUbU0kZaCe8XixwP1D2wIPdIS2TlLHs-2l4qz9sve7sCqE2bHhQ7_K9oVxFP3sBR_KrTe4pnwYu196FUt5S58PR8QVvNKg41uEK9HlEkjUedx=w478-h618-no)
+![](https://lh3.googleusercontent.com/nlXZLD3Ngm45FbuEAmuzMF4MCRrzu7hXDDxyDbxrVp9amB7d2HbxxE89Jd0E1X3CWCIqHU2JiKqP75WsyaeoL_op0UcG92e_btBloa43800ugejSBPCicIja6YI-oRwT1sSq5XPsGddmiL8Phi0ajtRapj39kbW6qRg9T-pOJE-t6j0U8tgm7rcn2w7OC0LSDjybeUufCHzaTZmUvXbtLrmta-52Ie6kKhv2A1YuTPRDoHqsPjgCMhcrHtNcSIeNtYrnlRadxjRAkJ-peVOMMguxoFzHL1rjNhKOt6ERnzhMWXOVk2j4ldIieWpJ9yRwBJCBAvM_fnKoymFi3z4to5EGQgq_7_1eb-qj4-59hwbLaaXTk9xZa4y4S548uwIdvgl7bUtM5lcxrMixxfZw34SbyzzBm3cLh4A705l8r16UXnmMd8J3hBZqRbMu5Sbdk-vr1MelOfmZ9V6dOFgK0fqEVeTAIlaN_Wz5D3MWURHOOACZO73gOvUNJfKLwzEPz_tH-eKioGz7TRAeoYQjW4qV5BKeH92k8-hZ6CtS72eAyUxvnWalDh-6lYumPy1tDc2wIKv-Z62uH_gUKMRtxkQIt93bC1XM6a0Bp73YGLmGb_5e6h8=w696-h900-no)
