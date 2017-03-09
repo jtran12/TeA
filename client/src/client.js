@@ -2,15 +2,20 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { AppContainer } from 'react-hot-loader';
 import { Provider } from 'react-redux';
-import App from './containers/App';
 import configureStore from './stores';
+
+import injectTapEventPlugin from 'react-tap-event-plugin';
+import {Router, browserHistory} from 'react-router';
+import Routes from './Routes.jsx';
+
+injectTapEventPlugin();
 
 const store = configureStore();
 
 ReactDOM.render(
   <AppContainer>
     <Provider store={store}>
-      <App />
+      <Router history={browserHistory} routes={Routes}/>
     </Provider>
   </AppContainer>,
   document.getElementById('app')
