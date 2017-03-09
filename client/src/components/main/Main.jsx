@@ -45,10 +45,10 @@ class Manage extends React.Component {
               <Tab label="Applicant" value={1}/>
             </Tabs>
             <SwipeableViews index={this.state.tabIndex} onChangeIndex={this.onTabChange}>
-              <div style={styles.table}>
+              <div style={styles.section}>
                 <Course/>
               </div>
-              <div style={styles.table}>
+              <div style={styles.section}>
                 <Applicant/>
               </div>
             </SwipeableViews>
@@ -61,8 +61,8 @@ class Manage extends React.Component {
 }
 
 Manage.styles = {
-  table: {
-    marginTop: '3%'
+  section: {
+    padding: '2% 2% 2% 2%'
   }
 };
 
