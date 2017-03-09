@@ -1,12 +1,32 @@
 import React from 'react';
 import lodash from 'lodash';
 
-class Main extends React.Component {
+import {Tabs, Tab} from 'material-ui/Tabs';
+
+import SwipeableViews from 'react-swipeable-views';
+
+import Header from '../shared/Header.jsx';
+import Footer from '../shared/Footer.jsx';
+
+import Course from '../course/Course.jsx';
+import Applicant from '../applicant/Applicant.jsx';
+
+class Manage extends React.Component {
 
   constructor(props){
     super(props);
+
     this.state = {
+      tabIndex: 0,
     };
+
+    this.onTabChange = this.onTabChange.bind(this);
+  }
+
+  onTabChange(val) {
+    this.setState({
+      tabIndex: val
+    });
   }
 
   render() {
@@ -14,14 +34,36 @@ class Main extends React.Component {
 
     return (
       <div>
-        <h1>Hello World</h1>
+        <Header/>
+        <div className="container">
+          <div className="page-header">
+            <h1>Coordinator</h1>
+          </div>
+          <div>
+            <Tabs onChange={this.onTabChange} value={this.state.tabIndex}>
+              <Tab label="Course" value={0}/>
+              <Tab label="Applicant" value={1}/>
+            </Tabs>
+            <SwipeableViews index={this.state.tabIndex} onChangeIndex={this.onTabChange}>
+              <div style={styles.table}>
+                <Course/>
+              </div>
+              <div style={styles.table}>
+                <Applicant/>
+              </div>
+            </SwipeableViews>
+          </div>
+          <Footer/>
+        </div>
       </div>
     );
   }
 }
 
-Main.styles = {
-
+Manage.styles = {
+  table: {
+    marginTop: '3%'
+  }
 };
 
-export default Main;
+export default Manage;
