@@ -22,6 +22,7 @@ CREATE TABLE courses(
 	course text,
 	coursecode text,
 	term text,
+	year integer,
 	requirements text[],
 	PRIMARY KEY(course)
 );
