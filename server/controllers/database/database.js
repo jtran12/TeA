@@ -20,7 +20,7 @@ module.exports.pool = pool;
 
 Example Usage:
 
-	var pool = require(appRoot + '/controllers/database/database.js).pool;
+	var pool = require(appRoot + '/controllers/database/database.js').pool;
 
 	//Any PSQL query
 	var testQuery = 'SELECT * FROM tableName';
