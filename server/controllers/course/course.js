@@ -96,6 +96,7 @@ exports.putCourse = function(req, res) {
 	});
 }
 
+//{"data" : [{"course" : "csc301winter2017", "requirements" : "{a,b,c}"}, {"course" : "csc301fall2017"}]}
 exports.postCourseBulk = function(req, res) {
 	var data = JSON.parse(req.body.data);
 	var query = "INSERT INTO courses VALUES($1, $2, $3, $4, $5) " +
@@ -123,4 +124,15 @@ exports.postCourseBulk = function(req, res) {
 	}
 }
 
+exports.getCourseBulk = function(req, res) {
+	var query = "SELECT * FROM courses";
+	pool.query(query, function(err, result) {
+		if (err) {
+			sendError(res, 400, err);
+		}
+		else {
+			sendData(res, result.rows);
+		}
+	});
+}
 
