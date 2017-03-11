@@ -28,7 +28,7 @@ exports.getCourse = function(req, res) {
 	var id = courseParser(req);
 	
 	if (!id) {
-		sendError(res, 400, "Incomplete course id");
+		sendError(res, 400, "Course not found");
 	}
 	else { 
 		var query = "SELECT * FROM courses WHERE course=$1";
@@ -52,7 +52,7 @@ exports.deleteCourse = function(req, res) {
 	var id = courseParser(req);
 	
 	if (!id) {
-		sendError(res, 400, "Incomplete course id");
+		sendError(res, 400, "Course not found");
 	}
 	else {
 		var query = "DELETE FROM courses WHERE course=$1";
@@ -80,5 +80,20 @@ exports.postCourse = function(req, res) {
 	});
 }
 
+exports.putCourse = function(req, res) {
+	var body = req.body;
+	var query = "UPDATE courses SET requirements=$1 WHERE course=$2";
+	pool.query(query, [body.requirements, body.course], function(err, result) {
+		if (err) {
+			sendError(res, 400, err);
+		}
+		else if (!result.rowCount) {
+			sendError(res, 404, "Course not found");
+		}
+		else {
+			res.sendStatus(200);
+		}
+	});
+}
 
 
