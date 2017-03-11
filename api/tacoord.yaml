@@ -51,18 +51,34 @@ paths:
           type: string
         - name: course
           in: body
-          description: course to add to system
+          description: full id (ex. csc302winter2017)
           required: true
-          schema:
-            $ref: '#/definitions/Course'
+        - name: coursecode
+          in: body
+          description: course code (ex. csc302)
+          required: true
+        - name: term
+          in: body
+          description: course term (ex. winter)
+          required: true
+        - name: year
+          in: body
+          description: course year (ex. 2017)
+          required: true
+        - name: requirements
+          in: body
+          description: course requirements (ex. {req1, req2, req3})
+          required: false
       responses:
-        default:
+        200:
+          description: New course added to database
+        default: 
           description: indicates operation success, returns error if applicable
           schema:
             $ref: '#/definitions/Success'
     get:
       description: |
-        Gets a course by id
+        Gets a course by id (ex. http://localhost:3000/course?id=csc302winter2017).
       security:
        - basicAuth: []
       parameters:
@@ -73,12 +89,12 @@ paths:
           type: string
         - name: id
           in: query
-          description: id of course to retrieve
+          description: id of course to retrieve (ex. csc302winter2017)
           required: true
           type: integer
       responses:
         200:
-          description: returns course desired
+          description: Returns course data in json form
           schema:
             $ref: '#/definitions/Course'
         default:
@@ -87,7 +103,7 @@ paths:
             $ref: '#/definitions/Success'
     put:
       description: |
-        Updates a course
+        Updates a course's requirements.
       security:
        - basicAuth: []
       parameters:
@@ -98,12 +114,16 @@ paths:
           type: string
         - name: course
           in: body
-          description: course data with updated data
+          description: course id (ex. csc302winter2017)
           required: true
-          schema:
-            $ref: '#/definitions/Course'
+        - name: requirements
+          in: body
+          description: course requirements (ex. {req1, req2, req3})
+          required: false
       responses:
-        default:
+        200:
+          description: course requirements updated in database
+        default: 
           description: indicates operation success, returns error if applicable
           schema:
             $ref: '#/definitions/Success'
@@ -120,18 +140,22 @@ paths:
           type: string
         - name: id
           in: query
-          description: id of course to delete
+          description: id of course to delete (ex. csc302winter2017)
           required: true
           type: integer
       responses:
-        default:
+        200:
+          description: Course deleted from database
+        default: 
           description: indicates operation success, returns error if applicable
           schema:
             $ref: '#/definitions/Success'
   /course/bulk/:
     post:
       description: |
-        Mass uploads course data via JSON file that matches format.
+        Mass uploads course data via JSON file that matches format. Adds courses to database. If course already exists with same primary key then update with new information. 
+        
+        Example format: {"data" : [{"course" : "csc301winter2017", "requirements" : "{a,b,c}"}, {"course" : "csc301fall2017"}]}
       security:
        - basicAuth: []
       parameters:
@@ -142,14 +166,16 @@ paths:
           type: string
         - name: data
           in: body
-          description: data to add to system
+          description: data to add to system, refer to description above for format 
           required: true
           schema:
             type: array
             items:
               $ref: '#/definitions/Course'
       responses:
-        default:
+        200:
+          description: courses added or updated in database
+        default: 
           description: indicates operation success, returns error if applicable
           schema:
             $ref: '#/definitions/Success'
@@ -187,7 +213,9 @@ paths:
           required: true
           type: string
       responses:
-        default:
+        200:
+          description: all courses deleted from database
+        default: 
           description: indicates operation success, returns error if applicable
           schema:
             $ref: '#/definitions/Success'
