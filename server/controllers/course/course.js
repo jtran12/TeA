@@ -136,3 +136,14 @@ exports.getCourseBulk = function(req, res) {
 	});
 }
 
+exports.deleteCourseBulk = function(req, res) {
+	var query = "DELETE FROM courses";
+	pool.query(query, function(err, result) {
+		if (err) {
+			sendError(res, 400, err);
+		}
+		else {
+			res.sendStatus(200);
+		}
+	});
+}

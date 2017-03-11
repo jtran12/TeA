@@ -11,4 +11,5 @@ module.exports = function(app) {
 	app.put('/course', course.putCourse);
 	app.post('/course/bulk', course.postCourseBulk);
 	app.get('/course/bulk', course.getCourseBulk);
+	app.delete('/course/bulk', course.deleteCourseBulk);
 }
