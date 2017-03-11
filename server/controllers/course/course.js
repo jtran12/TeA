@@ -16,7 +16,7 @@ function courseParser(req) {
 
 function sendError(res, errorCode, errorMst) {
 	var json = {"success" : "false", "error_code" : errorCode, "errorMst" : errorMst};
-	res.send(json);
+	res.status(errorCode).send(json);
 }
 
 function sendData(res, data) {
@@ -28,23 +28,42 @@ exports.getCourse = function(req, res) {
 	var id = courseParser(req);
 	
 	if (!id) {
-		sendError(res, 400, "Invalid query");
+		sendError(res, 400, "Incomplete course id");
 	}
-	
-	var query = "SELECT * FROM courses WHERE course=$1";
-	
-	pool.query(query, [id], function(err, result) {
-		if (err) {
-			sendError(res, 404, err);
-		}
-		else {
-			if (!result.rows.length) {
-				sendError(res, 404, "Course with id: " + id + " not found");
+	else { 
+		var query = "SELECT * FROM courses WHERE course=$1";
+		pool.query(query, [id], function(err, result) {
+			if (err) {
+				sendError(res, 404, err);
 			}
 			else {
-				sendData(res, result.rows);
+				if (!result.rows.length) {
+					sendError(res, 404, "Course with id: " + id + " not found");
+				}
+				else {
+					sendData(res, result.rows);
+				}
 			}
-		}
-	});
+		});
+	}
+}
+
+exports.deleteCourse = function(req, res) {
+	var id = courseParser(req);
+	
+	if (!id) {
+		sendError(res, 400, "Incomplete course id");
+	}
+	else {
+		var query = "DELETE FROM courses WHERE course=$1";
+		pool.query(query, [id], function(err, result) {
+			if (err) {
+				sendError(res, 404, err);
+			}
+			else {
+				res.sendStatus(200);
+			}
+		});
+	}
 }
 
