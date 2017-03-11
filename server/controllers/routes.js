@@ -6,4 +6,5 @@ module.exports = function(app) {
 	app.get('/', index.getIndex);
 	app.get('/course', course.getCourse);
 	app.delete('/course', course.deleteCourse);
+	app.post('/course', course.postCourse);
 }

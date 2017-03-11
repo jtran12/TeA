@@ -67,3 +67,18 @@ exports.deleteCourse = function(req, res) {
 	}
 }
 
+exports.postCourse = function(req, res) {
+	var body = req.body;
+	var query = "INSERT INTO courses VALUES($1, $2, $3, $4, $5)";
+	pool.query(query, [body.course, body.coursecode, body.term, body.year, body.requirements], function(err, result) {
+		if (err) {
+			sendError(res, 404, err);
+		}
+		else {
+			res.sendStatus(200);
+		}
+	});
+}
+
+
+
