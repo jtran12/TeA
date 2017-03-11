@@ -52,13 +52,13 @@ exports.deleteCourse = function(req, res) {
 	var id = courseParser(req);
 	
 	if (!id) {
-		sendError(res, 400, "Course not found");
+		sendError(res, 404, "Course not found");
 	}
 	else {
 		var query = "DELETE FROM courses WHERE course=$1";
 		pool.query(query, [id], function(err, result) {
 			if (err) {
-				sendError(res, 404, err);
+				sendError(res, 400, err);
 			}
 			else {
 				res.sendStatus(200);
@@ -96,7 +96,6 @@ exports.putCourse = function(req, res) {
 	});
 }
 
-//{"data" : [{"course" : "csc301winter2017", "requirements" : "{a,b,c}"}, {"course" : "csc301fall2017"}]}
 exports.postCourseBulk = function(req, res) {
 	var data = JSON.parse(req.body.data);
 	var query = "INSERT INTO courses VALUES($1, $2, $3, $4, $5) " +
