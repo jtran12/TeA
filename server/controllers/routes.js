@@ -8,4 +8,5 @@ module.exports = function(app) {
 	app.delete('/course', course.deleteCourse);
 	app.post('/course', course.postCourse);
 	app.put('/course', course.putCourse);
+	app.post('/course/bulk', course.postCourseBulk);
 }

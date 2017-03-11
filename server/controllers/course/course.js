@@ -96,4 +96,31 @@ exports.putCourse = function(req, res) {
 	});
 }
 
+exports.postCourseBulk = function(req, res) {
+	var data = JSON.parse(req.body.data);
+	var query = "INSERT INTO courses VALUES($1, $2, $3, $4, $5) " +
+				"ON CONFLICT (course) DO UPDATE SET requirements=$5";
+				
+	var error = null;
+	for (var i = 0; i < data.length; i++) {
+		if (error) {
+			break;
+		}
+		
+		var entry = data[i];
+		pool.query(query, [entry.course, entry.coursecode, entry.term, entry.year, entry.requirements], function(err, result) {
+			if (err) {
+				error = err;
+			}
+		});
+	}
+	
+	if (!error) {
+		res.sendStatus(200);
+	}
+	else {
+		sendError(res, 400, error);
+	}
+}
+
 
