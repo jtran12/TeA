@@ -12,19 +12,27 @@ class Course extends React.Component {
     super(props);
 
     this.state = {
+      selectedCourse: {}
     };
   }
 
+  selectCourse(course) {
+    this.setState({
+      selectedCourse: course
+    });
+  }
+
   render() {
+    console.log(this.state.selectedCourse);
     const styles = lodash.cloneDeep(this.constructor.styles);
 
     return (
       <div className="row">
-        <Paper className="col-md-4 col-xs-12">
-          <CourseList/>
+        <Paper className="col-md-4 col-xs-12" style={Course.styles.courseList}>
+          <CourseList select={ this.selectCourse.bind(this) }/>
         </Paper>
         <Paper style={styles.course} zDepth={3} className="col-xs-12 col-md-8">
-          <CourseView/>
+          <CourseView selected={ this.state.selectedCourse }/>
         </Paper>
       </div>
     );
@@ -46,7 +54,11 @@ Course.styles = {
   },
   actionwidth:{
     width: '18%'
+  },
+  courseList: {
+    padding: '0'
   }
+
 };
 
 export default Course;

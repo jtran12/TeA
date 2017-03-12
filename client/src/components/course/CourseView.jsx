@@ -40,11 +40,14 @@ class CourseView extends React.Component {
     return (
       <div>
           <div className="page-header">
-            <h2>CSC302 <small>Spring 2017 - St. George</small></h2>
+            <h2>{ this.props.selected.name } <small>Spring 2017 - St. George</small></h2>
           </div>
           <div className="row text-center">
-            <p>8/23 Assigned Positions</p>
-            <LinearProgress style={styles.progress} mode="determinate" value={25} />
+            <p>{this.props.selected.currentTAs}/{this.props.selected.maxTAs} Assigned Positions</p>
+            <LinearProgress style={styles.progress}
+                            mode="determinate"
+                            max={this.props.selected.maxTAs}
+                            value={this.props.selected.currentTAs} />
             <RaisedButton primary={true} label="Assign Applicants" onClick={this.onOpenAssignDialog}/>
           </div>
           <Card style={styles.card}>
