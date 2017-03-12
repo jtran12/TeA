@@ -15,24 +15,38 @@ class CourseListSingle extends React.Component {
     const styles = lodash.cloneDeep(this.constructor.styles);
 
     return (
-      <div>
-        <LinearProgress style={styles.progress}
+      <div style={ styles.course } onClick={ () => this.props.select(this.props.course) }>
+        <h1 style={ styles.text }> { this.props.course.name } </h1>
+        <LinearProgress style={ styles.progress }
                         mode="determinate"
                         max={this.props.course.maxTAs}
                         value={this.props.course.currentTAs}>
         </LinearProgress>
-
-        <h1> { this.props.course.name } </h1>
-
       </div>
     );
   }
 }
 
 CourseListSingle.styles = {
+  course: {
+    position: 'relative',
+    height: '48px'
+  },
+  text: {
+    margin: '0',
+    position: 'absolute',
+    zIndex: '10',
+    fontSize: '1.4em',
+    padding: '15px',
+    height: '100%',
+    color: "#FFF",
+    textShadow: '0 0 4px #888'
+  },
   progress: {
-    position: absolute,
-    height: '100%'
+    height: '100%',
+    position: 'absolute',
+    borderRadius: '0',
+
   }
 
 };
