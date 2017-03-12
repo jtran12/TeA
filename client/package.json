@@ -69,6 +69,7 @@
   "dependencies": {
     "cross-env": "^3.1.0",
     "material-ui": "^0.17.0",
+    "radium": "^0.18.1",
     "react": "^15.0.1",
     "react-css-modules": "^3.7.10",
     "react-dom": "^15.0.1",

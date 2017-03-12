@@ -1,7 +1,9 @@
 import React from 'react';
 import lodash from 'lodash';
+import Radium from 'radium';
 import LinearProgress from 'material-ui/LinearProgress';
 
+@Radium
 class CourseListSingle extends React.Component {
 
   constructor(props){
@@ -28,10 +30,6 @@ class CourseListSingle extends React.Component {
 }
 
 CourseListSingle.styles = {
-  course: {
-    position: 'relative',
-    height: '48px'
-  },
   text: {
     margin: '0',
     position: 'absolute',
@@ -39,14 +37,23 @@ CourseListSingle.styles = {
     fontSize: '1.4em',
     padding: '15px',
     height: '100%',
+    textShadow: '0 0 4px #888',
+  },
+  course: {
+    position: 'relative',
+    height: '48px',
+    cursor: 'pointer',
     color: "#FFF",
-    textShadow: '0 0 4px #888'
+    opacity: '0.9',
+    ':hover': {
+      color: '#EEE',
+      opacity: '1'
+    }
   },
   progress: {
     height: '100%',
     position: 'absolute',
     borderRadius: '0',
-
   }
 
 };
