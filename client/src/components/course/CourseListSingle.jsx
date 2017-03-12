@@ -1,7 +1,8 @@
 import React from 'react';
 import lodash from 'lodash';
+import LinearProgress from 'material-ui/LinearProgress';
 
-class CourseList extends React.Component {
+class CourseListSingle extends React.Component {
 
   constructor(props){
     super(props);
@@ -15,14 +16,25 @@ class CourseList extends React.Component {
 
     return (
       <div>
-        <h3>Course List</h3>
+        <LinearProgress style={styles.progress}
+                        mode="determinate"
+                        max={this.props.course.maxTAs}
+                        value={this.props.course.currentTAs}>
+        </LinearProgress>
+
+        <h1> { this.props.course.name } </h1>
+
       </div>
     );
   }
 }
 
-CourseList.styles = {
+CourseListSingle.styles = {
+  progress: {
+    position: absolute,
+    height: '100%'
+  }
 
 };
 
-export default CourseList;
+export default CourseListSingle;

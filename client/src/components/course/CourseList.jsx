@@ -1,5 +1,6 @@
 import React from 'react';
 import lodash from 'lodash';
+import CourseListSingle from './CourseListSingle';
 
 class CourseList extends React.Component {
 
@@ -9,13 +10,19 @@ class CourseList extends React.Component {
     this.state = {
       courses: [
         {
-          courseCode: "CSC108"
+          name: "CSC108",
+          currentTAs: 12,
+          maxTAs: 30
         },
         {
-          courseCode: "CSC148"
+          name: "CSC148",
+          currentTAs: 14,
+          maxTAs: 20
         },
         {
-          courseCode: "CSC165"
+          name: "CSC165",
+          currentTAs: 9,
+          maxTAs: 20
         }
       ]
     };
@@ -24,18 +31,24 @@ class CourseList extends React.Component {
   render() {
     const styles = lodash.cloneDeep(this.constructor.styles);
 
-    const courses = this.state.courses.map((course) => <div> { course.courseCode } </div> );
+    // key property should be replaced with unique key retrieved by course database.
+
+    const courses = this.state.courses.map((course, index) =>
+      <CourseListSingle key={index} course={course}></CourseListSingle> );
 
     return (
-      <div>
-        {courses}
+      <div style={CourseList.styles.courseList}>
+        { courses }
       </div>
     );
   }
 }
 
 CourseList.styles = {
-
+  courseList: {
+    flex: 1,
+    flexDirection: 'column'
+  }
 };
 
 export default CourseList;
