@@ -25,6 +25,21 @@ class CourseList extends React.Component {
           name: "CSC165",
           currentTAs: 9,
           maxTAs: 20
+        },
+        {
+          name: "CSC209",
+          currentTAs: 5,
+          maxTAs: 10
+        },
+        {
+          name: "CSC302",
+          currentTAs: 3,
+          maxTAs: 4
+        },
+        {
+          name: "CSC373",
+          currentTAs: 3,
+          maxTAs: 5
         }
       ]
     };
