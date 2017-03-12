@@ -8,6 +8,8 @@ class CourseList extends React.Component {
     super(props);
 
     this.state = {
+
+      // courses will be JSON retrieved from endpoint.
       courses: [
         {
           name: "CSC108",
