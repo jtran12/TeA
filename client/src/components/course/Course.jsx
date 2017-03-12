@@ -23,7 +23,6 @@ class Course extends React.Component {
   }
 
   render() {
-    console.log(this.state.selectedCourse);
     const styles = lodash.cloneDeep(this.constructor.styles);
 
     return (
