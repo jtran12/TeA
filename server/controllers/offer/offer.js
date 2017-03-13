@@ -29,31 +29,36 @@ exports.postOffer = function(req, res) {
 exports.getOffer = function(req, res) {
         
     // get the offer id from the query
-	var query = req.query;
-	var offer_id = query.offer_id;
+	//var offer_id = req.query.offer_id;
 	
-	if (!offer_id) {
-		sendError(res, 400, "Specified offer not found");
-	}
-	else { 
+	//if (!offer_id) {
+	//	sendError(res, 400, "Specified offer not found");
+	//}
+	//else { 
         // NTS: Offer id doesn't exist, either create it or
         // pass in a query with the utorid + course
-		var query = "SELECT * FROM applications WHERE course=$1";
-        /*
-		pool.query(query, [id], function(err, result) {
+    var utorid = req.query.utorid;
+    var course = req.query.course;
+    
+    if (!utorid || !course) {
+        sendError(res, 400, "Offer not found");
+    } else {
+		var query = "SELECT * FROM applications WHERE utorid=$1 AND course=$2";
+        
+		pool.query(query, [utorid, course], function(err, result) {
 			if (err) {
 				sendError(res, 404, err);
 			}
 			else {
 				if (!result.rows.length) {
-					sendError(res, 404, "Offer with id: " + id + " not found");
+					sendError(res, 404, "Offer for utorid: " + utorid + " and course: " +course + " not found");
 				}
 				else {
 					sendData(res, result.rows);
 				}
 			}
 		});
-        */
+        
 	}
 }
 
@@ -75,15 +80,17 @@ exports.putOffer = function(req, res) {
 	});
 }
 
-exports.deleteCourse = function(req, res) {
-	var id = courseParser(req);
+exports.deleteOffer = function(req, res) {
 	
-	if (!id) {
-		sendError(res, 404, "Course not found");
+	var utorid = req.query.utorid;
+    var course = req.query.course;
+    
+	if (!utorid || !course) {
+		sendError(res, 404, "Offer not found");
 	}
 	else {
-		var query = "DELETE FROM courses WHERE course=$1";
-		pool.query(query, [id], function(err, result) {
+		var query = "DELETE FROM applications WHERE utorid=$1 AND course=$2";
+		pool.query(query, [utorid, course], function(err, result) {
 			if (err) {
 				sendError(res, 400, err);
 			}

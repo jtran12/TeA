@@ -18,4 +18,5 @@ module.exports = function(app) {
     // Applications (Offers)
     app.post('/offer', offer.postOffer);
     app.get('/offer', offer.getOffer);
+    app.delete('/offer', offer.deleteOffer);
 }
