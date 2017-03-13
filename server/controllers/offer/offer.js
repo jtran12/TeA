@@ -102,37 +102,10 @@ exports.deleteOffer = function(req, res) {
 }
 
 
+//////////////////////// PENDING ///////////////////////////////////////
 
-
-exports.postCourseBulk = function(req, res) {
-	var data = JSON.parse(req.body.data);
-	var query = "INSERT INTO courses VALUES($1, $2, $3, $4, $5) " +
-				"ON CONFLICT (course) DO UPDATE SET requirements=$5";
-				
-	var error = null;
-	for (var i = 0; i < data.length; i++) {
-		if (error) {
-			break;
-		}
-		
-		var entry = data[i];
-		pool.query(query, [entry.course, entry.coursecode, entry.term, entry.year, entry.requirements], function(err, result) {
-			if (err) {
-				error = err;
-			}
-		});
-	}
-	
-	if (!error) {
-		res.sendStatus(200);
-	}
-	else {
-		sendError(res, 400, error);
-	}
-}
-
-exports.getCourseBulk = function(req, res) {
-	var query = "SELECT * FROM courses";
+exports.getOffersPending = function(req, res) {
+	var query = "SELECT * FROM applications WHERE assigned='true' AND accepted='false'";
 	pool.query(query, function(err, result) {
 		if (err) {
 			sendError(res, 400, err);
@@ -143,14 +116,3 @@ exports.getCourseBulk = function(req, res) {
 	});
 }
 
-exports.deleteCourseBulk = function(req, res) {
-	var query = "DELETE FROM courses";
-	pool.query(query, function(err, result) {
-		if (err) {
-			sendError(res, 400, err);
-		}
-		else {
-			res.sendStatus(200);
-		}
-	});
-}

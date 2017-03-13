@@ -19,4 +19,6 @@ module.exports = function(app) {
     app.post('/offer', offer.postOffer);
     app.get('/offer', offer.getOffer);
     app.delete('/offer', offer.deleteOffer);
+    
+    app.get('/offer/pending', offer.getOffersPending);
 }
