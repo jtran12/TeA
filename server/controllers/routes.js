@@ -15,6 +15,7 @@ module.exports = function(app) {
 	app.post('/course/bulk', course.postCourseBulk);
 	app.delete('/course/bulk', course.deleteCourseBulk);
     
-    // Offer
+    // Applications (Offers)
     app.post('/offer', offer.postOffer);
+    app.get('/offer', offer.getOffer);
 }

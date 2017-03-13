@@ -26,10 +26,12 @@ function sendData(res, data) {
 
 exports.postOffer = function(req, res) {
 	var body = req.body;
-	var query = "INSERT INTO courses VALUES($1, $2, $3, $4, $5)";
-	pool.query(query, [body.course, body.coursecode, body.term, body.year, body.requirements], function(err, result) {
+	var query = "INSERT INTO applications VALUES($1, $2, $3, $4)";
+    // Assuming that each post is a new addition, 
+    // Assignment will always be guaranteed but might not be accepted yet
+	pool.query(query, [body.utorid, body.course, "true", "false"], function(err, result) {
 		if (err) {
-			sendError(res, 404, err);
+			sendError(res, 400, err);
 		}
 		else {
 			res.sendStatus(200);
@@ -49,7 +51,7 @@ exports.postOffer = function(req, res) {
 
 
 
-exports.getCourse = function(req, res) {
+exports.getOffer = function(req, res) {
 	var id = courseParser(req);
 	
 	if (!id) {
