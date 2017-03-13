@@ -1,18 +1,5 @@
 var pool = require(appRoot + '/controllers/database/database.js').pool;
 
-function courseParser(req) {
-	var query = req.query;
-	
-	if (query.id) {
-		return query.id;
-	}
-	else if (query.coursecode && query.term && query.year) {
-		return query.coursecode + query.term + query.year;
-	}
-	else {
-		return null;
-	}
-}
 
 function sendError(res, errorCode, errorMst) {
 	var json = {"success" : "false", "error_code" : errorCode, "errorMst" : errorMst};
@@ -39,40 +26,53 @@ exports.postOffer = function(req, res) {
 	});
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
 exports.getOffer = function(req, res) {
-	var id = courseParser(req);
+        
+    // get the offer id from the query
+	var query = req.query;
+	var offer_id = query.offer_id;
 	
-	if (!id) {
-		sendError(res, 400, "Course not found");
+	if (!offer_id) {
+		sendError(res, 400, "Specified offer not found");
 	}
 	else { 
-		var query = "SELECT * FROM courses WHERE course=$1";
+        // NTS: Offer id doesn't exist, either create it or
+        // pass in a query with the utorid + course
+		var query = "SELECT * FROM applications WHERE course=$1";
+        /*
 		pool.query(query, [id], function(err, result) {
 			if (err) {
 				sendError(res, 404, err);
 			}
 			else {
 				if (!result.rows.length) {
-					sendError(res, 404, "Course with id: " + id + " not found");
+					sendError(res, 404, "Offer with id: " + id + " not found");
 				}
 				else {
 					sendData(res, result.rows);
 				}
 			}
 		});
+        */
 	}
+}
+
+exports.putOffer = function(req, res) {
+	var body = req.body;
+    // NTS: either use offer_id or use both utorid + course
+	//var query = "UPDATE applications SET assigned=$1 WHERE offer_id=$2";
+    var query = "UPDATE applications SET assigned=$1 WHERE utorid=$2 AND course=$3";
+	pool.query(query, [body.assigned, body.utorid, body.course], function(err, result) {
+		if (err) {
+			sendError(res, 400, err);
+		}
+		else if (!result.rowCount) {
+			sendError(res, 404, "Offer not found");
+		}
+		else {
+			res.sendStatus(200);
+		}
+	});
 }
 
 exports.deleteCourse = function(req, res) {
@@ -95,21 +95,7 @@ exports.deleteCourse = function(req, res) {
 }
 
 
-exports.putCourse = function(req, res) {
-	var body = req.body;
-	var query = "UPDATE courses SET requirements=$1 WHERE course=$2";
-	pool.query(query, [body.requirements, body.course], function(err, result) {
-		if (err) {
-			sendError(res, 400, err);
-		}
-		else if (!result.rowCount) {
-			sendError(res, 404, "Course not found");
-		}
-		else {
-			res.sendStatus(200);
-		}
-	});
-}
+
 
 exports.postCourseBulk = function(req, res) {
 	var data = JSON.parse(req.body.data);
