@@ -11,34 +11,59 @@ function sendData(res, data) {
 	res.send(json);
 }
 
+function getCourse(query) {
+    // generates the course code
+    if (query.coursecode && query.term && query.year) {
+        return query.coursecode + query.term + query.year;
+    }
+    return null;
+}
+
+function courseParser(req) {
+	var query = req.query;
+    var course = '';
+	
+	if (query.id) {
+		return query.id;
+	}
+	else if (course=getCourse(query))  {
+		return course;
+	}
+	else {
+		return null;
+	}
+}
+
+
+
 exports.postOffer = function(req, res) {
-	var body = req.body;
-	var query = "INSERT INTO applications VALUES($1, $2, $3, $4)";
+	
+    var body = req.body;
+    var course = getCourse(body);
     // Assuming that each post is a new addition, 
     // Assignment will always be guaranteed but might not be accepted yet
-	pool.query(query, [body.utorid, body.course, "true", "false"], function(err, result) {
-		if (err) {
-			sendError(res, 400, err);
-		}
-		else {
-			res.sendStatus(200);
-		}
-	});
+    
+    if (!course) {
+        sendError(res, 400, "Missing course fields");
+    } else {
+        var query = "INSERT INTO applications VALUES($1, $2, $3, $4)";
+        pool.query(query, [body.utorid, body.course, "true", "false"], function(err, result) {
+            if (err) {
+                sendError(res, 400, err);
+            }
+            else {
+                res.sendStatus(200);
+            }
+        });
 }
 
 exports.getOffer = function(req, res) {
         
-    // get the offer id from the query
-	//var offer_id = req.query.offer_id;
-	
-	//if (!offer_id) {
-	//	sendError(res, 400, "Specified offer not found");
-	//}
-	//else { 
-        // NTS: Offer id doesn't exist, either create it or
-        // pass in a query with the utorid + course
     var utorid = req.query.utorid;
-    var course = req.query.course;
+    // NTS: Might not be a good idea  to call this function
+    // due to the fact that it might return an id rather than
+    // the course itself
+    var course = courseParser(req);
     
     if (!utorid || !course) {
         sendError(res, 400, "Offer not found");
