@@ -69,6 +69,22 @@ paths:
           in: body
           description: course requirements (ex. {req1, req2, req3})
           required: false
+        - name: head_instructor
+          in: body
+          description: head instructor (ex. Matthew Zaleski)
+          required: false
+        - name: additional_instructors
+          in: body
+          description: Other instructors (ex. {name1, name2, name3})
+          required: false
+        - name: tas
+          in: body
+          description: TAs that have accepted position (ex. {ta1, ta2, ta3})
+          required: false
+        - name: expected_enrollment
+          in: body
+          description: Expected number of students (ex. 100)
+          required: false
       responses:
         200:
           description: New course added to database
@@ -103,7 +119,7 @@ paths:
             $ref: '#/definitions/Success'
     put:
       description: |
-        Updates a course's requirements.
+        Updates a course's data.
       security:
        - basicAuth: []
       parameters:
@@ -120,9 +136,25 @@ paths:
           in: body
           description: course requirements (ex. {req1, req2, req3})
           required: false
+        - name: head_instructor
+          in: body
+          description: head instructor (ex. Matthew Zaleski)
+          required: false
+        - name: additional_instructors
+          in: body
+          description: Other instructors (ex. {name1, name2, name3})
+          required: false
+        - name: tas
+          in: body
+          description: TAs that have accepted position (ex. {ta1, ta2, ta3})
+          required: false
+        - name: expected_enrollment
+          in: body
+          description: Expected number of students (ex. 100)
+          required: false
       responses:
         200:
-          description: course requirements updated in database
+          description: course data updated in database
         default: 
           description: indicates operation success, returns error if applicable
           schema:
@@ -153,7 +185,7 @@ paths:
   /course/bulk/:
     post:
       description: |
-        Mass uploads course data via JSON file that matches format. Adds courses to database. If course already exists with same primary key then update with new information. 
+        Mass uploads course data via JSON file that matches format. Adds courses to database. If course already exists with same primary key then update with new information. This allows the same parameters as POST or PUT /course/.
         
         Example format: {"data" : [{"course" : "csc301winter2017", "requirements" : "{a,b,c}"}, {"course" : "csc301fall2017"}]}
       security:
