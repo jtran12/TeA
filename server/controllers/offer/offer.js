@@ -11,9 +11,16 @@ function sendData(res, data) {
 	res.send(json);
 }
 
-function getCourse(query) {
+function genCourse(query) {
     // generates the course code
+    console.log(query);
+    console.log(query.coursecode);
+    console.log(query.term);
+    console.log(query.year);
+    
     if (query.coursecode && query.term && query.year) {
+        console.log('Creating the course code');
+
         return query.coursecode + query.term + query.year;
     }
     return null;
@@ -26,7 +33,7 @@ function courseParser(req) {
 	if (query.id) {
 		return query.id;
 	}
-	else if (course=getCourse(query))  {
+	else if (course=genCourse(query))  {
 		return course;
 	}
 	else {
@@ -39,31 +46,60 @@ function courseParser(req) {
 exports.postOffer = function(req, res) {
 	
     var body = req.body;
-    var course = getCourse(body);
+    console.log(req.coursecode);
+    console.log(body);
+    var course = genCourse(body);
     // Assuming that each post is a new addition, 
     // Assignment will always be guaranteed but might not be accepted yet
+    // NTS: Ensure that applicants are always registered before due to reference key
     
     if (!course) {
         sendError(res, 400, "Missing course fields");
     } else {
-        var query = "INSERT INTO applications VALUES($1, $2, $3, $4)";
-        pool.query(query, [body.utorid, body.course, "true", "false"], function(err, result) {
-            if (err) {
-                sendError(res, 400, err);
-            }
-            else {
-                res.sendStatus(200);
-            }
-        });
+        
+        // Check if offer exists already
+        var query = "SELECT * FROM applications WHERE utorid=$1 AND course=$2";
+        
+		pool.query(query, [body.utorid, course], function(err, result) {
+			if (err) {
+				sendError(res, 404, err);
+			}
+			else {
+				if (!result.rows.length) {
+					// Make new entry
+                    
+                    var query = "INSERT INTO applications VALUES($1, $2, $3, $4)";
+                    
+                    pool.query(query, [body.utorid, course, "true", "false"], function(err, result) {
+                        if (err) {
+                            sendError(res, 400, err);
+                        }
+                        else {
+                            res.sendStatus(200);
+                        }
+                    });
+				}
+				else {
+					sendError(res, 400, "The offer already exists.");
+				}
+			}
+		});
+        
+    }
 }
 
 exports.getOffer = function(req, res) {
+    
+    console.log('getOffer');
         
     var utorid = req.query.utorid;
+    
+    console.log(utorid);
     // NTS: Might not be a good idea  to call this function
     // due to the fact that it might return an id rather than
     // the course itself
     var course = courseParser(req);
+    console.log(course);
     
     if (!utorid || !course) {
         sendError(res, 400, "Offer not found");
@@ -83,26 +119,36 @@ exports.getOffer = function(req, res) {
 				}
 			}
 		});
-        
 	}
 }
 
 exports.putOffer = function(req, res) {
+    
+    console.log('putOffer');
+    
 	var body = req.body;
-    // NTS: either use offer_id or use both utorid + course
-	//var query = "UPDATE applications SET assigned=$1 WHERE offer_id=$2";
-    var query = "UPDATE applications SET assigned=$1 WHERE utorid=$2 AND course=$3";
-	pool.query(query, [body.assigned, body.utorid, body.course], function(err, result) {
-		if (err) {
-			sendError(res, 400, err);
-		}
-		else if (!result.rowCount) {
-			sendError(res, 404, "Offer not found");
-		}
-		else {
-			res.sendStatus(200);
-		}
-	});
+    var course = courseParser(body);
+    
+    console.log('Got body');
+    
+    if (!body.utorid || !course) {
+        sendError(res, 400, "Offer not found");
+    } else {
+        // The TA coordinator doesn't set whether a TA accepted or not
+        var query = "UPDATE applications SET assigned=$1 WHERE utorid=$2 AND course=$3";
+        
+        pool.query(query, [body.assigned, body.utorid, course], function(err, result) {
+            if (err) {
+                sendError(res, 400, err);
+            }
+            else if (!result.rowCount) {
+                sendError(res, 404, "Offer not found");
+            }
+            else {
+                res.sendStatus(200);
+            }
+        });
+    }
 }
 
 exports.deleteOffer = function(req, res) {

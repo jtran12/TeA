@@ -19,6 +19,7 @@ module.exports = function(app) {
     // Applications (Offers)
     app.post('/offer', offer.postOffer);
     app.get('/offer', offer.getOffer);
+    app.put('/offer', offer.putOffer);
     app.delete('/offer', offer.deleteOffer);
     
     app.get('/offer/pending', offer.getOffersPending);
