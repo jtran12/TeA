@@ -51,7 +51,7 @@ paths:
           type: string
         - name: course
           in: body
-          description: full id (ex. csc302winter2017)
+          description: full id (ex. csc302s2017)
           required: true
         - name: coursecode
           in: body
@@ -59,7 +59,7 @@ paths:
           required: true
         - name: term
           in: body
-          description: course term (ex. winter)
+          description: course term where 'f' = fall, 's' = winter, 'y' = year (ex. s)
           required: true
         - name: year
           in: body
@@ -94,7 +94,7 @@ paths:
             $ref: '#/definitions/Success'
     get:
       description: |
-        Gets a course by id (ex. http://localhost:3000/course?id=csc302winter2017).
+        Gets a course by id (ex. http://localhost:3000/course?id=csc302s2017).
       security:
        - basicAuth: []
       parameters:
@@ -105,7 +105,7 @@ paths:
           type: string
         - name: id
           in: query
-          description: id of course to retrieve (ex. csc302winter2017)
+          description: id of course to retrieve (ex. csc302s2017)
           required: true
           type: integer
       responses:
@@ -130,7 +130,7 @@ paths:
           type: string
         - name: course
           in: body
-          description: course id (ex. csc302winter2017)
+          description: course id (ex. csc302s2017)
           required: true
         - name: requirements
           in: body
@@ -172,7 +172,7 @@ paths:
           type: string
         - name: id
           in: query
-          description: id of course to delete (ex. csc302winter2017)
+          description: id of course to delete (ex. csc302s2017)
           required: true
           type: integer
       responses:
@@ -187,7 +187,7 @@ paths:
       description: |
         Mass uploads course data via JSON file that matches format. Adds courses to database. If course already exists with same primary key then update with new information. This allows the same parameters as POST or PUT /course/.
         
-        Example format: {"data" : [{"course" : "csc301winter2017", "requirements" : "{a,b,c}"}, {"course" : "csc301fall2017"}]}
+        Example format: {"data" : [{"course" : "csc301s2017", "requirements" : "{a,b,c}"}, {"course" : "csc301f2017"}]}
       security:
        - basicAuth: []
       parameters:
