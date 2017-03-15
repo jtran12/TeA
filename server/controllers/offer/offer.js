@@ -123,21 +123,20 @@ exports.getOffer = function(req, res) {
 }
 
 exports.putOffer = function(req, res) {
-    
+    // Assume that the concatenated course code is already available
     console.log('putOffer');
     
 	var body = req.body;
-    var course = courseParser(body);
     
     console.log('Got body');
     
-    if (!body.utorid || !course) {
+    if (!body.utorid || !body.course) {
         sendError(res, 400, "Offer not found");
     } else {
         // The TA coordinator doesn't set whether a TA accepted or not
         var query = "UPDATE applications SET assigned=$1 WHERE utorid=$2 AND course=$3";
         
-        pool.query(query, [body.assigned, body.utorid, course], function(err, result) {
+        pool.query(query, [body.assigned, body.utorid, body.course], function(err, result) {
             if (err) {
                 sendError(res, 400, err);
             }
@@ -152,7 +151,7 @@ exports.putOffer = function(req, res) {
 }
 
 exports.deleteOffer = function(req, res) {
-	
+	// Assume that the concatenated course code is already available
 	var utorid = req.query.utorid;
     var course = req.query.course;
     
