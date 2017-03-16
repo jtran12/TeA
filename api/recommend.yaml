@@ -13,7 +13,7 @@ securityDefinitions:
     description: HTTP Basic Authentication. Works over `HTTP` and `HTTPS`
 paths:
   /recommend/:
-   post:
+   get:
       description: |
         returns a list of recommended applicants for a given course
       security:
@@ -42,7 +42,7 @@ paths:
             type: array
             items:
               $ref: '#/definitions/Applicant'
-        default: 
+        default:
           description: indicates operation success, returns error if applicable
           schema:
             $ref: '#/definitions/Success'
@@ -105,7 +105,7 @@ definitions:
   Course:
     type: object
     properties:
-      c_id:  # course id 
+      c_id:  # course id
         type: integer
         format: int32
       head_instructor:  # lead instructor for course, has managmennt permission
@@ -167,7 +167,7 @@ definitions:
       i_id:  # instructor id, employee number
         type: integer
         format: int32
-      family_name: 
+      family_name:
         type: string
       given_name:
         type: string
