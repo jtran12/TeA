@@ -2,6 +2,7 @@ var path = require('path');
 var index = require(path.join(__dirname, 'index'));
 var course = require(path.join(__dirname, 'course', 'course'));
 var offer = require(path.join(__dirname, 'offer', 'offer'));
+var applicant = require(path.join(__dirname, 'applicant', 'applicant'));
 
 module.exports = function(app) {
 	app.get('/', index.getIndex);
