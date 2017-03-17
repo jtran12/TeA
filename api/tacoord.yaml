@@ -361,12 +361,22 @@ paths:
           description: session token to identify the user and ensure permissable access
           required: true
           type: string
-        - name: offer
+        - name: coursecode
           in: body
-          description: offer information to create
+          description: course code (ex. csc302)
           required: true
-          schema:
-            $ref: '#/definitions/Offer'
+        - name: term
+          in: body
+          description: course term (ex. winter)
+          required: true
+        - name: year
+          in: body
+          description: course year (ex. 2017)
+          required: true
+        - name: utorid
+          in: body
+          description: utorid of the applicant (ex. sipickiv)
+          required: true
       responses:
           default:
             description: indicates operation success, returns error if applicable
@@ -383,11 +393,23 @@ paths:
           description: session token to identify the user and ensure permissable access
           required: true
           type: string
-        - name: offer_id
+        - name: utorid
           in: query
-          description: id of offer to find
+          description: id of applicant
           required: true
-          type: integer
+          type: string
+        - name: coursecode
+          in: body
+          description: course code (ex. csc302)
+          required: true
+        - name: term
+          in: body
+          description: course term (ex. winter)
+          required: true
+        - name: year
+          in: body
+          description: course year (ex. 2017)
+          required: true
       responses:
         200:
           description: returns desired offer information
