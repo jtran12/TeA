@@ -1,6 +1,9 @@
 import React from 'react';
 import lodash from 'lodash';
 
+import * as courseActions from '../../actions/course/courseActions';
+import { connect } from 'react-redux';
+
 import {Tabs, Tab} from 'material-ui/Tabs';
 
 import SwipeableViews from 'react-swipeable-views';
@@ -41,7 +44,7 @@ class Manage extends React.Component {
           </div>
           <div>
             <Tabs onChange={this.onTabChange} value={this.state.tabIndex}>
-              <Tab label="Course" value={0}/>
+              <Tab onClick={ ()=> this.props.deselectCourse() } label="Course" value={0}/>
               <Tab label="Applicant" value={1}/>
             </Tabs>
             <SwipeableViews index={this.state.tabIndex} onChangeIndex={this.onTabChange}>
@@ -66,4 +69,16 @@ Manage.styles = {
   }
 };
 
-export default Manage;
+const mapStateToProps = (state, ownProps) => {
+  return {
+    course: state.course
+  }
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    deselectCourse: course => dispatch(courseActions.deselectCourse())
+  }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Manage);

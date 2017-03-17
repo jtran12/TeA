@@ -4,3 +4,9 @@ export function selectCourse(course) {
     course: course
   }
 };
+
+export function deselectCourse() {
+  return {
+    type: 'DESELECT_COURSE'
+  }
+};

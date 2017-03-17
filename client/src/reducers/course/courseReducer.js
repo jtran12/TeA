@@ -7,6 +7,8 @@ export default function courseReducer (state = createInitialCourseState(), actio
     case 'SELECT_COURSE':
       return Object.assign({}, state, {selectedCourse: action.course });
 
+    case 'DESELECT_COURSE':
+      return Object.assign({}, state, {selectedCourse: null });
 
     default:
       return state;
