@@ -1,8 +1,8 @@
-import { createInitialCourseState } from '../../state/course/courseState'
+import { createInitialCourseState } from '../../state/course/courseState';
 
-export function courseReducer (state = createInitialCourseState, action) => {
+export default function courseReducer (state = createInitialCourseState, action) {
 
-  switch (action.type){
+  switch (action.type) {
 
     case 'SELECT_COURSE':
       return [

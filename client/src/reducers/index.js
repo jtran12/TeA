@@ -13,11 +13,11 @@ import { combineReducers } from 'redux';
 
 // import child reducers
 
-import { course } from './course/courseReducer';
+import courseReducer from './course/courseReducer';
 
 const reducers = {
-  course: course
+  course: courseReducer
 };
 
-const combined = combineReducers(reducers);
-module.exports = combined;
+export default combineReducers(reducers);
+
