@@ -37,6 +37,7 @@ class CourseView extends React.Component {
   render() {
     const styles = lodash.cloneDeep(this.constructor.styles);
 
+    // A course must be selected, otherwise display a get clicking menu
     if(this.props.selected !== null) {
       return (
         <div>
@@ -180,6 +181,8 @@ class CourseView extends React.Component {
         </div>
       );
     }
+
+    // Display default course view, user has not clicked any course.
     else {
       return(<div> Select a course! </div>);
     }
