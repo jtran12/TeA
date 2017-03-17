@@ -16,7 +16,7 @@ class Course extends React.Component {
 
   render() {
     const styles = lodash.cloneDeep(this.constructor.styles);
-
+    console.log(this.props.course.selectedCourse);
     return (
       <div className="row">
         <Paper className="col-md-4 col-xs-12" style={Course.styles.courseList}>

@@ -37,16 +37,18 @@ class CourseView extends React.Component {
   render() {
     const styles = lodash.cloneDeep(this.constructor.styles);
 
-    return (
-      <div>
+    if(this.props.selected !== null) {
+      return (
+        <div>
           <div className="page-header">
-            <h2> <small>Spring 2017 - St. George</small></h2>
+            <h2>{ this.props.selected.name } <small>Spring 2017 - St. George</small></h2>
           </div>
           <div className="row text-center">
-            <p> Assigned Positions</p>
+            <p>{this.props.selected.currentTAs}/{this.props.selected.maxTAs} Assigned Positions</p>
             <LinearProgress style={styles.progress}
                             mode="determinate"
-                            value={1} />
+                            max={this.props.selected.maxTAs}
+                            value={this.props.selected.currentTAs} />
             <RaisedButton primary={true} label="Assign Applicants" onClick={this.onOpenAssignDialog}/>
           </div>
           <Card style={styles.card}>
@@ -169,14 +171,19 @@ class CourseView extends React.Component {
             </CardText>
           </Card>
 
-        <Dialog
-          open={this.state.showAssignDialog}
-          autoDetectWindowHeight={true}
-          onRequestClose={this.onCloseAssignDialog}>
-          <ApplicantTable />
-        </Dialog>
-      </div>
-    );
+          <Dialog
+            open={this.state.showAssignDialog}
+            autoDetectWindowHeight={true}
+            onRequestClose={this.onCloseAssignDialog}>
+            <ApplicantTable />
+          </Dialog>
+        </div>
+      );
+    }
+    else {
+      return(<div> Select a course! </div>);
+    }
+
   }
 }
 
