@@ -8,7 +8,7 @@ import SwipeableViews from 'react-swipeable-views';
 import Header from '../shared/Header.jsx';
 import Footer from '../shared/Footer.jsx';
 
-import Course from '../course/Course.jsx';
+import Course from '../../containers/Course.jsx';
 import Applicant from '../applicant/Applicant.jsx';
 
 class Manage extends React.Component {

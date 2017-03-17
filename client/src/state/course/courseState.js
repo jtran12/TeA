@@ -1,3 +1,3 @@
-export const createInitialCourseState = {
-  selectedCourse: null
+export function createInitialCourseState() {
+  return { selectedCourse: null }
 }
