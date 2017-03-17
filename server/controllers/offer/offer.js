@@ -13,10 +13,6 @@ function sendData(res, data) {
 
 function genCourse(query) {
     // generates the course code
-    console.log(query);
-    console.log(query.coursecode);
-    console.log(query.term);
-    console.log(query.year);
     
     if (query.coursecode && query.term && query.year) {
         console.log('Creating the course code');
@@ -127,16 +123,21 @@ exports.putOffer = function(req, res) {
     console.log('putOffer');
     
 	var body = req.body;
+    var course = body.course;
     
     console.log('Got body');
     
-    if (!body.utorid || !body.course) {
+    if (!course) {
+        course = genCourse(req.query);
+    }
+    
+    if (!body.utorid || !course) {
         sendError(res, 400, "Offer not found");
     } else {
         // The TA coordinator doesn't set whether a TA accepted or not
         var query = "UPDATE applications SET assigned=$1 WHERE utorid=$2 AND course=$3";
         
-        pool.query(query, [body.assigned, body.utorid, body.course], function(err, result) {
+        pool.query(query, [body.assigned, body.utorid, course], function(err, result) {
             if (err) {
                 sendError(res, 400, err);
             }
@@ -154,6 +155,10 @@ exports.deleteOffer = function(req, res) {
 	// Assume that the concatenated course code is already available
 	var utorid = req.query.utorid;
     var course = req.query.course;
+    
+    if (!course) {
+        course = genCourse(req.query);
+    }
     
 	if (!utorid || !course) {
 		sendError(res, 404, "Offer not found");
