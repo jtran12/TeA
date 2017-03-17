@@ -21,6 +21,14 @@ module.exports = function(app) {
     app.get('/offer', offer.getOffer);
     app.put('/offer', offer.putOffer);
     app.delete('/offer', offer.deleteOffer);
-    
-    app.get('/offer/pending', offer.getOffersPending);
+	
+	app.get('/offer/pending', offer.getOffersPending);
+
+	// Applicants
+	app.post('/applicant', applicant.postApplicant);
+	app.get('/applicant', applicant.getApplicant);
+	app.put('/applicant', applicant.putApplicant);
+	app.delete('/applicant', applicant.deleteApplicant);
+
+	app.post('/applicant/filter', applicant.postApplicantFilter);
 }

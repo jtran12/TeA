@@ -270,6 +270,8 @@ paths:
           schema:
             $ref: '#/definitions/Applicant'
       responses:
+          200:
+            description: New applicant added to the database
           default:
             description: indicates operation success, returns error if applicable
             schema:
@@ -317,6 +319,8 @@ paths:
           schema:
             $ref: '#/definitions/Applicant'
       responses:
+        200:
+          description: applicant data updated in database
         default:
           description: indcates operation usccess, returns error if applicable
           schema:
@@ -338,6 +342,8 @@ paths:
           required: true
           type: integer
       responses:
+        200:
+          description: applicant deleted from database
         default:
           description: indcates operation usccess, returns error if applicable
           schema:
@@ -506,12 +512,11 @@ definitions:
   Applicant:
     type: object
     properties:
+      utorid: #Student's UTORid
+        type: string
       a_id:  # would be student id
         type: integer
         format: int32
-      password:  # to be hashed
-        type: string
-        format: password
       family_name:
         type: string
       given_name:
@@ -520,44 +525,26 @@ definitions:
         type: string
       year:
         type: integer
-      ta_courses:  # past courses ta'd
-        type: array
-        items:
-          $ref: '#/definitions/Course'
-      courses:  # courses taken
-        type: array
-        items:
-          type: integer
       phone:
         type: integer
         format: int32
       email:
         type: string
-      work_status:
-        type: string
-      work_status_explanation:
-        type: string
       department:
         type: string
-      department_explanation:
+      ta_courses:
         type: string
-      experience:
+        description: past courses ta'd (ex. {course1, course2, course3})
+      courses:
         type: string
-      appy_date:
+        description: courses taken (ex. {course1, course2, course3})
+      declined:
+        type: boolean
+      declined_count:
+        type: integer
+      declined_courses:
         type: string
-        format: dateTime
-      applied_courses:
-        type: array
-        items:
-          $ref: '#/definitions/Course'
-      offers:
-        type: array
-        items:
-          $ref: '#/definitions/Offer'
-      active_offers:  # offers taken by applicant
-        type: array
-        items:
-          $ref: '#/definitions/Offer'
+        description: courses prev declined (ex. {course1, course2, course3})
   Course:
     type: object
     properties:
