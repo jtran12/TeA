@@ -24,6 +24,10 @@ CREATE TABLE courses(
 	term text,
 	year integer,
 	requirements text[],
+	head_instructor text,
+	additional_instructors text[],
+	tas text[],
+	expected_enrollment integer,
 	PRIMARY KEY(course)
 );
 

@@ -51,7 +51,7 @@ paths:
           type: string
         - name: course
           in: body
-          description: full id (ex. csc302winter2017)
+          description: full id (ex. csc302s2017)
           required: true
         - name: coursecode
           in: body
@@ -59,7 +59,7 @@ paths:
           required: true
         - name: term
           in: body
-          description: course term (ex. winter)
+          description: course term where 'f' = fall, 's' = winter, 'y' = year (ex. s)
           required: true
         - name: year
           in: body
@@ -68,6 +68,22 @@ paths:
         - name: requirements
           in: body
           description: course requirements (ex. {req1, req2, req3})
+          required: false
+        - name: head_instructor
+          in: body
+          description: head instructor (ex. Matthew Zaleski)
+          required: false
+        - name: additional_instructors
+          in: body
+          description: Other instructors (ex. {name1, name2, name3})
+          required: false
+        - name: tas
+          in: body
+          description: TAs that have accepted position (ex. {ta1, ta2, ta3})
+          required: false
+        - name: expected_enrollment
+          in: body
+          description: Expected number of students (ex. 100)
           required: false
       responses:
         200:
@@ -78,7 +94,7 @@ paths:
             $ref: '#/definitions/Success'
     get:
       description: |
-        Gets a course by id (ex. http://localhost:3000/course?id=csc302winter2017).
+        Gets a course by id (ex. http://localhost:3000/course?id=csc302s2017).
       security:
        - basicAuth: []
       parameters:
@@ -89,7 +105,7 @@ paths:
           type: string
         - name: id
           in: query
-          description: id of course to retrieve (ex. csc302winter2017)
+          description: id of course to retrieve (ex. csc302s2017)
           required: true
           type: integer
       responses:
@@ -103,7 +119,7 @@ paths:
             $ref: '#/definitions/Success'
     put:
       description: |
-        Updates a course's requirements.
+        Updates a course's data.
       security:
        - basicAuth: []
       parameters:
@@ -114,15 +130,31 @@ paths:
           type: string
         - name: course
           in: body
-          description: course id (ex. csc302winter2017)
+          description: course id (ex. csc302s2017)
           required: true
         - name: requirements
           in: body
           description: course requirements (ex. {req1, req2, req3})
           required: false
+        - name: head_instructor
+          in: body
+          description: head instructor (ex. Matthew Zaleski)
+          required: false
+        - name: additional_instructors
+          in: body
+          description: Other instructors (ex. {name1, name2, name3})
+          required: false
+        - name: tas
+          in: body
+          description: TAs that have accepted position (ex. {ta1, ta2, ta3})
+          required: false
+        - name: expected_enrollment
+          in: body
+          description: Expected number of students (ex. 100)
+          required: false
       responses:
         200:
-          description: course requirements updated in database
+          description: course data updated in database
         default: 
           description: indicates operation success, returns error if applicable
           schema:
@@ -140,7 +172,7 @@ paths:
           type: string
         - name: id
           in: query
-          description: id of course to delete (ex. csc302winter2017)
+          description: id of course to delete (ex. csc302s2017)
           required: true
           type: integer
       responses:
@@ -153,9 +185,9 @@ paths:
   /course/bulk/:
     post:
       description: |
-        Mass uploads course data via JSON file that matches format. Adds courses to database. If course already exists with same primary key then update with new information. 
+        Mass uploads course data via JSON file that matches format. Adds courses to database. If course already exists with same primary key then update with new information. This allows the same parameters as POST or PUT /course/.
         
-        Example format: {"data" : [{"course" : "csc301winter2017", "requirements" : "{a,b,c}"}, {"course" : "csc301fall2017"}]}
+        Example format: {"data" : [{"course" : "csc301s2017", "requirements" : "{a,b,c}"}, {"course" : "csc301f2017"}]}
       security:
        - basicAuth: []
       parameters:
@@ -238,6 +270,8 @@ paths:
           schema:
             $ref: '#/definitions/Applicant'
       responses:
+          200:
+            description: New applicant added to the database
           default:
             description: indicates operation success, returns error if applicable
             schema:
@@ -285,6 +319,8 @@ paths:
           schema:
             $ref: '#/definitions/Applicant'
       responses:
+        200:
+          description: applicant data updated in database
         default:
           description: indcates operation usccess, returns error if applicable
           schema:
@@ -306,6 +342,8 @@ paths:
           required: true
           type: integer
       responses:
+        200:
+          description: applicant deleted from database
         default:
           description: indcates operation usccess, returns error if applicable
           schema:
@@ -496,12 +534,11 @@ definitions:
   Applicant:
     type: object
     properties:
+      utorid: #Student's UTORid
+        type: string
       a_id:  # would be student id
         type: integer
         format: int32
-      password:  # to be hashed
-        type: string
-        format: password
       family_name:
         type: string
       given_name:
@@ -510,44 +547,26 @@ definitions:
         type: string
       year:
         type: integer
-      ta_courses:  # past courses ta'd
-        type: array
-        items:
-          $ref: '#/definitions/Course'
-      courses:  # courses taken
-        type: array
-        items:
-          type: integer
       phone:
         type: integer
         format: int32
       email:
         type: string
-      work_status:
-        type: string
-      work_status_explanation:
-        type: string
       department:
         type: string
-      department_explanation:
+      ta_courses:
         type: string
-      experience:
+        description: past courses ta'd (ex. {course1, course2, course3})
+      courses:
         type: string
-      appy_date:
+        description: courses taken (ex. {course1, course2, course3})
+      declined:
+        type: boolean
+      declined_count:
+        type: integer
+      declined_courses:
         type: string
-        format: dateTime
-      applied_courses:
-        type: array
-        items:
-          $ref: '#/definitions/Course'
-      offers:
-        type: array
-        items:
-          $ref: '#/definitions/Offer'
-      active_offers:  # offers taken by applicant
-        type: array
-        items:
-          $ref: '#/definitions/Offer'
+        description: courses prev declined (ex. {course1, course2, course3})
   Course:
     type: object
     properties:
