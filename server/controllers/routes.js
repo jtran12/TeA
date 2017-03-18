@@ -7,7 +7,7 @@ var applicant = require(path.join(__dirname, 'applicant', 'applicant'));
 module.exports = function(app) {
   app.get('/', index.getIndex);
 
-    // Course
+  // Course
   app.get('/course', course.getCourse);
   app.post('/course', course.postCourse);
   app.put('/course', course.putCourse);
@@ -16,12 +16,12 @@ module.exports = function(app) {
   app.get('/course/bulk', course.getCourseBulk);
   app.post('/course/bulk', course.postCourseBulk);
   app.delete('/course/bulk', course.deleteCourseBulk);
-    
-    // Applications (Offers)
-    app.post('/offer', offer.postOffer);
-    app.get('/offer', offer.getOffer);
-    app.put('/offer', offer.putOffer);
-    app.delete('/offer', offer.deleteOffer);
+
+  // Applications (Offers)
+  app.post('/offer', offer.postOffer);
+  app.get('/offer', offer.getOffer);
+  app.put('/offer', offer.putOffer);
+  app.delete('/offer', offer.deleteOffer);
 
   app.get('/offer/pending', offer.getOffersPending);
 

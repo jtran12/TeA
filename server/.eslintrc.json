@@ -16,7 +16,7 @@
         "arrow-spacing": "error",
         "block-scoped-var": "error",
         "block-spacing": "error",
-        "brace-style": "error",
+        "brace-style": "off",
         "callback-return": "error",
         "camelcase": "error",
         "capitalized-comments": [
@@ -57,7 +57,10 @@
             "error",
             "never"
         ],
-        "func-style": "error",
+        "func-style": [
+            "error", 
+            "declaration"
+        ],
         "generator-star-spacing": "error",
         "global-require": "error",
         "guard-for-in": "error",
@@ -68,17 +71,26 @@
         "indent": "off",
         "init-declarations": "error",
         "jsx-quotes": "error",
-        "key-spacing": "error",
+        "key-spacing": [
+            "error",
+            {
+                "multiLine": {
+                    "beforeColon": false,
+                    "afterColon": true 
+                },
+                "singleLine": {
+                    "beforeColon": true,
+                    "afterColon": true 
+                }               
+            }
+        ],
         "keyword-spacing": "error",
         "line-comment-position": "error",
-        "linebreak-style": [
-            "error",
-            "unix"
-        ],
+        "linebreak-style": "off",
         "lines-around-comment": "error",
         "lines-around-directive": "error",
         "max-depth": "error",
-        "max-len": "error",
+        "max-len": "off",
         "max-lines": "error",
         "max-nested-callbacks": "error",
         "max-params": "error",
@@ -96,6 +108,7 @@
         "no-caller": "error",
         "no-catch-shadow": "error",
         "no-compare-neg-zero": "error",
+        "no-cond-assign": "off",
         "no-confusing-arrow": "error",
         "no-console": "off",
         "no-continue": "error",
@@ -129,7 +142,7 @@
         "no-multi-str": "error",
         "no-multiple-empty-lines": "error",
         "no-native-reassign": "error",
-        "no-negated-condition": "error",
+        "no-negated-condition": "off",
         "no-negated-in-lhs": "error",
         "no-nested-ternary": "error",
         "no-new": "error",
@@ -155,7 +168,17 @@
         "no-script-url": "error",
         "no-self-compare": "error",
         "no-sequences": "error",
-        "no-shadow": "error",
+        "no-shadow": [
+            "error",
+            {
+                "allow": [
+                    "err",
+                    "result",
+                    "res",
+                    "req"
+                ]
+            }
+        ],
         "no-shadow-restricted-names": "error",
         "no-spaced-func": "error",
         "no-sync": "error",
@@ -163,13 +186,20 @@
         "no-template-curly-in-string": "error",
         "no-ternary": "error",
         "no-throw-literal": "error",
-        "no-trailing-spaces": "error",
+        "no-trailing-spaces": [
+            "error",
+            {
+                "skipBlankLines": true 
+            }
+        ],
+        "no-undef": "off",
         "no-undef-init": "error",
         "no-undefined": "error",
         "no-underscore-dangle": "error",
         "no-unmodified-loop-condition": "error",
         "no-unneeded-ternary": "error",
         "no-unused-expressions": "error",
+        "no-unused-vars": "off",
         "no-use-before-define": "error",
         "no-useless-call": "error",
         "no-useless-computed-key": "error",
@@ -186,8 +216,14 @@
         "nonblock-statement-body-position": "error",
         "object-curly-newline": "off",
         "object-curly-spacing": "error",
-        "object-property-newline": "error",
-        "object-shorthand": "error",
+        "object-property-newline": "off",
+        "object-shorthand": [
+            "error",
+            "always",
+            {
+                "avoidQuotes": true 
+            }
+        ],
         "one-var": "off",
         "one-var-declaration-per-line": "error",
         "operator-assignment": "error",
@@ -195,7 +231,7 @@
         "padded-blocks": "off",
         "prefer-arrow-callback": "off",
         "prefer-const": "error",
-        "prefer-destructuring": "error",
+        "prefer-destructuring": "off",
         "prefer-numeric-literals": "error",
         "prefer-promise-reject-errors": "error",
         "prefer-reflect": "error",
@@ -203,13 +239,10 @@
         "prefer-spread": "error",
         "prefer-template": "off",
         "quote-props": "off",
-        "quotes": [
-            "error",
-            "single"
-        ],
+        "quotes": "off",
         "radix": "error",
         "require-await": "error",
-        "require-jsdoc": "error",
+        "require-jsdoc": "off",
         "rest-spread-spacing": "error",
         "semi": "error",
         "semi-spacing": "error",
