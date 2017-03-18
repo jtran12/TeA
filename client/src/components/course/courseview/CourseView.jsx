@@ -12,7 +12,8 @@ import Dialog from 'material-ui/Dialog';
 import AddIcon from 'material-ui/svg-icons/content/add';
 import RemoveIcon from 'material-ui/svg-icons/content/clear';
 import CourseCoordinatorIcon from 'material-ui/svg-icons/social/person-outline';
-import ApplicantTable from '../applicant/ApplicantTable.jsx';
+import ApplicantTable from '../../applicant/applicanttable/ApplicantTable.jsx';
+import ApplicantRecommendations from '../../applicant/applicantrecommendations/ApplicantRecommendations';
 
 class CourseView extends React.Component {
 
@@ -184,7 +185,7 @@ class CourseView extends React.Component {
 
     // Display default course view, user has not clicked any course.
     else {
-      return(<div> Select a course! </div>);
+      return (<ApplicantRecommendations></ApplicantRecommendations>);
     }
 
   }

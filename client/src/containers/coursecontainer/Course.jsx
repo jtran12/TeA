@@ -3,7 +3,7 @@ import lodash from 'lodash';
 
 import Paper from 'material-ui/Paper';
 
-import CourseView from '../components/course/CourseView.jsx';
+import CourseView from '../../components/course/courseview/CourseView.jsx';
 import CourseList from './CourseList.jsx';
 
 import { connect } from 'react-redux';

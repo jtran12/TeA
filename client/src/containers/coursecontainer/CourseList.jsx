@@ -1,9 +1,9 @@
 import React from 'react';
 import lodash from 'lodash';
-import CourseListSingle from '../components/course/CourseListSingle';
+import CourseListSingle from '../../components/course/courselist/CourseListSingle';
 
 import { connect } from 'react-redux';
-import * as courseActions from '../actions/course/courseActions';
+import * as courseActions from '../../actions/course/courseActions';
 
 class CourseList extends React.Component {
 

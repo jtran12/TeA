@@ -10,7 +10,7 @@ import Dialog from 'material-ui/Dialog';
 
 import AddIcon from 'material-ui/svg-icons/content/add';
 import RemoveIcon from 'material-ui/svg-icons/content/clear';
-import CourseTable from '../course/CourseTable.jsx';
+import CourseTable from '../../course/coursetable/CourseTable.jsx';
 
 class ApplicantView extends React.Component {
 
