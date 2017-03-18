@@ -1,8 +1,8 @@
 language: node_js
 
 node_js:
-  # latest node version
-  - "node" 
+  # latest stable node version
+  - "stable" 
 
 # whitelist
 branches:
@@ -10,6 +10,7 @@ branches:
    - master
   
 before_script:
+  - cd server
   - npm install
 
 script:
