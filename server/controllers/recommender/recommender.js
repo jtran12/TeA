@@ -124,7 +124,9 @@ exports.recommendGET = function(args, res, next) {
             data.sort(sortByElement('ranking', true, parseInt, null));
             //Consider deleting ranking score (probably not necessary)
             //Slice list down to given size
-            data.slice(0, body.limit);
+						if (body.limit) {
+							data.slice(0, body.limit);
+						}
             sendData(res, data);
         }
     });
