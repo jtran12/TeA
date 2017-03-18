@@ -96,4 +96,6 @@ exports.deleteApplicant = function(req, res) {
 };
 
 
-exports.postApplicantFilter = function(req, res) {};
+exports.postApplicantFilter = function(req, res) {
+  return null;
+};
