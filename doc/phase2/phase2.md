@@ -19,10 +19,6 @@ For phase two, we scaffolded a general layout with placeholder data that will be
 
 We narrowed the scope of the components we plan to build and focus on, trimming out unnecessary features from our original proposition such as login, signup, term import and creation (unless time permits).
 
-### Back End
-
-A database schema was created and applied to a live Postgres database. Backend routes were created and routed to controllers for processing requests from the frontend. The database tables for applicants, courses, and applications are fully functional with create, update, retrieve, delete, and other features necessary as described in the previous design document, as well as documented using Swagger. Work has also begun for the TA recommendation system, which will aid the TA coordinator in making TA assignments.
-
 # Product Design
 - High-level design of your software.
 
@@ -32,7 +28,7 @@ A database schema was created and applied to a live Postgres database. Backend r
 
 #### Bugs
 
-1.
+  
 > Error: Can't set headers after they are sent to the client
 
 One bug that a few of our members came across was the inability to send several json objects to the client.
@@ -50,23 +46,46 @@ Explanation: In the worst case, the sendError callback gets called and the respo
 
 Fix: Use if/elseif/else statements to avoid confusion. Alternatively use next() or return to exit the function.
 
-2.
+  
 > Warning: React array components should contain a key for indexing
 
 React's implementation of efficient DOM manipulation suggests to store keys for iterated components.
 
 Fix: Pass an index parameter from es6 map call as a temporary solution for unique indexing until the unique id can be stored when retrieved from the server API.
 
+> Advanced REST Client Tester Bugs
+
+The back-end team used [Advanced REST Client](https://chrome.google.com/webstore/detail/advanced-rest-client/hgmloofddffdnphfgcellkdfbfbjeloo) for testing routes. Some of the common problems using this application were:
+
+1. Specifying the wrong content-type when sending requests. 
+Fix: When using forms (for POST and PUT), use ```application/x-www-form-urlencoded```.
+2. Confusing req.body with req.query. 
+Fix: Use req.query for URL queries of the form ```/offer?course=csc302``` and use req.body for form requests.
+3. Pressing the wrong buttons.
+They're a bit unintuitive. Commonly mistaken buttons were the (1) "import/export " button (forever elusive) and (2) "clear all" button (yikes!).
+
+![ARC Icons](../master/doc//phase2/icons.png "ARC Icons")
+
+> Database
+
+One of the issues that took nearly 2 hours to debug was an Advanced Rest Client bug which returned 
+```
+"error_code": 404,
+"name": "error",
+"file": "numutils.c",
+"line": "73"
+```
+Fix: At first, we thought the JSON was being parsed incorrectly but that was not the case. Then we thought that it was a PostgreSql limitation that only a certain length could be passed through without error (since integers/strings of 9 digits didn't return an error but 10+ did). After searching the [PostgreSQL documentation](https://www.postgresql.org/docs/9.1/static/datatype-numeric.html), we had figured out that the data type **integer** was too small to contain the telephone numbers (at most 214748364) and returned an out of bounds error. Furthermore, this explains why the best practice for storing telephone numbers has been strings as they could also be formatted.
 
 #### Challenges
 
 > Client set-up
 
-A challenge was to scaffold and ensure everything was working to get started. Setting up the initial redux actions and stores to fit our directory structure was also a challenge that required a good amount of time to implement.
+A challenge was to scaffold and ensure everything on the front-end was working to get started. Setting up the initial redux actions and stores to fit our directory structure was also a challenge that required a good amount of time to implement.
 
 > Setting up Automated Tests
 
-On the front-end side, most of the auto-testing frameworks and code linter framworks were set up with the click of a button (yeoman generator) but it wasn't as simple for the back-end. When deciding which frameworks to use for back-end, we had to take into account what kind of tests we would be writing (unit tests, end to end tests).
+On the front-end side, most of the auto-testing frameworks and code linter frameworks were set up with the click of a button (yeoman generator) but it wasn't as simple for the back-end. When deciding which frameworks to use for back-end, we had to take into account what kind of tests we would be writing (unit tests, end to end tests). We decided that we should use Karma for automating tests, Mocha for the actual test writing, and Chai for assertions in the tests. Furthermore ESLint was chosen as a code linter with custom rules that are far less stricter than popular libraries.
 
 
 # Teamwork
