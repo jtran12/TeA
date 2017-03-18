@@ -64,7 +64,7 @@ Fix: Use req.query for URL queries of the form ```/offer?course=csc302``` and us
 3. Pressing the wrong buttons.
 They're a bit unintuitive. Commonly mistaken buttons were the (1) "import/export " button (forever elusive) and (2) "clear all" button (yikes!).
 
-![ARC Icons](../master/doc//phase2/icons.png "ARC Icons")
+![ARC Icons](./icons.png "ARC Icons")
 
 > Database
 
