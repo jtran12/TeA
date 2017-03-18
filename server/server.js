@@ -1,4 +1,4 @@
-//Dependencies
+// Dependencies
 var express = require('express');
 var session = require('express-session');
 var app = express();
@@ -6,11 +6,10 @@ var http = require('http').Server(app);
 var path = require('path');
 var bodyParser = require('body-parser');
 
-//Setup application
-
+// Setup application
 global.appRoot = path.resolve(__dirname);
 
-app.use(express.static('public'));	
+app.use(express.static('public'));
 
 app.use(session({
   secret: 'wrhlRhkWLHNVWxdn',
@@ -26,6 +25,6 @@ app.use(bodyParser.urlencoded({
 require('./controllers/routes.js')(app);
 
 var port = process.env.PORT || 3000;
-http.listen(port, function(){
-  console.log("Listening on port " + port);
+http.listen(port, function() {
+  console.log('Listening on port ' + port);
 });
