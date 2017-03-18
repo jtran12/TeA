@@ -124,6 +124,7 @@ exports.putOffer = function(req, res) {
 
 exports.deleteOffer = function(req, res) {
   // Assume that the concatenated course code is already available
+  
   var que = req.query;
     
   if (!que.utorid || !que.course) {
