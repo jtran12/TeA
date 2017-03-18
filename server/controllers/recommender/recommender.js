@@ -48,9 +48,9 @@ function sortByElement(path, reverse, primer, then) {
  **/
 exports.recommendGET = function(args, res, next) {
     var body = args.body;
-    //limit is body.limit, course is body.course
     var applicantQuery = 'SELECT * FROM applicants';
     var offersQuery = 'SELECT * FROM applications';
+
     pool.query(applicantQuery, function(err, result) {
         if (err) {
             sendError(res, 400, err);
@@ -61,15 +61,15 @@ exports.recommendGET = function(args, res, next) {
         else {
             var offerData;
             pool.query(offersQuery, function(offErr, offResult) {
-            if (offErr) {
-                sendError(res, 400, err);
-            }
-            else {
-                offerData = offResult.rows;
-            }
+                if (offErr) {
+                    sendError(res, 400, err);
+                }
+                else {
+                    offerData = offResult.rows;
+                }
             });
             var data = result.rows;
-            //Add a ranking to each row (entry), set at max
+            //Rank applicants for list, using ruleset
             for (var i = 0; i < data.length; i++) {
                 var applicant = data[i];
                 var ranking = 100;
@@ -86,7 +86,6 @@ exports.recommendGET = function(args, res, next) {
                     }
                 }
 
-                //Deduct ranking score based on filter rules
                 //Prioritize graduate over undergraduate and phd applicants.
                 if (applicant.program.toLowerCase() == "undergrad") {
                     ranking -= 10;
