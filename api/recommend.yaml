@@ -34,7 +34,7 @@ paths:
           description: course to recommend for
           required: true
           schema:
-            $ref: '#/definitions/Applicant'
+            $ref: '#/definitions/Course'
       responses:
         200:
           description: list of suggested applications
