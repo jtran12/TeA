@@ -1,3 +1,3 @@
-export function createInitialCourseState() {
-  return { selectedCourse: null }
+export default function createInitialCourseState() {
+  return { selectedCourse: null };
 }

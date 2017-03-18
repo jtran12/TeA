@@ -1,6 +1,6 @@
 import { createInitialCourseState } from '../../state/course/courseState';
 
-export default function courseReducer (state = createInitialCourseState(), action) {
+export default function courseReducer(state = createInitialCourseState(), action) {
 
   switch (action.type) {
 

@@ -9,4 +9,4 @@ import {action1, action2} from '../actions/'
 
 import * as courseActions from './course/courseActions';
 
-export { courseActions };
+export default { courseActions };
