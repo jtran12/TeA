@@ -19,6 +19,10 @@ For phase two, we scaffolded a general layout with placeholder data that will be
 
 We narrowed the scope of the components we plan to build and focus on, trimming out unnecessary features from our original proposition such as login, signup, term import and creation (unless time permits).
 
+### Back End
+
+A database schema was created and applied to a live Postgres database. Backend routes were created and routed to controllers for processing requests from the frontend. The database tables for applicants, courses, and applications are fully functional with create, update, retrieve, delete, and other features necessary as described in the previous design document, as well as documented using Swagger. Work has also begun for the TA recommendation system, which will aid the TA coordinator in making TA assignments.
+
 # Product Design
 - High-level design of your software.
 
