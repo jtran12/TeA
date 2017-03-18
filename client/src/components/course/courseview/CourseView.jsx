@@ -12,7 +12,8 @@ import Dialog from 'material-ui/Dialog';
 import AddIcon from 'material-ui/svg-icons/content/add';
 import RemoveIcon from 'material-ui/svg-icons/content/clear';
 import CourseCoordinatorIcon from 'material-ui/svg-icons/social/person-outline';
-import ApplicantTable from '../applicant/ApplicantTable.jsx';
+import ApplicantTable from '../../applicant/applicanttable/ApplicantTable.jsx';
+import ApplicantRecommendations from '../../applicant/applicantrecommendations/ApplicantRecommendations';
 
 class CourseView extends React.Component {
 
@@ -37,8 +38,10 @@ class CourseView extends React.Component {
   render() {
     const styles = lodash.cloneDeep(this.constructor.styles);
 
-    return (
-      <div>
+    // A course must be selected, otherwise display a get clicking menu
+    if(this.props.selected !== null) {
+      return (
+        <div>
           <div className="page-header">
             <h2>{ this.props.selected.name } <small>Spring 2017 - St. George</small></h2>
           </div>
@@ -170,14 +173,21 @@ class CourseView extends React.Component {
             </CardText>
           </Card>
 
-        <Dialog
-          open={this.state.showAssignDialog}
-          autoDetectWindowHeight={true}
-          onRequestClose={this.onCloseAssignDialog}>
-          <ApplicantTable />
-        </Dialog>
-      </div>
-    );
+          <Dialog
+            open={this.state.showAssignDialog}
+            autoDetectWindowHeight={true}
+            onRequestClose={this.onCloseAssignDialog}>
+            <ApplicantTable />
+          </Dialog>
+        </div>
+      );
+    }
+
+    // Display default course view, user has not clicked any course.
+    else {
+      return (<ApplicantRecommendations></ApplicantRecommendations>);
+    }
+
   }
 }
 

@@ -3,6 +3,7 @@ var index = require(path.join(__dirname, 'index'));
 var course = require(path.join(__dirname, 'course', 'course'));
 var offer = require(path.join(__dirname, 'offer', 'offer'));
 var applicant = require(path.join(__dirname, 'applicant', 'applicant'));
+var recommender = require(path.join(__dirname, 'recommender', 'recommender'));
 
 module.exports = function(app) {
   app.get('/', index.getIndex);
@@ -32,4 +33,7 @@ module.exports = function(app) {
   app.delete('/applicant', applicant.deleteApplicant);
 
   app.post('/applicant/filter', applicant.postApplicantFilter);
+
+  // Recommender
+  app.get('/recommender', recommender.recommendGET);
 };

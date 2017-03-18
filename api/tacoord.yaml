@@ -33,7 +33,7 @@ paths:
           description: returns session token on success.
           schema:
             $ref: '#/definitions/Auth'
-        default: 
+        default:
           description: indicates operation success, returns error if applicable
           schema:
             $ref: '#/definitions/Success'
@@ -88,7 +88,7 @@ paths:
       responses:
         200:
           description: New course added to database
-        default: 
+        default:
           description: indicates operation success, returns error if applicable
           schema:
             $ref: '#/definitions/Success'
@@ -155,7 +155,7 @@ paths:
       responses:
         200:
           description: course data updated in database
-        default: 
+        default:
           description: indicates operation success, returns error if applicable
           schema:
             $ref: '#/definitions/Success'
@@ -178,7 +178,7 @@ paths:
       responses:
         200:
           description: Course deleted from database
-        default: 
+        default:
           description: indicates operation success, returns error if applicable
           schema:
             $ref: '#/definitions/Success'
@@ -186,7 +186,7 @@ paths:
     post:
       description: |
         Mass uploads course data via JSON file that matches format. Adds courses to database. If course already exists with same primary key then update with new information. This allows the same parameters as POST or PUT /course/.
-        
+
         Example format: {"data" : [{"course" : "csc301s2017", "requirements" : "{a,b,c}"}, {"course" : "csc301f2017"}]}
       security:
        - basicAuth: []
@@ -198,7 +198,7 @@ paths:
           type: string
         - name: data
           in: body
-          description: data to add to system, refer to description above for format 
+          description: data to add to system, refer to description above for format
           required: true
           schema:
             type: array
@@ -207,7 +207,7 @@ paths:
       responses:
         200:
           description: courses added or updated in database
-        default: 
+        default:
           description: indicates operation success, returns error if applicable
           schema:
             $ref: '#/definitions/Success'
@@ -247,7 +247,7 @@ paths:
       responses:
         200:
           description: all courses deleted from database
-        default: 
+        default:
           description: indicates operation success, returns error if applicable
           schema:
             $ref: '#/definitions/Success'
@@ -422,7 +422,7 @@ paths:
       responses:
         200:
           description: New offer added to database
-        default: 
+        default:
             description: indicates operation success, returns error if applicable
             schema:
               $ref: '#/definitions/Success'
@@ -486,13 +486,13 @@ paths:
           in: query
           description: accepted status of TA offer
           required: false
-          type: boolean        
+          type: boolean
           schema:
             $ref: '#/definitions/Offer'
       responses:
         200:
           description: offer data updated in database
-        default: 
+        default:
           description: indicates operation success, returns error if applicable
           schema:
             $ref: '#/definitions/Success'
@@ -516,11 +516,11 @@ paths:
           in: query
           description: id of applicant
           required: true
-          type: string    
+          type: string
       responses:
         200:
           description: Course deleted from database
-        default: 
+        default:
           description: indcates operation success, returns error if applicable
           schema:
             $ref: '#/definitions/Success'
@@ -549,7 +549,40 @@ paths:
           description: returns error information
           schema:
             $ref: '#/definitions/Success'
-          
+  /recommend/:
+   get:
+      description: |
+        returns a list of recommended applicants for a given course
+      security:
+       - basicAuth: []
+      parameters:
+        - name: session
+          in: query
+          description: session token to identify the user and ensure permissable access
+          required: true
+          type: string
+        - name: limit
+          in: query
+          description: limits the number of recommendations
+          required: false
+          type: integer
+        - name: course
+          in: query
+          description: course to recommend for
+          required: true
+          type: string #Ex: "CSC302"
+      responses:
+        200:
+          description: list of suggested applications
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Applicant'
+        default:
+          description: indicates operation success, returns error if applicable
+          schema:
+            $ref: '#/definitions/Success'
+
 definitions:
   Applicant:
     type: object
@@ -590,7 +623,7 @@ definitions:
   Course:
     type: object
     properties:
-      c_id:  # course id 
+      c_id:  # course id
         type: integer
         format: int32
       head_instructor:  # lead instructor for course, has managmennt permission
@@ -652,7 +685,7 @@ definitions:
       i_id:  # instructor id, employee number
         type: integer
         format: int32
-      family_name: 
+      family_name:
         type: string
       given_name:
         type: string
@@ -661,7 +694,7 @@ definitions:
   ApplicantFilter:
     type: object
     properties:
-      name: 
+      name:
         type: string
       program:
         type: string

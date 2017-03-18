@@ -8,8 +8,16 @@
  *          you edit them, they are not updated again.
  */
 /* Populated by react-webpack-redux:reducer */
+
 import { combineReducers } from 'redux';
 
-const reducers = {};
-const combined = combineReducers(reducers);
-module.exports = combined;
+// import child reducers
+
+import courseReducer from './course/courseReducer';
+
+const reducers = {
+  course: courseReducer
+};
+
+export default combineReducers(reducers);
+

@@ -2,10 +2,10 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { AppContainer } from 'react-hot-loader';
 import { Provider } from 'react-redux';
-import configureStore from './stores';
-
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import {Router, browserHistory} from 'react-router';
+
+import configureStore from './stores';
 import Routes from './Routes.jsx';
 
 injectTapEventPlugin();
@@ -13,7 +13,7 @@ injectTapEventPlugin();
 const store = configureStore();
 
 ReactDOM.render(
-  <AppContainer>
+  <AppContainer >
     <Provider store={store}>
       <Router history={browserHistory} routes={Routes}/>
     </Provider>

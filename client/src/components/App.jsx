@@ -7,7 +7,7 @@ class App extends React.Component {
     const styles = lodash.cloneDeep(this.constructor.styles);
 
     return (
-      <MUIThemeProvider style={styles.Wrapper}>
+      <MUIThemeProvider className="index" style={styles.Wrapper}>
         {this.props.children}
       </MUIThemeProvider>
     );
