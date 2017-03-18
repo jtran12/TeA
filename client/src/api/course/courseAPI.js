@@ -1,6 +1,10 @@
-class courseAPI {
+import fetch from 'isomorphic-fetch';
+
+class CourseAPI {
+
   static getCourses() {
-    return fetch('http://localhost:5000/api/v1/cats').then(response => {
+    const COURSE_MOCK_URL = './mock/course/course.json';
+    return fetch(COURSE_MOCK_URL).then(response => {
       return response.json();
     }).catch(error => {
       return error;
@@ -8,4 +12,4 @@ class courseAPI {
   }
 }
 
-export default courseAPI;
+export default CourseAPI;

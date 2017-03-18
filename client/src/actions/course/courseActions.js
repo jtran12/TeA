@@ -1,3 +1,6 @@
+import CourseAPI from '../../api/course/courseAPI';
+
+
 const SELECT_COURSE = 'SELECT_COURSE';
 const DESELECT_COURSE = 'DESELECT_COURSE';
 
