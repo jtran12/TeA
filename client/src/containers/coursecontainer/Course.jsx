@@ -5,7 +5,6 @@ import Paper from 'material-ui/Paper';
 
 import CourseView from '../../components/course/courseview/CourseView.jsx';
 import CourseList from './CourseList.jsx';
-import CourseAPI from '../../api/course/courseAPI';
 
 import { connect } from 'react-redux';
 
@@ -15,12 +14,11 @@ class Course extends React.Component {
     super(props);
   }
 
-  render() {
+  componentDidMount() {
 
-    // Test Course Mock API
-    CourseAPI.getCourses().then(function(data) {
-      console.log(data);
-    });
+  }
+
+  render() {
 
     const styles = lodash.cloneDeep(this.constructor.styles);
     return (
@@ -61,6 +59,13 @@ Course.styles = {
 const mapStateToProps = (state, ownProps) => {
   return {
     course: state.course
+  }
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    selectCourse: course => dispatch(courseActions.selectCourse(course)),
+    loadCourses:
   }
 };
 
