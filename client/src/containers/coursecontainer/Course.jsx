@@ -1,12 +1,13 @@
 import React from 'react';
 import lodash from 'lodash';
-
+import { connect } from 'react-redux';
 import Paper from 'material-ui/Paper';
 
 import CourseView from '../../components/course/courseview/CourseView.jsx';
 import CourseList from './CourseList.jsx';
+import * as courseActions from '../../actions/course/courseActions';
 
-import { connect } from 'react-redux';
+
 
 class Course extends React.Component {
 
@@ -15,7 +16,7 @@ class Course extends React.Component {
   }
 
   componentDidMount() {
-
+    this.props.loadCourses();
   }
 
   render() {
@@ -64,9 +65,8 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    selectCourse: course => dispatch(courseActions.selectCourse(course)),
-    loadCourses:
+    loadCourses: () => dispatch(courseActions.loadCourses()),
   }
 };
 
-export default connect(mapStateToProps)(Course);
+export default connect(mapStateToProps, mapDispatchToProps)(Course);

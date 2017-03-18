@@ -43,7 +43,7 @@ export function loadCoursesFailure(error) {
 }
 
 export function loadCourses() {
-  return function(dispatch) {
+  return dispatch => {
     return CourseAPI.getCourses().then(courses => {
       dispatch(loadCoursesSuccess(courses));
     }).catch(error => {
