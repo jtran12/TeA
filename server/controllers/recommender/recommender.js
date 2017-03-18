@@ -10,6 +10,12 @@ function sendData(res, data) {
   res.send(json);
 }
 
+function courseCodeParser(course) {
+  var regex = /[a-z]+[0-9]+/i;
+  var coursecode = course.exec(regex);
+  return coursecode;
+}
+
 // Sorting function by Gerald Fullam, taken from Stack Overflow
 function sortByElement(path, reverse, primer, then) {
     var get = function (obj, path) {
@@ -83,9 +89,11 @@ exports.recommendGET = function(args, res, next) {
                     /* Make sure applicant not already offered this course.
                        If they are, remove applicant from dataset.
                     */
-                    var regex = /[a-z]+[0-9]+/i;
-                    var coursecode = offer.course.exec(regex);
-                    if ((applicant.utorid === offer.utorid) && (coursecode[0] === args.query.course)) {
+                    courseCode = courseCodeParser(offer.course);
+                    if (!courseCode.length) {
+                        sendError(res, 404, "No course to recommend for");
+                    }
+                    if ((applicant.utorid === offer.utorid) && (courseCode[0] === args.query.course)) {
                         data.remove(applicant);
                         i--;
                         break;
