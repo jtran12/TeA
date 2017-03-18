@@ -12,14 +12,14 @@ global.appRoot = path.resolve(__dirname);
 app.use(express.static('public'));
 
 app.use(session({
-  secret: 'wrhlRhkWLHNVWxdn',
-  resave: false,
-  saveUninitialized: false
+  secret : 'wrhlRhkWLHNVWxdn',
+  resave : false,
+  saveUninitialized : false
 }));
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
-  extended: true
+  extended : true
 }));
 
 require('./controllers/routes.js')(app);

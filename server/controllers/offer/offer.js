@@ -15,8 +15,6 @@ function genCourse(query) {
     // Generates the course code
     
     if (query.coursecode && query.term && query.year) {
-        console.log('Creating the course code');
-
         return query.coursecode + query.term + query.year;
     }
     
@@ -32,6 +30,9 @@ function courseParser(req) {
   
   return genCourse(query);
 }
+
+
+// Individual Offers
 
 exports.postOffer = function(req, res) {
   
@@ -74,7 +75,7 @@ exports.postOffer = function(req, res) {
 
 exports.getOffer = function(req, res) {
          
-    var utorid = req.query.utorid;  
+    var utorid = req.query.utorid;
     var course = courseParser(req);
     
     if (!utorid || !course) {
@@ -86,13 +87,11 @@ exports.getOffer = function(req, res) {
       if (err) {
         sendError(res, 404, err);
       }
+      else if (!result.rows.length) {
+        sendError(res, 404, "Offer for utorid: " + utorid + " and course: " + course + " not found");
+      }
       else {
-        if (!result.rows.length) {
-          sendError(res, 404, "Offer for utorid: " + utorid + " and course: " +course + " not found");
-        }
-        else {
-          sendData(res, result.rows);
-        }
+        sendData(res, result.rows);
       }
     });
   }
@@ -143,7 +142,7 @@ exports.deleteOffer = function(req, res) {
 };
 
 
-//////////////////////// PENDING ///////////////////////////////////////
+// Pending Offers
 
 exports.getOffersPending = function(req, res) {
   var query = "SELECT * FROM applications WHERE assigned='true' AND accepted='false'";
@@ -155,5 +154,5 @@ exports.getOffersPending = function(req, res) {
       sendData(res, result.rows);
     }
   });
-}
+};
 

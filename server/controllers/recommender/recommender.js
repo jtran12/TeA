@@ -1,13 +1,13 @@
 var pool = require(appRoot + '/controllers/database/database.js').pool;
 
 function sendError(res, errorCode, errorMst) {
-	var json = {"success" : "false", "error_code" : errorCode, "errorMst" : errorMst};
-	res.status(errorCode).send(json);
+  var json = {"success" : "false", "error_code" : errorCode, "errorMst" : errorMst};
+  res.status(errorCode).send(json);
 }
 
 function sendData(res, data) {
-	var json = {"success" : "true", "data" : data};
-	res.send(json);
+  var json = {"success" : "true", "data" : data};
+  res.send(json);
 }
 
 /* Sorting function by Gerald Fullam, taken from Stack Overflow
@@ -16,15 +16,20 @@ function sendData(res, data) {
 function sortByElement(path, reverse, primer, then) {
     var get = function (obj, path) {
             if (path) {
+                var len = path.length - 1;
+                
                 path = path.split('.');
-                for (var i = 0, len = path.length - 1; i < len; i++) {
+                for (var i = 0; i < len; i++) {
                     obj = obj[path[i]];
-                };
+                }
+                
                 return obj[path[len]];
             }
+            
             return obj;
         },
         prime = function (obj) {
+            
             return primer ? primer(get(obj, path)) : get(obj, path);
         };
 
@@ -34,15 +39,16 @@ function sortByElement(path, reverse, primer, then) {
 
         return (
             (A < B) ? -1 :
-            (A > B) ?  1 :
+            (A > B) ? 1 :
             (typeof then === 'function') ? then(a, b) : 0
-        ) * [1,-1][+!!reverse];
+        ) * [1, -1][+!!reverse];
     };
 }
 
 exports.recommendGET = function(args, res, next) {
     var body = args.body;
-    //limit is body.limit, course is body.course
+    
+    // Limit is body.limit, course is body.course
     var query = 'SELECT * FROM applicants';
     pool.query(query, function(err, result) {
       if (err) {
@@ -53,6 +59,7 @@ exports.recommendGET = function(args, res, next) {
       }
       else {
         var data = result.rows;
+        
         /**
         Rules
         Prioritize graduate over undergraduate applicants. (easily implemented)
@@ -63,83 +70,83 @@ exports.recommendGET = function(args, res, next) {
         Consider that you need to match previous hours of Phd applicants. (currently not tracked: probaby don't bother implementing)
         If given enough time, a rating system where professors can rate the performance of TAs. Highest rating recommended first.
         */
-        //Add a ranking to each row (entry), set at max
-				for (var i = 0; i < data.length; i++) {
-    			var object = data[i];
-					var ranking = 100;
-					//Deduct ranking score based on filter rules
+        // Add a ranking to each row (entry), set at max
+        for (var i = 0; i < data.length; i++) {
+          var object = data[i];
+          var ranking = 100;
+          // Deduct ranking score based on filter rules
 
-					object.ranking = ranking;
-				}
-				data.sort(sortByElement('ranking', true, parseInt, null));
+          object.ranking = ranking;
+        }
+        data.sort(sortByElement('ranking', true, parseInt, null));
 
-				//Slice list down to given size
-				data.slice(0, body.limit);
+        // Slice list down to given size
+        data.slice(0, body.limit);
 
-				sendData(res, data);
+        sendData(res, data);
       }
     });
 
   /**
-   * returns a list of recommended applicants for a given course
+   * Returns a list of recommended applicants for a given course
    *
-   * session String session token to identify the user and ensure permissable access
-   * course Applicant course to recommend for
-   * limit Integer limits the number of recommendations (optional)
-   * returns List
+   * session - String session token to identify the user and ensure permissable access
+   * course - Applicant course to recommend for
+   * limit - Integer limits the number of recommendations (optional)
+   * returns - List
    **/
   var examples = {};
-  examples['application/json'] = [ {
-  "offers" : [ {
+  examples['application/json'] = [{
+    "offers" : [{
     "hours" : 123,
     "approved" : true,
     "o_id" : 123,
     "course" : "",
     "accepted" : true,
     "applicant" : ""
-  } ],
-  "courses" : [ 123 ],
+  }],
+  "courses" : [123],
   "year" : 123,
   "work_status_explanation" : "aeiou",
   "program" : "aeiou",
   "given_name" : "aeiou",
   "experience" : "aeiou",
-  "applied_courses" : [ "" ],
+  "applied_courses" : [""],
   "department_explanation" : "aeiou",
-  "active_offers" : [ "" ],
+  "active_offers" : [""],
   "password" : "aeiou",
   "a_id" : 123,
   "phone" : 123,
-  "ta_courses" : [ {
-    "desired_applicants" : [ "" ],
+  "ta_courses" : [{
+    "desired_applicants" : [""],
     "preference" : "aeiou",
-    "tas" : [ "" ],
+    "tas" : [""],
     "head_instructor" : {
       "i_id" : 123,
       "given_name" : "aeiou",
       "family_name" : "aeiou",
       "email" : "aeiou"
     },
-    "flagged_applicants" : [ "" ],
-    "avoid_applicants" : [ "" ],
-    "additional_instructors" : [ "" ],
+    "flagged_applicants" : [""],
+    "avoid_applicants" : [""],
+    "additional_instructors" : [""],
     "name" : "aeiou",
     "c_id" : 123,
     "semester" : "aeiou",
     "expected_enrollment" : 123,
-    "assigned_applicants" : [ "" ],
+    "assigned_applicants" : [""],
     "start_date" : "2000-01-23"
-  } ],
+  }],
   "appy_date" : "aeiou",
   "work_status" : "aeiou",
   "department" : "aeiou",
   "family_name" : "aeiou",
   "email" : "aeiou"
-} ];
+}];
   if (Object.keys(examples).length > 0) {
     res.setHeader('Content-Type', 'application/json');
     res.end(JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));
   } else {
     res.end();
   }
-}
+};
