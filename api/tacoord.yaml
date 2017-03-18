@@ -399,6 +399,10 @@ paths:
           description: session token to identify the user and ensure permissable access
           required: true
           type: string
+        - name: course
+          in: body
+          description: full id (ex. csc302s2017)
+          required: true
         - name: coursecode
           in: body
           description: course code (ex. csc302)
@@ -416,13 +420,16 @@ paths:
           description: utorid of the applicant (ex. sipickiv)
           required: true
       responses:
-          default:
+        200:
+          description: New offer added to database
+        default: 
             description: indicates operation success, returns error if applicable
             schema:
               $ref: '#/definitions/Success'
     get:
       description: |
-        finds and returns offer identified by id
+        finds and returns offer identified by course and utorid
+        (ex. http://localhost:3000/offer?id=csc302s2017&utorid=sipickiv)
       security:
        - basicAuth: []
       parameters:
@@ -436,21 +443,14 @@ paths:
           description: id of applicant
           required: true
           type: string
-        - name: coursecode
-          in: body
-          description: course code (ex. csc302)
+        - name: id
+          in: query
+          description: id of course to retrieve (ex. csc302s2017)
           required: true
-        - name: term
-          in: body
-          description: course term (ex. winter)
-          required: true
-        - name: year
-          in: body
-          description: course year (ex. 2017)
-          required: true
+          type: integer
       responses:
         200:
-          description: returns desired offer information
+          description: Returns desired offer information in JSON form
           schema:
             $ref: '#/definitions/Offer'
         default:
@@ -468,15 +468,32 @@ paths:
           description: session token to identify the user and ensure permissable access
           required: true
           type: string
-        - name: offer
+        - name: course
           in: body
-          description: updated offer
+          description: course id (ex. csc302s2017)
           required: true
+        - name: utorid
+          in: body
+          description: id of applicant
+          required: true
+          type: string
+        - name: assigned
+          in: query
+          description: assigned status of TA offer
+          required: false
+          type: boolean
+        - name: accepted
+          in: query
+          description: accepted status of TA offer
+          required: false
+          type: boolean        
           schema:
             $ref: '#/definitions/Offer'
       responses:
-        default:
-          description: indcates operation success, returns error if applicable
+        200:
+          description: offer data updated in database
+        default: 
+          description: indicates operation success, returns error if applicable
           schema:
             $ref: '#/definitions/Success'
     delete:
@@ -490,13 +507,20 @@ paths:
           description: session token to identify the user and ensure permissable access
           required: true
           type: string
-        - name: offer_id
+        - name: id
           in: query
-          description: the id of offer to delete
+          description: id of course to retrieve (ex. csc302s2017)
           required: true
           type: integer
+        - name: utorid
+          in: query
+          description: id of applicant
+          required: true
+          type: string    
       responses:
-        default:
+        200:
+          description: Course deleted from database
+        default: 
           description: indcates operation success, returns error if applicable
           schema:
             $ref: '#/definitions/Success'
@@ -512,10 +536,6 @@ paths:
           description: session token to identify the user and ensure permissable access
           required: true
           type: string
-        - name: filter
-          in: body
-          description: options to filter offers list
-          required: true
           schema:
             $ref: '#/definitions/OfferFilter'
       responses:

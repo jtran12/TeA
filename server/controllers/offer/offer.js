@@ -24,7 +24,7 @@ function genCourse(query) {
 
 function courseParser(req) {
 	var query = req.query;
-    var course = '';
+    var course = null;
 	
 	if (query.id) {
 		return query.id;
@@ -32,7 +32,7 @@ function courseParser(req) {
 	else if (course=genCourse(query))  {
 		return course;
 	}
-	else {
+    else {
 		return null;
 	}
 }
@@ -42,12 +42,7 @@ function courseParser(req) {
 exports.postOffer = function(req, res) {
 	
     var body = req.body;
-    console.log(req.coursecode);
-    console.log(body);
     var course = genCourse(body);
-    // Assuming that each post is a new addition, 
-    // Assignment will always be guaranteed but might not be accepted yet
-    // NTS: Ensure that applicants are always registered before due to reference key
     
     if (!course) {
         sendError(res, 400, "Missing course fields");
@@ -85,17 +80,9 @@ exports.postOffer = function(req, res) {
 }
 
 exports.getOffer = function(req, res) {
-    
-    console.log('getOffer');
-        
-    var utorid = req.query.utorid;
-    
-    console.log(utorid);
-    // NTS: Might not be a good idea  to call this function
-    // due to the fact that it might return an id rather than
-    // the course itself
+         
+    var utorid = req.query.utorid;  
     var course = courseParser(req);
-    console.log(course);
     
     if (!utorid || !course) {
         sendError(res, 400, "Offer not found");
@@ -120,24 +107,16 @@ exports.getOffer = function(req, res) {
 
 exports.putOffer = function(req, res) {
     // Assume that the concatenated course code is already available
-    console.log('putOffer');
     
 	var body = req.body;
-    var course = body.course;
-    
-    console.log('Got body');
-    
-    if (!course) {
-        course = genCourse(req.query);
-    }
-    
-    if (!body.utorid || !course) {
+      
+    if (!body.utorid || !body.course) {
         sendError(res, 400, "Offer not found");
     } else {
         // The TA coordinator doesn't set whether a TA accepted or not
-        var query = "UPDATE applications SET assigned=$1 WHERE utorid=$2 AND course=$3";
+        var query = "UPDATE applications SET assigned=$1, accepted=$2 WHERE utorid=$3 AND course=$4";
         
-        pool.query(query, [body.assigned, body.utorid, course], function(err, result) {
+        pool.query(query, [body.assigned, body.accepted, body.utorid, body.course], function(err, result) {
             if (err) {
                 sendError(res, 400, err);
             }
@@ -153,19 +132,14 @@ exports.putOffer = function(req, res) {
 
 exports.deleteOffer = function(req, res) {
 	// Assume that the concatenated course code is already available
-	var utorid = req.query.utorid;
-    var course = req.query.course;
+	var query = req.query;
     
-    if (!course) {
-        course = genCourse(req.query);
-    }
-    
-	if (!utorid || !course) {
+	if (!query.utorid || !query.course) {
 		sendError(res, 404, "Offer not found");
 	}
 	else {
 		var query = "DELETE FROM applications WHERE utorid=$1 AND course=$2";
-		pool.query(query, [utorid, course], function(err, result) {
+		pool.query(query, [query.utorid, query.course], function(err, result) {
 			if (err) {
 				sendError(res, 400, err);
 			}
