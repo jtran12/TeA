@@ -3,35 +3,26 @@ import lodash from 'lodash';
 
 import Paper from 'material-ui/Paper';
 
-import CourseView from './CourseView.jsx';
+import CourseView from '../../components/course/courseview/CourseView.jsx';
 import CourseList from './CourseList.jsx';
+
+import { connect } from 'react-redux';
 
 class Course extends React.Component {
 
   constructor(props){
     super(props);
-
-    this.state = {
-      selectedCourse: {}
-    };
-  }
-
-  selectCourse(course) {
-    this.setState({
-      selectedCourse: course
-    });
   }
 
   render() {
     const styles = lodash.cloneDeep(this.constructor.styles);
-
     return (
       <div className="row">
         <Paper className="col-md-4 col-xs-12" style={Course.styles.courseList}>
-          <CourseList select={ this.selectCourse.bind(this) }/>
+          <CourseList/>
         </Paper>
         <Paper style={styles.course} zDepth={3} className="col-xs-12 col-md-8">
-          <CourseView selected={ this.state.selectedCourse }/>
+          <CourseView selected={ this.props.course.selectedCourse }/>
         </Paper>
       </div>
     );
@@ -60,4 +51,10 @@ Course.styles = {
 
 };
 
-export default Course;
+const mapStateToProps = (state, ownProps) => {
+  return {
+    course: state.course
+  }
+};
+
+export default connect(mapStateToProps)(Course);

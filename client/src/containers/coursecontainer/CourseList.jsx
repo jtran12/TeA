@@ -1,6 +1,9 @@
 import React from 'react';
 import lodash from 'lodash';
-import CourseListSingle from './CourseListSingle';
+import CourseListSingle from '../../components/course/courselist/CourseListSingle';
+
+import { connect } from 'react-redux';
+import * as courseActions from '../../actions/course/courseActions';
 
 class CourseList extends React.Component {
 
@@ -51,7 +54,9 @@ class CourseList extends React.Component {
     // key property should be replaced with unique key retrieved by course database.
 
     const courses = this.state.courses.map((course, index) =>
-      <CourseListSingle key={index} course={course} select={this.props.select}/> );
+      <CourseListSingle select={this.props.selectCourse.bind(this, course)}
+                        key={index}
+                        courseData={course}/> );
 
     return (
       <div style={CourseList.styles.courseList}>
@@ -68,4 +73,16 @@ CourseList.styles = {
   }
 };
 
-export default CourseList;
+const mapStateToProps = (state, ownProps) => {
+  return {
+    course: state.course
+  }
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    selectCourse: course => dispatch(courseActions.selectCourse(course))
+  }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(CourseList);

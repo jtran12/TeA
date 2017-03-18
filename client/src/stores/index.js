@@ -1,8 +1,10 @@
-import { createStore } from 'redux';
+import { applyMiddleware, createStore } from 'redux';
 import reducers from '../reducers';
+import createLogger from 'redux-logger';
 
 function reduxStore(initialState) {
-  const store = createStore(reducers, initialState,
+  const logger = createLogger();
+  const store = createStore(reducers, initialState, applyMiddleware(logger),
     window.devToolsExtension && window.devToolsExtension());
 
   if (module.hot) {

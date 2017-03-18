@@ -17,12 +17,12 @@ class CourseListSingle extends React.Component {
     const styles = lodash.cloneDeep(this.constructor.styles);
 
     return (
-      <div style={ styles.course } onClick={ () => this.props.select(this.props.course) }>
-        <h1 style={ styles.text }> { this.props.course.name } </h1>
+      <div onClick={ () => this.props.select(this.props.courseData) } style={ styles.course }>
+        <h1 style={ styles.text }> { this.props.courseData.name } </h1>
         <LinearProgress style={ styles.progress }
                         mode="determinate"
-                        max={this.props.course.maxTAs}
-                        value={this.props.course.currentTAs}>
+                        max={this.props.courseData.maxTAs}
+                        value={this.props.courseData.currentTAs}>
         </LinearProgress>
       </div>
     );
