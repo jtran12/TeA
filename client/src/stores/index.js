@@ -6,7 +6,7 @@ import reducers from '../reducers';
 
 function reduxStore(initialState) {
   const logger = createLogger();
-  const store = createStore(reducers, initialState, applyMiddleware(logger, thunk),
+  const store = createStore(reducers, initialState, applyMiddleware(thunk, logger),
     window.devToolsExtension && window.devToolsExtension());
 
   if (module.hot) {
