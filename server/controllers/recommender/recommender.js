@@ -18,14 +18,14 @@ function sortByElement(path, reverse, primer, then) {
                 for (var i = 0, len = path.length - 1; i < len; i++) {
                     obj = obj[path[i]];
                 }
-                
+
                 return obj[path[len]];
             }
-            
+
             return obj;
         },
         prime = function (obj) {
-            
+
             return primer ? primer(get(obj, path)) : get(obj, path);
         };
 
@@ -79,11 +79,13 @@ exports.recommendGET = function(args, res, next) {
 
                 for (var j = 0; j < offerData.length; j++) {
                     var offer = offerData[j];
-                    
+
                     /* Make sure applicant not already offered this course.
                        If they are, remove applicant from dataset.
                     */
-                    if ((applicant.utorid === offer.applicant.utorid) && (offer.course.c_id === body.course.c_id)) {
+                    var regex = /[a-z]+[0-9]+/i;
+                    var coursecode = offer.course.exec(regex);
+                    if ((applicant.utorid === offer.utorid) && (coursecode[0] === args.query.course)) {
                         data.remove(applicant);
                         i--;
                         break;
@@ -104,6 +106,7 @@ exports.recommendGET = function(args, res, next) {
                 }
 
                 // Prefer applicants who have previously TA'd the course
+                //
                 if (applicant.ta_courses.toLowerCase().includes(body.course.name.toLowerCase())) {
                     ranking += 30;
                 }
@@ -115,7 +118,7 @@ exports.recommendGET = function(args, res, next) {
                 if ((applicant.program.toLowerCase() === "masters")) {
                     for (var j = 0; j < offerData.length; j++) {
                         var offer = offerData[j];
-                        if (applicant.utorid === offer.applicant.utorid) {
+                        if (applicant.utorid === offer.utorid) {
                             ranking -= 10;
                             break;
                         }
