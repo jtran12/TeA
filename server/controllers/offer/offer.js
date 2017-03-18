@@ -46,7 +46,7 @@ exports.postOffer = function(req, res) {
     
     if (!course) {
         sendError(res, 400, "Missing course fields");
-    else if  (!body.utorid) {
+    } else if  (!body.utorid) {
         sendError(res, 400, "Missing utorid of TA who's being offered");
     } else {
         // Check if offer exists already
@@ -137,8 +137,7 @@ exports.deleteOffer = function(req, res) {
     
 	if (!query.utorid || !query.course) {
 		sendError(res, 404, "Offer not found");
-	}
-	else {
+	} else {
 		var query = "DELETE FROM applications WHERE utorid=$1 AND course=$2";
 		pool.query(query, [query.utorid, query.course], function(err, result) {
 			if (err) {

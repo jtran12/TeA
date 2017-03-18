@@ -1,0 +1,99 @@
+# Set up
+
+# Set up notification options
+#notifications: 
+#  email:
+#    recipients:
+#      - one@example.com
+#      - other@example.com
+
+    # change is when the repo status goes from pass to fail or vice versa
+#    on_success: change
+#    on_failure: always
+
+# specify language
+language: node_js
+
+# specify language options
+# NOTE: Make sure everyone has node updated
+node_js:
+- '6.9'     
+- '7.5'
+
+# configure which branches to run
+branches:
+  # whitelist
+  only:
+    # e.g. -master
+    # can also use regex such as anything that begins with deploy- : 
+    # - /^deploy-.*$/
+    - master
+  # blacklist
+  # except:
+  #     - test_branch
+    
+
+# declare your environment variables
+env:
+  # global will stay the same across all matrix possibilities (will not create additional combinations to run)
+  global:
+    - SECRET_TOKEN=k399dkkgklsk
+  # matrix variables will create a new build for each specified variable
+  matrix:
+    - DB=production
+    - DB=testing
+
+# enable services (stuff like DBs, MQs)
+services:
+  - mongodb     # will start mongodb
+  - rabbitmq # will start rabbitmq-server
+
+## begin build steps
+####################
+
+before_install:
+- sudo apt-get update -qq
+
+install:
+  - wget https://github.com/n1k0/casperjs/archive/1.0.2.tar.gz -O /tmp/casper.tar.gz
+  - tar -xvf /tmp/casper.tar.gz
+  - export PATH=$PATH:$PWD/casperjs-1.0.2/bin/
+
+before_script:
+  - bower install
+
+after_success:
+- test $TRAVIS_PULL_REQUEST = false
+  && git push
+
+before_deploy:
+# check that build passed successfully
+# add the \ afterwards to tell travis it's part of the same command thanks @markhuge
+- test $TRAVIS_TEST_RESULT = 0 \
+  && gulp build \
+  && cd dist \
+  && npm install --prod \
+  && cd $TRAVIS_BUILD_DIR \
+  && tar -zcvf amber-storm-$TRAVIS_BRANCH.tar.gz dist \
+  && export PRODBUILDCOMPLETE=true
+
+
+## Deployment options
+####################
+
+deploy:
+  # specify the deployment provider
+  provider: releases
+  # options for provider
+  api_key:
+    secure: securekeyhere
+  file: myrepo-$TRAVIS_BRANCH.tar.gz
+  # conditions for deployment
+  on:
+    condition: $PRODBUILDCOMPLETE = true
+    repo: myname/myrepo
+    all_branches: true
+    tags: true
+
+after_deploy:
+  - ssh git@mysite.biz "./deploy.sh $TRAVIS_BRANCH"
