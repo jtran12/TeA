@@ -95,9 +95,14 @@ exports.recommendGET = function(args, res, next) {
                     }
                     if ((applicant.utorid === offer.utorid) && (courseCode[0] === args.query.course)) {
                         data.remove(applicant);
+                        applicant = null;
                         i--;
                         break;
                     }
+                }
+                // If applicant removed from dataset, break 1 iteration of loop
+                if (!applicant) {
+                    continue;
                 }
 
                 // Prioritize graduate over undergraduate and phd applicants.
@@ -106,6 +111,9 @@ exports.recommendGET = function(args, res, next) {
                 }
                 else if (applicant.program.toLowerCase() === "phd") {
                     ranking -= 5;
+                }
+                else if (applicant.program.toLowerCase() !== 'masters') {
+                    ranking -= 10;
                 }
 
                 // Prefer CSC applicants for TAship over non-CSC
