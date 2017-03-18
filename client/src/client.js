@@ -13,7 +13,7 @@ injectTapEventPlugin();
 const store = configureStore();
 
 ReactDOM.render(
-  <AppContainer>
+  <AppContainer >
     <Provider store={store}>
       <Router history={browserHistory} routes={Routes}/>
     </Provider>
