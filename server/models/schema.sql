@@ -28,6 +28,8 @@ CREATE TABLE courses(
 	additional_instructors text[],
 	tas text[],
 	expected_enrollment integer,
+	current_enrollment integer,
+	max_enrollment integer,
 	PRIMARY KEY(course)
 );
 
