@@ -14,13 +14,11 @@ function sendData(res, data) {
 
 
 exports.postApplicant = function(req, res) {
-  var applicant = req.body.applicant;
-  var query = "INSERT INTO applicants VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)";
+  var applicant = JSON.parse(req.body.applicant);
+  var query = "INSERT INTO applicants VALUES($1, $2, $3, $4, $5, $6, $7)";
 
-  pool.query(query, [applicant.utorid, applicant.a_id, applicant.family_name,
-  applicant.given_name, applicant.program, applicant.year, applicant.phone, applicant.email,
-  applicant.department, applicant.ta_courses, applicant.courses, applicant.declined,
-  applicant.declined_count, applicant.declined_courses], function(err, result) {
+  pool.query(query, [applicant.utorid, applicant.studentnumber, applicant.familyname, applicant.givenname,
+  applicant.program, applicant.year, applicant.phonenumber], function(err, result) {
     if (err) {
       sendError(res, 404, err);
     }
@@ -32,8 +30,8 @@ exports.postApplicant = function(req, res) {
 
 
 exports.getApplicant = function(req, res) {
-  var id = req.query.student_id;
-  
+  var id = req.query.studentnumber;
+console.log(id);
   if (!id) {
     sendError(res, 400, "Invalid parameter: ID");
   }

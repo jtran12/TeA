@@ -556,25 +556,25 @@ definitions:
     properties:
       utorid: #Student's UTORid
         type: string
-      a_id:  # would be student id
+      studentnumber:  # would be student id
         type: integer
         format: int32
-      family_name:
+      familyname:
         type: string
-      given_name:
+      givenname:
         type: string
       program:  # undergrad, masters, phd
         type: string
       year:
         type: integer
-      phone:
+      phonenumber:
         type: integer
         format: int32
       email:
         type: string
-      department:
+      studentdepartment:
         type: string
-      ta_courses:
+      tacourses:
         type: string
         description: past courses ta'd (ex. {course1, course2, course3})
       courses:
@@ -582,9 +582,9 @@ definitions:
         description: courses taken (ex. {course1, course2, course3})
       declined:
         type: boolean
-      declined_count:
+      declinedcount:
         type: integer
-      declined_courses:
+      declinedcourses:
         type: string
         description: courses prev declined (ex. {course1, course2, course3})
   Course:
