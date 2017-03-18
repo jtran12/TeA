@@ -76,9 +76,12 @@ exports.recommendGET = function(args, res, next) {
 
                 for (var j = 0; j < offerData.length; j++) {
                     var offer = offerData[j];
-                    //Make sure applicant not already offered this course
+                    /* Make sure applicant not already offered this course.
+										   If they are, remove applicant from dataset.
+										*/
                     if ((applicant.utorid == offer.applicant.utorid) && (offer.course.c_id == body.course.c_id)) {
-                        ranking -= 1000;
+                        data.remove(applicant);
+												i--;
                         break;
                     }
                 }
@@ -117,7 +120,6 @@ exports.recommendGET = function(args, res, next) {
 					      }
 
 					      //Consider that you need to match previous hours of Phd applicants.
-					      //If given enough time, a rating system where professors can rate the performance of TAs. Highest rating recommended first.
 
 					      applicant.ranking = ranking;
             }
