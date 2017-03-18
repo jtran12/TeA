@@ -25,7 +25,7 @@ class Course extends React.Component {
     return (
       <div className="row">
         <Paper className="col-md-4 col-xs-12" style={Course.styles.courseList}>
-          <CourseList/>
+          <CourseList courses={this.props.course.courses}/>
         </Paper>
         <Paper style={styles.course} zDepth={3} className="col-xs-12 col-md-8">
           <CourseView selected={ this.props.course.selectedCourse }/>

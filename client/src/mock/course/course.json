@@ -1,11 +1,37 @@
 [
   {
-    "course": "CSC108"
+    "name": "CSC108",
+    "currentTAs": 12,
+    "maxTAs": 30
   },
   {
-    "course": "CSC148"
+    "name": "CSC148",
+    "currentTAs": 14,
+    "maxTAs": 20
   },
   {
-    "course": "CSC207"
+    "name": "CSC165",
+    "currentTAs": 9,
+    "maxTAs": 20
+  },
+  {
+    "name": "CSC209",
+    "currentTAs": 5,
+    "maxTAs": 10
+  },
+  {
+    "name": "CSC302",
+    "currentTAs": 3,
+    "maxTAs": 4
+  },
+  {
+    "name": "CSC373",
+    "currentTAs": 3,
+    "maxTAs": 5
+  },
+  {
+    "name": "CSC458",
+    "currentTAs": 1,
+    "maxTAs": 1
   }
 ]
