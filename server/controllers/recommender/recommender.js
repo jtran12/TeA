@@ -16,6 +16,12 @@ function courseCodeParser(course) {
   return coursecode;
 }
 
+function lowerCaseArray(courses) {
+  for (var i = 0; i < courses.length; i++) {
+    courses[i] = courses[i].toLowerCase();
+  }
+}
+
 // Sorting function by Gerald Fullam, taken from Stack Overflow
 function sortByElement(path, reverse, primer, then) {
     var get = function (obj, path) {
@@ -107,13 +113,13 @@ exports.recommendGET = function(args, res, next) {
 
                 // Prioritize graduate over undergraduate and phd applicants.
                 if (applicant.program.toLowerCase() === "undergrad") {
-                    ranking -= 10;
+                    ranking -= 15;
                 }
                 else if (applicant.program.toLowerCase() === "phd") {
-                    ranking -= 5;
+                    ranking -= 10;
                 }
                 else if (applicant.program.toLowerCase() !== 'masters') {
-                    ranking -= 10;
+                    ranking -= 15;
                 }
 
                 // Prefer CSC applicants for TAship over non-CSC
@@ -122,9 +128,15 @@ exports.recommendGET = function(args, res, next) {
                 }
 
                 // Prefer applicants who have previously TA'd the course
-                //
-                if (applicant.ta_courses.toLowerCase().includes(body.course.name.toLowerCase())) {
+                var taCourses = lowerCaseArray(applicant.ta_courses);
+                if (taCourses.toLowerCase().includes(args.query.course.toLowerCase())) {
                     ranking += 30;
+                }
+
+                var coursesTaken = lowerCaseArray(applicant.courses);
+                // Give a little bump to applicants who previously took the course
+                if (coursesTaken.includes(args.query.course.toLowerCase())) {
+                    ranking += 5;
                 }
 
                 // Give higher ranking to those who listed the course as a preference
@@ -141,15 +153,13 @@ exports.recommendGET = function(args, res, next) {
                     }
                 }
 
-                // Consider that you need to match previous hours of Phd applicants.
-
                 applicant.ranking = ranking;
             }
             data.sort(sortByElement('ranking', true, parseInt, null));
             // Consider deleting ranking score (probably not necessary)
             // Slice list down to given size
-            if (body.limit) {
-              data.slice(0, body.limit);
+            if (args.query.limit) {
+              data.slice(0, args.query.limit);
             }
             sendData(res, data);
         }
