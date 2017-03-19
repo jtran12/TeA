@@ -14,6 +14,7 @@ function sendData(res, data) {
 function courseCodeParser(course) {
   var regex = /[a-z]+[0-9]+/i;
   var coursecode = regex.exec(course);
+  
   return coursecode;
 }
 
