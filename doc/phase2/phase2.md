@@ -20,7 +20,25 @@ For phase two, we scaffolded a general layout with placeholder data that will be
 We narrowed the scope of the components we plan to build and focus on, trimming out unnecessary features from our original proposition such as login, signup, term import and creation (unless time permits).
 
 # Product Design
-- High-level design of your software.
+
+The overall design of the system has been changed slightly since inception, the main difference being that the recommendation system has been rolled into the TA Coordinator service instead of as a standalone service.  This decision was made due to the fact that, since the app is rather specialized and not meant for a large audience, the system usage and the databases will not be large enough to present a problem with run-time.  We have also scrapped the authentication aspect as it was not one of our focuses (as advised by Professor Zaleski).
+
+### TA Coordinator Client Application
+
+The TA Coordinator Client Application will be made with React following MVC design and also Redux to ensure unidirectional data flow among client application components. The application will send asynchronous requests to the TA Coordinator Service and display the results through a UI.
+
+Primary Responsibilities:
+- Handle all user interactions.
+- Make usage of the system as easy and intuitive as possible.
+- Present all information in an efficient manner.
+- Allow HR specialist to see progress at a glance.
+- Allow HR specialist to sort filter and search through candidates for each position.
+- Data from backend will populate pages via AJAX calls.
+- Allow downloading of files in human readable format.
+
+### TA Coordinator Service
+
+The TA Coordinator Service will be built in NodeJS under the Express framework. Through its REST API, it will receive requests from an outside Applicant API. The service will cover all the use cases regarding courses and terms and communicate with a PostgreSQL database. The TA Coordinator may build a term through the service or call an API that returns a term which the service will use to generate one.  Applicants can be recommended for specific courses as required by the TA Coordinator Client Application.
 
 # Technical Highlights
 
@@ -33,7 +51,7 @@ We narrowed the scope of the components we plan to build and focus on, trimming 
 
 One bug that a few of our members came across was the inability to send several json objects to the client.
 
-How we ran into it: 
+How we ran into it:
 ```javascript
     if (err) {
       sendError(res, 400, err);
@@ -81,4 +99,3 @@ Our team utilizes [Github issues](https://github.com/csc302-2017-spring/proj-ItW
 - What will you build for phase 3, the final demo?
 
 We will implement functionality and integration and replace mocked data calls with actual server API calls. We plan to demo the workflow of a TA coordinator in through intuitive and clean design. The applicant recommendation system for courses is also a focus we focus on building for the final demo.
-

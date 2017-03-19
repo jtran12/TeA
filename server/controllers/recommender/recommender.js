@@ -1,4 +1,5 @@
 var pool = require(appRoot + '/controllers/database/database.js').pool;
+var pool2 = require(appRoot + '/controllers/database/database.js').pool;
 
 function sendError(res, errorCode, errorMst) {
   var json = {"success" : "false", "error_code" : errorCode, "errorMst" : errorMst};
@@ -12,13 +13,15 @@ function sendData(res, data) {
 
 function courseCodeParser(course) {
   var regex = /[a-z]+[0-9]+/i;
-  var coursecode = course.exec(regex);
+  var coursecode = regex.exec(course);
   return coursecode;
 }
 
 function lowerCaseArray(courses) {
-  for (var i = 0; i < courses.length; i++) {
-    courses[i] = courses[i].toLowerCase();
+  if (courses) {
+    for (var i = 0; i < courses.length; i++) {
+      courses[i] = courses[i].toLowerCase();
+    }
   }
 }
 
@@ -62,9 +65,19 @@ function sortByElement(path, reverse, primer, then) {
  * returns List
  **/
 exports.recommendGET = function(args, res, next) {
-    var body = args.body;
     var applicantQuery = 'SELECT * FROM applicants';
     var offersQuery = 'SELECT * FROM applications';
+    var offerData = null;
+    args.query.course = args.query.course.toLowerCase();
+
+    pool2.query(offersQuery, function(offErr, offResult) {
+        if (offErr) {
+            sendError(res, 404, err);
+        }
+        else {
+            offerData = offResult.rows;
+        }
+    });
 
     pool.query(applicantQuery, function(err, result) {
         if (err) {
@@ -74,36 +87,29 @@ exports.recommendGET = function(args, res, next) {
             sendError(res, 404, "No applicants");
         }
         else {
-            var offerData = null;
-            pool.query(offersQuery, function(offErr, offResult) {
-                if (offErr) {
-                    sendError(res, 400, err);
-                }
-                else {
-                    offerData = offResult.rows;
-                }
-            });
             var data = result.rows;
             // Rank applicants for list, using ruleset
             for (var i = 0; i < data.length; i++) {
                 var applicant = data[i];
                 var ranking = 100;
 
-                for (var j = 0; j < offerData.length; j++) {
-                    var offer = offerData[j];
+                if (offerData) {
+                    for (var j = 0; j < offerData.length; j++) {
+                        var offer = offerData[j];
 
-                    /* Make sure applicant not already offered this course.
-                       If they are, remove applicant from dataset.
-                    */
-                    courseCode = courseCodeParser(offer.course);
-                    if (!courseCode.length) {
-                        sendError(res, 404, "No course to recommend for");
-                    }
-                    if ((applicant.utorid === offer.utorid) && (courseCode[0] === args.query.course)) {
-                        data.remove(applicant);
-                        applicant = null;
-                        i--;
-                        break;
+                        /* Make sure applicant not already offered this course.
+                           If they are, remove applicant from dataset.
+                        */
+                        courseCode = courseCodeParser(offer.course.toLowerCase());
+                        if (!courseCode.length) {
+                            sendError(res, 404, "No course to recommend for");
+                        }
+                        if ((applicant.utorid.toLowerCase() === offer.utorid.toLowerCase()) && (courseCode[0] === args.query.course)) {
+                            data.splice(i, 1);
+                            applicant = null;
+                            i--;
+                            break;
+                        }
                     }
                 }
                 // If applicant removed from dataset, break 1 iteration of loop
@@ -118,24 +124,27 @@ exports.recommendGET = function(args, res, next) {
                 else if (applicant.program.toLowerCase() === "phd") {
                     ranking -= 10;
                 }
-                else if (applicant.program.toLowerCase() !== 'masters') {
+                else if (applicant.program.toLowerCase() === 'masters') {
+                    ranking += 5;
+                }
+                else {
                     ranking -= 15;
                 }
 
                 // Prefer CSC applicants for TAship over non-CSC
-                if (applicant.department.toLowerCase() !== "csc") {
+                if (applicant.studentdepartment.toLowerCase() !== "csc") {
                     ranking -= 20;
                 }
 
                 // Prefer applicants who have previously TA'd the course
-                var taCourses = lowerCaseArray(applicant.ta_courses);
-                if (taCourses.toLowerCase().includes(args.query.course.toLowerCase())) {
-                    ranking += 30;
+                lowerCaseArray(applicant.tacourses);
+                if (applicant.tacourses.includes(args.query.course)) {
+                    ranking += 10;
                 }
 
-                var coursesTaken = lowerCaseArray(applicant.courses);
+                lowerCaseArray(applicant.courses);
                 // Give a little bump to applicants who previously took the course
-                if (coursesTaken.includes(args.query.course.toLowerCase())) {
+                if (applicant.courses.includes(args.query.course)) {
                     ranking += 5;
                 }
 
@@ -143,11 +152,11 @@ exports.recommendGET = function(args, res, next) {
                 // What happened to applied_courses?
 
                 // Reduce priority if masters applicant and already made an offer
-                if ((applicant.program.toLowerCase() === "masters")) {
+                if (offerData && (applicant.program.toLowerCase() === "masters")) {
                     for (var j = 0; j < offerData.length; j++) {
                         var offer = offerData[j];
                         if (applicant.utorid === offer.utorid) {
-                            ranking -= 10;
+                            ranking -= 5;
                             break;
                         }
                     }
@@ -156,10 +165,9 @@ exports.recommendGET = function(args, res, next) {
                 applicant.ranking = ranking;
             }
             data.sort(sortByElement('ranking', true, parseInt, null));
-            // Consider deleting ranking score (probably not necessary)
             // Slice list down to given size
             if (args.query.limit) {
-              data.slice(0, args.query.limit);
+              data = data.slice(0, args.query.limit);
             }
             sendData(res, data);
         }
