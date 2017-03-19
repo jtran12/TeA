@@ -14,13 +14,13 @@ function sendData(res, data) {
 
 
 exports.postApplicant = function(req, res) {
-  var applicant = req.body.applicant;
+  var applicant = JSON.parse(req.body.applicant);
   var query = "INSERT INTO applicants VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)";
 
-  pool.query(query, [applicant.utorid, applicant.a_id, applicant.family_name,
-  applicant.given_name, applicant.program, applicant.year, applicant.phone, applicant.email,
-  applicant.department, applicant.ta_courses, applicant.courses, applicant.declined,
-  applicant.declined_count, applicant.declined_courses], function(err, result) {
+  pool.query(query, [applicant.utorid, applicant.studentnumber, applicant.familyname, applicant.givenname,
+  applicant.program, applicant.year, applicant.phonenumber, applicant.email,
+  applicant.studentdepartment, applicant.tacourses, applicant.courses, applicant.declined,
+  applicant.declinedcount, applicant.declinedcourses], function(err, result) {
     if (err) {
       sendError(res, 404, err);
     }
@@ -32,8 +32,8 @@ exports.postApplicant = function(req, res) {
 
 
 exports.getApplicant = function(req, res) {
-  var id = req.query.student_id;
-  
+  var id = req.query.studentnumber;
+
   if (!id) {
     sendError(res, 400, "Invalid parameter: ID");
   }
@@ -55,19 +55,19 @@ exports.getApplicant = function(req, res) {
 
 
 exports.putApplicant = function(req, res) {
-  var applicant = req.body.applicant;
-  var query = "UPDATE applicants SET utorid=$1, studentnumber=$2, familyname=$3, givenname=$4, program=$5," +
+  var applicant = JSON.parse(req.body.applicant);
+  var query = "UPDATE applicants SET studentnumber=$2, familyname=$3, givenname=$4, program=$5," +
         "year=$6, phonenumber=$7, email=$8, studentdepartment=$9, tacourses=$10, courses=$11," +
         " declined=$12, declinedcount=$13, declinedcourses=$14 WHERE utorid=$1";
-  pool.query(query, [applicant.utorid, applicant.a_id, applicant.family_name,
-  applicant.given_name, applicant.program, applicant.year, applicant.phone, applicant.email,
-  applicant.department, applicant.ta_courses, applicant.courses, applicant.declined,
-  applicant.declined_count, applicant.declined_courses], function(err, result) {
+  pool.query(query, [applicant.utorid, applicant.studentnumber, applicant.familyname, applicant.givenname,
+  applicant.program, applicant.year, applicant.phonenumber, applicant.email,
+  applicant.studentdepartment, applicant.tacourses, applicant.courses, applicant.declined,
+  applicant.declinedcount, applicant.declinedcourses], function(err, result) {
     if (err) {
       sendError(res, 400, err);
     }
     else if (!result.rowCount) {
-      sendError(res, 404, "Course not found");
+      sendError(res, 404, "Applicant not found");
     }
     else {
       res.sendStatus(200);
@@ -77,7 +77,7 @@ exports.putApplicant = function(req, res) {
 
 
 exports.deleteApplicant = function(req, res) {
-  var id = req.query.a_id;
+  var id = req.query.studentnumber;
 
   if (!id) {
     sendError(res, 404, "Invalid parameter: ID");

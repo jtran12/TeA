@@ -7,7 +7,7 @@ CREATE TABLE applicants(
 	givenname text,
 	program text,
 	year integer,
-	phonenumber integer,
+	phonenumber text,
 	email text,
 	studentdepartment text,
 	tacourses text[],

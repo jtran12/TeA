@@ -57,8 +57,8 @@ class ApplicantRecommendations extends React.Component {
               </TableHeader>
               <TableBody displayRowCheckbox={false} showRowHover={true} stripedRows={true}>
                 {
-                  this.state.recommendedApplicants.map((applicant) => (
-                    <TableRow selectable={false}>
+                  this.state.recommendedApplicants.map((applicant, index) => (
+                    <TableRow key={index} selectable={false}>
                       <TableRowColumn style={styles.idwidth}>1001143223</TableRowColumn>
                       <TableRowColumn>{applicant.firstName}</TableRowColumn>
                       <TableRowColumn>{applicant.lastName}</TableRowColumn>

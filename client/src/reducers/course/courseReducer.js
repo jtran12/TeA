@@ -1,4 +1,4 @@
-import { createInitialCourseState } from '../../state/course/courseState';
+import createInitialCourseState from '../../state/course/courseState';
 
 export default function courseReducer(state = createInitialCourseState(), action) {
 
