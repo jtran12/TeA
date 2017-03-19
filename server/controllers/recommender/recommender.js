@@ -14,7 +14,7 @@ function sendData(res, data) {
 function courseCodeParser(course) {
   var regex = /[a-z]+[0-9]+/i;
   var coursecode = regex.exec(course);
-  
+
   return coursecode;
 }
 
@@ -75,6 +75,9 @@ exports.recommendGET = function(args, res, next) {
         if (offErr) {
             sendError(res, 404, err);
         }
+        else if (!offResult.rows.length) {
+            offerData = [];
+        }
         else {
             offerData = offResult.rows;
         }
@@ -94,23 +97,21 @@ exports.recommendGET = function(args, res, next) {
                 var applicant = data[i];
                 var ranking = 100;
 
-                if (offerData) {
-                    for (var j = 0; j < offerData.length; j++) {
-                        var offer = offerData[j];
+                for (var j = 0; j < offerData.length; j++) {
+                    var offer = offerData[j];
 
-                        /* Make sure applicant not already offered this course.
-                           If they are, remove applicant from dataset.
-                        */
-                        courseCode = courseCodeParser(offer.course.toLowerCase());
-                        if (!courseCode.length) {
-                            sendError(res, 404, "No course to recommend for");
-                        }
-                        if ((applicant.utorid.toLowerCase() === offer.utorid.toLowerCase()) && (courseCode[0] === args.query.course)) {
-                            data.splice(i, 1);
-                            applicant = null;
-                            i--;
-                            break;
-                        }
+                    /* Make sure applicant not already offered this course.
+                       If they are, remove applicant from dataset.
+                    */
+                    courseCode = courseCodeParser(offer.course.toLowerCase());
+                    if (!courseCode.length) {
+                        sendError(res, 404, "No course to recommend for");
+                    }
+                    if ((applicant.utorid.toLowerCase() === offer.utorid.toLowerCase()) && (courseCode[0] === args.query.course)) {
+                        data.splice(i, 1);
+                        applicant = null;
+                        i--;
+                        break;
                     }
                 }
                 // If applicant removed from dataset, break 1 iteration of loop
