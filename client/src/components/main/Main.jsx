@@ -3,6 +3,7 @@ import lodash from 'lodash';
 
 import * as courseActions from '../../actions/course/courseActions';
 import { connect } from 'react-redux';
+import autobind from 'react-autobind';
 
 import {Tabs, Tab} from 'material-ui/Tabs';
 
@@ -18,12 +19,12 @@ class Manage extends React.Component {
 
   constructor(props){
     super(props);
+    autobind(this);
 
     this.state = {
       tabIndex: 0,
     };
 
-    this.onTabChange = this.onTabChange.bind(this);
   }
 
   onTabChange(val) {
@@ -38,26 +39,19 @@ class Manage extends React.Component {
     return (
       <div>
         <Header/>
-        <div className="container">
-          <div className="page-header">
-            <h1>Coordinator</h1>
+        <Tabs onChange={this.onTabChange} value={this.state.tabIndex}>
+          <Tab onClick={ ()=> this.props.deselectCourse() } label="Course" value={0}/>
+          <Tab label="Applicant" value={1}/>
+        </Tabs>
+        <SwipeableViews index={this.state.tabIndex} onChangeIndex={this.onTabChange}>
+          <div style={styles.section}>
+            <Course/>
           </div>
-          <div>
-            <Tabs onChange={this.onTabChange} value={this.state.tabIndex}>
-              <Tab onClick={ ()=> this.props.deselectCourse() } label="Course" value={0}/>
-              <Tab label="Applicant" value={1}/>
-            </Tabs>
-            <SwipeableViews index={this.state.tabIndex} onChangeIndex={this.onTabChange}>
-              <div style={styles.section}>
-                <Course/>
-              </div>
-              <div style={styles.section}>
-                <Applicant/>
-              </div>
-            </SwipeableViews>
+          <div style={styles.section}>
+            <Applicant/>
           </div>
-          <Footer/>
-        </div>
+        </SwipeableViews>
+      <Footer/>
       </div>
     );
   }
@@ -65,7 +59,7 @@ class Manage extends React.Component {
 
 Manage.styles = {
   section: {
-    padding: '2% 2% 2% 2%'
+    padding: '0 1% 2% 1%'
   }
 };
 
