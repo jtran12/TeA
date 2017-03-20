@@ -1,6 +1,8 @@
 /* global describe, it */
+var assert = require('chai').assert;
+var 
 
-describe('example-tests', function() {
+describe('helper-functions', function() {
   it('should have tests', function(done) {
     done();
   });
