@@ -21,12 +21,42 @@ class CourseView extends React.Component {
     super(props);
 
     this.state = {
-      showAssignDialog: false
+      showAssignDialog: false,
+
+      recommendedApplicants: [
+        {
+          id: '1001143223',
+          firstName: 'David',
+          lastName: 'Davis',
+          studentLevel: 'Year 1 Graduate Student'
+        },
+        {
+          id: '1054367243',
+          firstName: 'Lisa',
+          lastName: 'Elissa',
+          studentLevel: 'Year 2 Undergraduate Student'
+        },
+        {
+          id: '1436345454',
+          firstName: 'Michael',
+          lastName: 'Carmichael',
+          studentLevel: 'Year 4 Undergraduate Student'
+        },
+        {
+          id: '2445345454',
+          firstName: 'Jenny',
+          lastName: 'Janice',
+          studentLevel: 'Year 1 Undergraduate Student'
+        }
+      ]
+
     };
 
     this.onOpenAssignDialog = this.onOpenAssignDialog.bind(this);
     this.onCloseAssignDialog = this.onCloseAssignDialog.bind(this);
   }
+
+
 
   onOpenAssignDialog(){
     this.setState({showAssignDialog: true});
@@ -34,6 +64,7 @@ class CourseView extends React.Component {
   onCloseAssignDialog(){
     this.setState({showAssignDialog: false});
   }
+
 
   render() {
     const styles = lodash.cloneDeep(this.constructor.styles);
@@ -80,6 +111,15 @@ class CourseView extends React.Component {
             <CardActions>
               <FlatButton primary={true} label="Respond" />
             </CardActions>
+          </Card>
+          <Card style={styles.card}>
+            <CardHeader
+              title="Recommended Applicants"
+              actAsExpander={true}
+              showExpandableButton={true} />
+            <CardText expandable={true}>
+              <ApplicantRecommendations/>
+            </CardText>
           </Card>
           <Card style={styles.card}>
             <CardHeader
@@ -183,9 +223,14 @@ class CourseView extends React.Component {
       );
     }
 
+
     // Display default course view, user has not clicked any course.
     else {
-      return (<ApplicantRecommendations></ApplicantRecommendations>);
+      return (
+        <div className="text-center" style={styles.title}>
+          <h2>No course selected</h2>
+        </div>
+      );
     }
 
   }
@@ -198,14 +243,8 @@ CourseView.styles = {
   progress: {
     margin:'1% 0 1% 0'
   },
-  idwidth: {
-    width: '20%'
-  },
-  sessionwidth:{
-    width: '20%'
-  },
-  actionwidth:{
-    width: '18%'
+  title: {
+    margin: '25% 0 25% 0'
   }
 };
 

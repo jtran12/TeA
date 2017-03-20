@@ -1,51 +1,25 @@
 import React from 'react';
 import lodash from 'lodash';
+import autobind from 'react-autobind'
 import CourseListSingle from '../../components/course/courselist/CourseListSingle';
 
 import { connect } from 'react-redux';
 import * as courseActions from '../../actions/course/courseActions';
 
+import TextField from 'material-ui/TextField';
+
 class CourseList extends React.Component {
 
   constructor(props){
     super(props);
-
+    autobind(this);
     this.state = {
-
-      // courses will be JSON retrieved from endpoint.
-      courses: [
-        {
-          name: "CSC108",
-          currentTAs: 12,
-          maxTAs: 30
-        },
-        {
-          name: "CSC148",
-          currentTAs: 14,
-          maxTAs: 20
-        },
-        {
-          name: "CSC165",
-          currentTAs: 9,
-          maxTAs: 20
-        },
-        {
-          name: "CSC209",
-          currentTAs: 5,
-          maxTAs: 10
-        },
-        {
-          name: "CSC302",
-          currentTAs: 3,
-          maxTAs: 4
-        },
-        {
-          name: "CSC373",
-          currentTAs: 3,
-          maxTAs: 5
-        }
-      ]
+      filter: ''
     };
+  }
+
+  onSearch(e){
+    this.setState({filter: e.target.value}, () => console.log(this.state.filter));
   }
 
   render() {
@@ -53,13 +27,22 @@ class CourseList extends React.Component {
 
     // key property should be replaced with unique key retrieved by course database.
 
-    const courses = this.state.courses.map((course, index) =>
-      <CourseListSingle select={this.props.selectCourse.bind(this, course)}
-                        key={index}
-                        courseData={course}/> );
+    const courses = this.props.courses
+      .filter((course) => course.name.toLowerCase().includes(this.state.filter.toLowerCase()))
+      .map((course, index) =>
+        <CourseListSingle select={this.props.selectCourse.bind(this, course)}
+                          key={index}
+                          courseData={course}/>
+      );
 
     return (
       <div style={CourseList.styles.courseList}>
+        <div className="text-center">
+          <TextField
+            onChange={this.onSearch}
+            floatingLabelText="Search"/>
+        </div>
+        <br />
         { courses }
       </div>
     );

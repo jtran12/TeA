@@ -4,6 +4,9 @@ import Radium from 'radium';
 import {Table, TableHeader, TableHeaderColumn, TableBody, TableRow, TableRowColumn} from 'material-ui/Table'
 import RaisedButton from 'material-ui/RaisedButton';
 import AddIcon from 'material-ui/svg-icons/content/add';
+import {GridList, GridTile} from 'material-ui/GridList';
+import IconButton from 'material-ui/IconButton';
+import Menu from 'material-ui/svg-icons/navigation/menu';
 
 @Radium
 class ApplicantRecommendations extends React.Component {
@@ -14,20 +17,28 @@ class ApplicantRecommendations extends React.Component {
     this.state = {
       recommendedApplicants: [
         {
+          id: '1001143223',
           firstName: 'David',
-          lastName: 'Davis'
+          lastName: 'Davis',
+          studentLevel: 'Year 1 Graduate Student'
         },
         {
+          id: '1054367243',
           firstName: 'Lisa',
-          lastName: 'Elissa'
+          lastName: 'Elissa',
+          studentLevel: 'Year 2 Undergraduate Student'
         },
         {
+          id: '1436345454',
           firstName: 'Michael',
-          lastName: 'Carmichael'
+          lastName: 'Carmichael',
+          studentLevel: 'Year 4 Undergraduate Student'
         },
         {
+          id: '2445345454',
           firstName: 'Jenny',
-          lastName: 'Janice'
+          lastName: 'Janice',
+          studentLevel: 'Year 1 Undergraduate Student'
         }
       ]
     };
@@ -40,47 +51,46 @@ class ApplicantRecommendations extends React.Component {
 
     return (
       <div className="recommendations">
+        <div style={styles.root}>
+          <GridList
+            cols={2}
+            cellHeight={100}
+            padding={1}
+            style={styles.gridList}
+          >
 
-        <h3> Recommended </h3>
+            {
+              this.state.recommendedApplicants.map((applicant) =>  (
+              <GridTile
+                key={applicant.id}
+                title={applicant.firstName + ' ' + applicant.lastName}
+                actionIcon={<IconButton><Menu color='white'/></IconButton>}
+                actionPosition={'left'}
+                titlePosition={'top'}
+                subtitle={applicant.studentLevel}
+              >
+              </GridTile>
+              ))
+            }
 
-        <div className="recommendations-panel">
-          {
-            <Table fixedHeader={true}>
-              <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
-                <TableRow>
-                  <TableHeaderColumn style={styles.idwidth}>ID</TableHeaderColumn>
-                  <TableHeaderColumn>First Name</TableHeaderColumn>
-                  <TableHeaderColumn>Last Name</TableHeaderColumn>
-                  <TableHeaderColumn>Enrollment Level</TableHeaderColumn>
-                  <TableHeaderColumn />
-                </TableRow>
-              </TableHeader>
-              <TableBody displayRowCheckbox={false} showRowHover={true} stripedRows={true}>
-                {
-                  this.state.recommendedApplicants.map((applicant, index) => (
-                    <TableRow key={index} selectable={false}>
-                      <TableRowColumn style={styles.idwidth}>1001143223</TableRowColumn>
-                      <TableRowColumn>{applicant.firstName}</TableRowColumn>
-                      <TableRowColumn>{applicant.lastName}</TableRowColumn>
-                      <TableRowColumn>UG - 2</TableRowColumn>
-                      <TableRowColumn>
-                        <RaisedButton primary={true} icon={<AddIcon/>}/>
-                      </TableRowColumn>
-                    </TableRow>
-                  ))
-                }
-              </TableBody>
-            </Table>
-          }
+          </GridList>
         </div>
-
       </div>
     );
   }
 }
 
 ApplicantRecommendations.styles = {
-
+    root: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    justifyContent: 'space-around',
+    },
+    gridList: {
+      width: 500,
+      height: 450,
+      overflowY: 'auto',
+    },
 };
 
 export default ApplicantRecommendations;
