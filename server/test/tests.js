@@ -1,9 +1,9 @@
 /* global describe, it */
 var assert = require('chai').assert;
-var 
+// Var helper = require('../controllers/offer/offer.js');
 
 describe('helper-functions', function() {
-  it('should have tests', function(done) {
+  it('Course concatenation is correct', function(done) {
     done();
   });
 });
