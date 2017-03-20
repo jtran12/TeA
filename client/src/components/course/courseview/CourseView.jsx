@@ -118,7 +118,7 @@ class CourseView extends React.Component {
               actAsExpander={true}
               showExpandableButton={true} />
             <CardText expandable={true}>
-              <ApplicantRecommendations></ApplicantRecommendations>
+              <ApplicantRecommendations/>
             </CardText>
           </Card>
           <Card style={styles.card}>
@@ -226,7 +226,11 @@ class CourseView extends React.Component {
 
     // Display default course view, user has not clicked any course.
     else {
-      return (<div> Select a course! </div>);
+      return (
+        <div className="text-center" style={styles.title}>
+          <h2>No course selected</h2>
+        </div>
+      );
     }
 
   }
@@ -239,14 +243,8 @@ CourseView.styles = {
   progress: {
     margin:'1% 0 1% 0'
   },
-  idwidth: {
-    width: '20%'
-  },
-  sessionwidth:{
-    width: '20%'
-  },
-  actionwidth:{
-    width: '18%'
+  title: {
+    margin: '25% 0 25% 0'
   }
 };
 
