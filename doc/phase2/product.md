@@ -111,16 +111,19 @@ On the front-end side, most of the auto-testing frameworks and code linter frame
 
 
 # Teamwork
-- Reflect on your teamwork and process. What worked well, what  needs improvement.
-    - Ideally you will have specific artifacts from your development process to show (for instance, a burndown chart)
+At the moment, we meet briefly after every CSC302 lecture as well as during the Friday tutorials. In these meetings, we address any roadblocks in the project, we delegate tasks for the week to different team members and these meetings are also great opportunities for the team members who work on either the back-end or front-end to gain a better picture of what the other “end” is doing.
 
-We divided our team into front end and back end teams. Currently, the results have been greatly effective in delegating specific tasks and narrowing scope.
+Outside lecture and tutorial hours, we also schedule meetings on campus when it was necessary to meet in person such as for the initial design meetings and just recently when the back-end developers needed to learn how to use a Chrome extension to run tests for REST functions.
 
-Our "mini-sprints" of small but specific tasks are effective in pushing out modular components and scaffolding design. Progress is visible and accessible to both front end and back end teams.
+The initial planning meetings with all team members present were necessary but as each team member began to exclusively work either on the back-end or front-end, we began to schedule meetings where only back-end/front-end developers showed up.
 
-### Artifacts
+We discovered that it was more practical and efficient for the front-end developers to meet at their own convenient time, same thing for the back-end developers. 
 
-Our team utilizes [Github issues](https://github.com/csc302-2017-spring/proj-ItWorkedYesterday/issues) as well as a [project sprint chart](https://github.com/csc302-2017-spring/proj-ItWorkedYesterday/projects/1)
+Most of our team communication happens on Slack and again we discovered it was a great idea to have backend, frontend and general channels rather than having one big chain of unrelated messages.
+
+We also agreed on a workflow for updating the master branch on GitHub. For every new feature, the team member must branch out, implement the feature, test it locally, make a pull request and have another team member review the code, then that team member can merge. This was a necessary step, because in a team of seven, it is very easy for a bug in one part of the project to break something else and it can be very costly to debug.
+
+One issue we faced was that we assigned vague responsibilities, like “you work on applicants”, “you work on the database”. Following the advice of Professor Mathew Zaleski, we started being very specific with what each team member was responsible for. We actively use [Github issues](https://github.com/csc302-2017-spring/proj-ItWorkedYesterday/issues) and [Project sprint chart](https://github.com/csc302-2017-spring/proj-ItWorkedYesterday/projects/1), when bugs are discovered or new features need to be added, we open issues on GitHub and assign them to the appropriate team member. This is extremely useful because every team member gets a clear list of things they are responsible for and we all get a better big of our progress leading up to the next milestone.
 
 # Triage
 - What will you build for phase 3, the final demo?
