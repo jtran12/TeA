@@ -26,7 +26,9 @@ class Manage extends React.Component {
     return (
       <div>
         <Header/>
-        <SwipeableViews index={this.props.header.index} onChangeIndex={this.props.onTabChange}>
+        <SwipeableViews style={styles.dashboard}
+                        index={this.props.header.index}
+                        onChangeIndex={this.props.onTabChange}>
           <div style={styles.section}>
             <Course/>
           </div>
@@ -42,7 +44,12 @@ class Manage extends React.Component {
 
 Manage.styles = {
   section: {
-    padding: '0 1% 2% 1%'
+    padding: '0 1%',
+    overflowX: 'hidden',
+    height: 'calc(100vh - 116px)'
+  },
+  dashboard: {
+    height: 'calc(100vh - 116px)'
   }
 };
 

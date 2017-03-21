@@ -227,7 +227,7 @@ class CourseView extends React.Component {
     // Display default course view, user has not clicked any course.
     else {
       return (
-        <div className="text-center" style={styles.title}>
+        <div className="text-center">
           <h2>No course selected</h2>
         </div>
       );
@@ -242,9 +242,6 @@ CourseView.styles = {
   },
   progress: {
     margin:'1% 0 1% 0'
-  },
-  title: {
-    margin: '25% 0 25% 0'
   }
 };
 

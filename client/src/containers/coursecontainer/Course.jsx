@@ -23,24 +23,24 @@ class Course extends React.Component {
 
     const styles = lodash.cloneDeep(this.constructor.styles);
     return (
-      <div className="row">
-        <Paper className="col-md-4 col-xs-12" style={Course.styles.courseList}>
+      <div className="row" style={Course.styles.dashboard}>
+        <div className="col-md-4 col-xs-12" style={Course.styles.courseList}>
           <CourseList courses={this.props.course.courses}/>
-        </Paper>
-        <Paper style={styles.course} zDepth={3} className="col-xs-12 col-md-8">
+        </div>
+        <div style={styles.course} className="col-xs-12 col-md-8">
           <CourseView selected={ this.props.course.selectedCourse }/>
-        </Paper>
+        </div>
       </div>
     );
   }
 }
 
 Course.styles = {
-  course:{
-    margin: '0% 0% 2% 0'
+  dashboard: {
+    height: '100%'
   },
-  card: {
-    margin: '2% 0 2% 0'
+  course:{
+    height: '100%'
   },
   idwidth: {
     width: '20%'
@@ -52,7 +52,8 @@ Course.styles = {
     width: '18%'
   },
   courseList: {
-    padding: '0'
+    padding: '0',
+    height: '100%'
   }
 
 };

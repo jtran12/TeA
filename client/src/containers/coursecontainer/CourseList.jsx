@@ -52,7 +52,9 @@ class CourseList extends React.Component {
 CourseList.styles = {
   courseList: {
     flex: 1,
-    flexDirection: 'column'
+    flexDirection: 'column',
+    overflow: 'auto',
+    height: '100%'
   }
 };
 
