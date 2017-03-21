@@ -2,10 +2,6 @@ import React from 'react';
 import lodash from 'lodash';
 import {browserHistory} from 'react-router';
 
-import AppBar from 'material-ui/AppBar';
-import FlatButton from 'material-ui/FlatButton';
-
-import {HeaderContents} from '../../containers/header/HeaderContents';
 
 class Header extends React.Component {
 
@@ -22,9 +18,10 @@ class Header extends React.Component {
     const styles = lodash.cloneDeep(this.constructor.styles);
 
     return (
-      <AppBar title={<HeaderContents/>}
-              showMenuIconButton={false}
-              iconElementRight={<FlatButton label="Logout" onClick={this.onLogout}/>}/>
+      <Tabs onChange={this.onTabChange} value={this.state.tabIndex}>
+        <Tab onClick={ ()=> this.props.deselectCourse() } label="Course" value={0}/>
+        <Tab label="Applicant" value={1}/>
+      </Tabs>
     );
   }
 }
@@ -37,4 +34,4 @@ Header.styles = {
   }
 };
 
-export default Header;
+export default HeaderContents;

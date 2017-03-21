@@ -12,7 +12,7 @@ import SwipeableViews from 'react-swipeable-views';
 import Header from '../shared/Header.jsx';
 import Footer from '../shared/Footer.jsx';
 
-import Course from '../../containers/coursecontainer/Course.jsx';
+import Course from '../coursecontainer/Course.jsx';
 import Applicant from '../applicant/Applicant.jsx';
 
 class Manage extends React.Component {
@@ -39,10 +39,6 @@ class Manage extends React.Component {
     return (
       <div>
         <Header/>
-        <Tabs onChange={this.onTabChange} value={this.state.tabIndex}>
-          <Tab onClick={ ()=> this.props.deselectCourse() } label="Course" value={0}/>
-          <Tab label="Applicant" value={1}/>
-        </Tabs>
         <SwipeableViews index={this.state.tabIndex} onChangeIndex={this.onTabChange}>
           <div style={styles.section}>
             <Course/>
