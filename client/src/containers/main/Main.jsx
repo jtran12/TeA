@@ -1,19 +1,16 @@
 import React from 'react';
 import lodash from 'lodash';
-
-import * as courseActions from '../../actions/course/courseActions';
 import { connect } from 'react-redux';
 import autobind from 'react-autobind';
 
-import {Tabs, Tab} from 'material-ui/Tabs';
-
 import SwipeableViews from 'react-swipeable-views';
 
-import Header from '../shared/Header.jsx';
-import Footer from '../shared/Footer.jsx';
+import Header from '../../components/shared/Header'
+import Footer from '../../components/shared/Footer.jsx';
 
 import Course from '../coursecontainer/Course.jsx';
-import Applicant from '../applicant/Applicant.jsx';
+import Applicant from '../../components/applicant/Applicant.jsx';
+import * as headerActions from '../../actions/header/headerActions';
 
 class Manage extends React.Component {
 
@@ -27,19 +24,13 @@ class Manage extends React.Component {
 
   }
 
-  onTabChange(val) {
-    this.setState({
-      tabIndex: val
-    });
-  }
-
   render() {
     const styles = lodash.cloneDeep(this.constructor.styles);
 
     return (
       <div>
         <Header/>
-        <SwipeableViews index={this.state.tabIndex} onChangeIndex={this.onTabChange}>
+        <SwipeableViews index={this.props.header.index} onChangeIndex={this.props.onTabChange}>
           <div style={styles.section}>
             <Course/>
           </div>
@@ -61,13 +52,13 @@ Manage.styles = {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    course: state.course
+    header: state.header
   }
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    deselectCourse: course => dispatch(courseActions.deselectCourse())
+    onTabChange: index => dispatch(headerActions.selectTab(index))
   }
 };
 

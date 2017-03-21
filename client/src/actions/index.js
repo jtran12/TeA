@@ -10,5 +10,4 @@ import {action1, action2} from '../actions/'
 import * as courseActions from './course/courseActions';
 import * as headerActions from './header/headerActions';
 
-export default { courseActions };
-export default { headerActions };
+export default { courseActions, headerActions };

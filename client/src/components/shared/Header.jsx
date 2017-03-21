@@ -5,7 +5,7 @@ import {browserHistory} from 'react-router';
 import AppBar from 'material-ui/AppBar';
 import FlatButton from 'material-ui/FlatButton';
 
-import {HeaderContents} from '../../containers/header/HeaderContents';
+import HeaderContents from '../../containers/header/HeaderContents';
 
 class Header extends React.Component {
 

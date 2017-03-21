@@ -1,9 +1,14 @@
 import React from 'react';
 import lodash from 'lodash';
 import {browserHistory} from 'react-router';
+import { connect } from 'react-redux';
+import {Tabs, Tab} from 'material-ui/Tabs';
+
+import * as headerActions from '../../actions/header/headerActions';
+import * as courseActions from '../../actions/course/courseActions';
 
 
-class Header extends React.Component {
+class HeaderContents extends React.Component {
 
   constructor(props){
     super(props);
@@ -18,20 +23,64 @@ class Header extends React.Component {
     const styles = lodash.cloneDeep(this.constructor.styles);
 
     return (
-      <Tabs onChange={this.onTabChange} value={this.state.tabIndex}>
-        <Tab onClick={ ()=> this.props.deselectCourse() } label="Course" value={0}/>
-        <Tab label="Applicant" value={1}/>
-      </Tabs>
+      <div className="appBar" style={HeaderContents.styles.maxHeight}>
+        <div className="appTitle" style={HeaderContents.styles.title}>
+          <h1 style={HeaderContents.styles.h1}> TeA </h1>
+        </div>
+        <div className="appTabs" style={HeaderContents.styles.tabs}>
+          <Tabs style={HeaderContents.styles.maxHeight} onChange={this.props.onTabChange} value={this.props.header.index}>
+            <Tab style={HeaderContents.styles.tab}
+                 onClick={ ()=> this.props.deselectCourse() } label="Course" value={0}/>
+            <Tab style={HeaderContents.styles.tab}
+                 label="Applicant" value={1}/>
+          </Tabs>
+        </div>
+      </div>
     );
   }
 }
 
-Header.styles = {
+HeaderContents.styles = {
+  maxHeight: {
+    height: '100%'
+  },
   Wrapper: {
     width: '100%',
     height: '100%',
     textAlign: 'center'
+  },
+  title: {
+    display: 'inline-block',
+    verticalAlign: 'middle'
+  },
+  tabs: {
+    display: 'inline-block',
+    verticalAlign: 'middle',
+    marginLeft: '15px',
+    width: '75%',
+    height: '100%',
+  },
+  tab: {
+    width: '25%',
+    height: '64px',
+    backgroundColor: 'rgb(0, 188, 212)'
+  },
+  h1: {
+    margin: '0'
   }
 };
 
-export default HeaderContents;
+const mapStateToProps = (state, ownProps) => {
+  return {
+    header: state.header
+  }
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onTabChange: index => dispatch(headerActions.selectTab(index)),
+    deselectCourse: course => dispatch(courseActions.deselectCourse())
+  }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(HeaderContents);
