@@ -106,7 +106,7 @@ exports.recommendGET = function(args, res, next) {
                     if (!courseCode.length) {
                         sendError(res, 404, "No course to recommend for");
                     }
-                    //courseCode check needs to be extended to the whole courseCode (w/ session and year)
+                    // CourseCode check needs to be extended to the whole courseCode (w/ session and year)
                     if ((applicant.utorid.toLowerCase() === offer.utorid.toLowerCase()) && (courseCode[0] === args.query.course)) {
                         data.splice(i, 1);
                         applicant = null;
