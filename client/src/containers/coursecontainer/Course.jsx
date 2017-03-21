@@ -1,12 +1,13 @@
 import React from 'react';
 import lodash from 'lodash';
-
+import { connect } from 'react-redux';
 import Paper from 'material-ui/Paper';
 
 import CourseView from '../../components/course/courseview/CourseView.jsx';
 import CourseList from './CourseList.jsx';
+import * as courseActions from '../../actions/course/courseActions';
 
-import { connect } from 'react-redux';
+
 
 class Course extends React.Component {
 
@@ -14,12 +15,17 @@ class Course extends React.Component {
     super(props);
   }
 
+  componentDidMount() {
+    this.props.loadCourses();
+  }
+
   render() {
+
     const styles = lodash.cloneDeep(this.constructor.styles);
     return (
       <div className="row">
         <Paper className="col-md-4 col-xs-12" style={Course.styles.courseList}>
-          <CourseList/>
+          <CourseList courses={this.props.course.courses}/>
         </Paper>
         <Paper style={styles.course} zDepth={3} className="col-xs-12 col-md-8">
           <CourseView selected={ this.props.course.selectedCourse }/>
@@ -57,4 +63,10 @@ const mapStateToProps = (state, ownProps) => {
   }
 };
 
-export default connect(mapStateToProps)(Course);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    loadCourses: () => dispatch(courseActions.loadCourses()),
+  }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Course);

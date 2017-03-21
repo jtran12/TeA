@@ -20,7 +20,7 @@ class Header extends React.Component {
     const styles = lodash.cloneDeep(this.constructor.styles);
 
     return (
-      <AppBar title="ReiderRabbit"
+      <AppBar title="TeA"
               showMenuIconButton={false}
               iconElementRight={<FlatButton label="Logout" onClick={this.onLogout}/>}/>
     );

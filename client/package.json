@@ -68,9 +68,12 @@
   },
   "dependencies": {
     "cross-env": "^3.1.0",
+    "es6-promise": "^4.1.0",
+    "isomorphic-fetch": "^2.2.1",
     "material-ui": "^0.17.0",
     "radium": "^0.18.1",
     "react": "^15.0.1",
+    "react-autobind": "^1.0.6",
     "react-css-modules": "^3.7.10",
     "react-dom": "^15.0.1",
     "react-hot-loader": "^3.0.0-beta.6",
@@ -80,6 +83,8 @@
     "react-tap-event-plugin": "^2.0.1",
     "redux": "^3.6.0",
     "redux-logger": "^2.8.2",
+    "redux-thunk": "^2.2.0",
+    "semantic-ui-react": "^0.67.1",
     "webpack": "^2.1.0-beta.6"
   }
 }
