@@ -2,6 +2,7 @@ import React from 'react';
 import lodash from 'lodash';
 import {browserHistory} from 'react-router';
 import { connect } from 'react-redux';
+import FontIcon from 'material-ui/FontIcon';
 import {Tabs, Tab} from 'material-ui/Tabs';
 
 import * as headerActions from '../../actions/header/headerActions';
@@ -34,7 +35,8 @@ class HeaderContents extends React.Component {
 
       if(width < 750) {
         that.setState({
-          courseLabel: <div>hi</div>
+          courseLabel: <i className="material-icons">description</i>,
+          applicantLabel: <i className="material-icons">people</i>
         });
       }
   }
@@ -61,7 +63,7 @@ class HeaderContents extends React.Component {
             <Tab style={HeaderContents.styles.tab}
                  onClick={ ()=> this.props.deselectCourse() } label={this.state.courseLabel} value={0}/>
             <Tab style={HeaderContents.styles.tab}
-                 label={this.state.applicantLabel} value={1}/>
+                 label={this.state.applicantLabel}  value={1}/>
           </Tabs>
         </div>
       </div>
