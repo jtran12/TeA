@@ -14,6 +14,7 @@ class HeaderContents extends React.Component {
   constructor(props){
     super(props);
     this.onLogout = this.onLogout.bind(this);
+    this.updateDimensions = this.updateDimensions.bind(this);
 
     this.state = {
       courseLabel: "course",
@@ -26,7 +27,6 @@ class HeaderContents extends React.Component {
   }
 
   updateDimensions() {
-    let that = this;
     let w = window,
       d = document,
       documentElement = d.documentElement,
@@ -34,9 +34,15 @@ class HeaderContents extends React.Component {
       width = w.innerWidth || documentElement.clientWidth || body.clientWidth
 
       if(width < 750) {
-        that.setState({
-          courseLabel: <i className="material-icons">description</i>,
-          applicantLabel: <i className="material-icons">people</i>
+        this.setState({
+          courseLabel: <i className="material-icons">assignment</i>,
+          applicantLabel: <i className="material-icons">assignment_ind</i>
+        });
+      }
+      else {
+        this.setState ({
+          courseLabel: "course",
+          applicantLabel: "applicant"
         });
       }
   }
