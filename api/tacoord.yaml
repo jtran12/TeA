@@ -572,11 +572,6 @@ paths:
       security:
        - basicAuth: []
       parameters:
-        - name: session
-          in: query
-          description: session token to identify the user and ensure permissable access
-          required: true
-          type: string
         - name: limit
           in: query
           description: limits the number of recommendations
@@ -586,7 +581,7 @@ paths:
           in: query
           description: course to recommend for
           required: true
-          type: string #Ex: "CSC302"
+          type: string #Ex: "CSC302S2017"
       responses:
         200:
           description: list of suggested applications
