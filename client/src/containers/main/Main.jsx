@@ -18,10 +18,6 @@ class Manage extends React.Component {
     super(props);
     autobind(this);
 
-    this.state = {
-      tabIndex: 0,
-    };
-
   }
 
   render() {

@@ -13,10 +13,39 @@ class HeaderContents extends React.Component {
   constructor(props){
     super(props);
     this.onLogout = this.onLogout.bind(this);
+
+    this.state = {
+      courseLabel: "course",
+      applicantLabel: "applicant"
+    };
   }
 
   onLogout() {
     browserHistory.push('/');
+  }
+
+  updateDimensions() {
+    let that = this;
+    let w = window,
+      d = document,
+      documentElement = d.documentElement,
+      body = d.getElementsByTagName('body')[0],
+      width = w.innerWidth || documentElement.clientWidth || body.clientWidth
+
+      if(width < 750) {
+        that.setState({
+          courseLabel: <div>hi</div>
+        });
+      }
+  }
+  componentWillMount() {
+    this.updateDimensions();
+  }
+  componentDidMount() {
+    window.addEventListener("resize", this.updateDimensions);
+  }
+  componentWillUnmount() {
+    window.removeEventListener("resize", this.updateDimensions);
   }
 
   render() {
@@ -30,9 +59,9 @@ class HeaderContents extends React.Component {
         <div className="appTabs" style={HeaderContents.styles.tabs}>
           <Tabs style={HeaderContents.styles.maxHeight} onChange={this.props.onTabChange} value={this.props.header.index}>
             <Tab style={HeaderContents.styles.tab}
-                 onClick={ ()=> this.props.deselectCourse() } label="Course" value={0}/>
+                 onClick={ ()=> this.props.deselectCourse() } label={this.state.courseLabel} value={0}/>
             <Tab style={HeaderContents.styles.tab}
-                 label="Applicant" value={1}/>
+                 label={this.state.applicantLabel} value={1}/>
           </Tabs>
         </div>
       </div>
