@@ -53,7 +53,6 @@ CourseList.styles = {
   courseList: {
     flex: 1,
     flexDirection: 'column',
-    overflow: 'auto',
     height: '100%'
   }
 };

@@ -1,7 +1,7 @@
 import React from 'react';
 import lodash from 'lodash';
 import { connect } from 'react-redux';
-import Paper from 'material-ui/Paper';
+import { Scrollbars } from 'react-custom-scrollbars';
 
 import CourseView from '../../components/course/courseview/CourseView.jsx';
 import CourseList from './CourseList.jsx';
@@ -25,10 +25,20 @@ class Course extends React.Component {
     return (
       <div className="row" style={Course.styles.dashboard}>
         <div className="col-md-4 col-xs-12" style={Course.styles.courseList}>
-          <CourseList courses={this.props.course.courses}/>
+          <Scrollbars style={{ height: '100%' }}
+                      autoHide
+                      autoHideTimeout={500}
+                      autoHideDuration={200}>
+            <CourseList courses={this.props.course.courses}/>
+          </Scrollbars>
         </div>
         <div style={styles.course} className="col-xs-12 col-md-8">
-          <CourseView selected={ this.props.course.selectedCourse }/>
+          <Scrollbars style={{ height: '100%' }}
+                      autoHide
+                      autoHideTimeout={500}
+                      autoHideDuration={200}>
+            <CourseView selected={ this.props.course.selectedCourse }/>
+          </Scrollbars>
         </div>
       </div>
     );
@@ -40,7 +50,8 @@ Course.styles = {
     height: '100%'
   },
   course:{
-    height: '100%'
+    height: '100%',
+    background: '#e6f5f7'
   },
   idwidth: {
     width: '20%'
@@ -53,7 +64,8 @@ Course.styles = {
   },
   courseList: {
     padding: '0',
-    height: '100%'
+    height: '100%',
+    background: 'rgb(189, 189, 189)'
   }
 
 };
