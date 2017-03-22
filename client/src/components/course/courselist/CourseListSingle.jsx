@@ -44,10 +44,10 @@ CourseListSingle.styles = {
     height: '48px',
     cursor: 'pointer',
     color: "#FFF",
-    opacity: '0.9',
+    opacity: '0.75',
     ':hover': {
-      color: '#EEE',
-      opacity: '1'
+      color: '#ddd',
+      opacity: '1',
     }
   },
   progress: {
