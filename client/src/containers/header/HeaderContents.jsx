@@ -2,7 +2,6 @@ import React from 'react';
 import lodash from 'lodash';
 import {browserHistory} from 'react-router';
 import { connect } from 'react-redux';
-import FontIcon from 'material-ui/FontIcon';
 import {Tabs, Tab} from 'material-ui/Tabs';
 
 import * as headerActions from '../../actions/header/headerActions';

@@ -228,7 +228,7 @@ class CourseView extends React.Component {
     else {
       return (
         <div className="text-center">
-          <h2>No course selected</h2>
+          <h2 style={styles.notSelected}>No course selected</h2>
         </div>
       );
     }
@@ -245,6 +245,9 @@ CourseView.styles = {
   },
   noScrollX: {
     overflowX: 'hidden'
+  },
+  notSelected: {
+    margin: '10% 0'
   }
 };
 

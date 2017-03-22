@@ -37,12 +37,17 @@ class CourseList extends React.Component {
 
     return (
       <div style={CourseList.styles.courseList}>
-        <div className="text-center">
-          <TextField
+        <div className="text-center" style={styles.searchBackground}>
+          <i className="material-icons" style={styles.searchIcon}>search</i>
+            <TextField
+            style={styles.search}
+            inputStyle={styles.input}
+            hintStyle={styles.hintStyle}
+            underlineStyle={styles.underlineStyle}
+            underlineFocusStyle={styles.focuslineStyle}
             onChange={this.onSearch}
-            floatingLabelText="Search"/>
+            hintText="Search"/>
         </div>
-        <br />
         { courses }
       </div>
     );
@@ -50,10 +55,34 @@ class CourseList extends React.Component {
 }
 
 CourseList.styles = {
+  searchIcon: {
+    verticalAlign: 'middle',
+    color: 'rgba(255, 255, 255, 0.9)',
+    marginRight: '5px'
+  },
   courseList: {
     flex: 1,
     flexDirection: 'column',
     height: '100%'
+  },
+  searchBackground: {
+    background: '#777'
+  },
+  underlineStyle: {
+    borderWidth: '2px',
+    borderColor: '#777'
+  },
+  focuslineStyle: {
+    borderColor: 'rgba(255, 255, 255, 0.9)'
+  },
+  hintStyle: {
+    color: 'rgba(255, 255, 255, 0.9)'
+  },
+  search: {
+    width: '85%',
+  },
+  input: {
+    color: 'rgba(255, 255, 255, 0.9)'
   }
 };
 

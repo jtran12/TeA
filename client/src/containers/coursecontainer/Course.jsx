@@ -51,7 +51,7 @@ Course.styles = {
   },
   course:{
     height: '100%',
-    background: '#e6f5f7'
+    background: '#fafafa'
   },
   idwidth: {
     width: '20%'
