@@ -1,6 +1,6 @@
 const SELECT_TAB = 'SELECT_TAB';
 
-export function selectTab(index) {
+export default function selectTab(index) {
   return {
     type: SELECT_TAB,
     index
