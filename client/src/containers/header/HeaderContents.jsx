@@ -4,7 +4,7 @@ import {browserHistory} from 'react-router';
 import { connect } from 'react-redux';
 import {Tabs, Tab} from 'material-ui/Tabs';
 
-import * as headerActions from '../../actions/header/headerActions';
+import headerActions from '../../actions/header/headerActions';
 import * as courseActions from '../../actions/course/courseActions';
 
 
