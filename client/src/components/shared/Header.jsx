@@ -5,6 +5,8 @@ import {browserHistory} from 'react-router';
 import AppBar from 'material-ui/AppBar';
 import FlatButton from 'material-ui/FlatButton';
 
+import HeaderContents from '../../containers/header/HeaderContents';
+
 class Header extends React.Component {
 
   constructor(props){
@@ -20,7 +22,7 @@ class Header extends React.Component {
     const styles = lodash.cloneDeep(this.constructor.styles);
 
     return (
-      <AppBar title="TeA"
+      <AppBar title={<HeaderContents/>}
               showMenuIconButton={false}
               iconElementRight={<FlatButton label="Logout" onClick={this.onLogout}/>}/>
     );

@@ -72,7 +72,7 @@ class CourseView extends React.Component {
     // A course must be selected, otherwise display a get clicking menu
     if(this.props.selected !== null) {
       return (
-        <div>
+        <div style={styles.noScrollX}>
           <div className="page-header">
             <h2>{ this.props.selected.name } <small>Spring 2017 - St. George</small></h2>
           </div>
@@ -227,8 +227,8 @@ class CourseView extends React.Component {
     // Display default course view, user has not clicked any course.
     else {
       return (
-        <div className="text-center" style={styles.title}>
-          <h2>No course selected</h2>
+        <div className="text-center">
+          <h2 style={styles.notSelected}>No course selected</h2>
         </div>
       );
     }
@@ -243,8 +243,11 @@ CourseView.styles = {
   progress: {
     margin:'1% 0 1% 0'
   },
-  title: {
-    margin: '25% 0 25% 0'
+  noScrollX: {
+    overflowX: 'hidden'
+  },
+  notSelected: {
+    margin: '10% 0'
   }
 };
 

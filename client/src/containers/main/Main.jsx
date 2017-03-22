@@ -1,19 +1,16 @@
 import React from 'react';
 import lodash from 'lodash';
-
-import * as courseActions from '../../actions/course/courseActions';
 import { connect } from 'react-redux';
 import autobind from 'react-autobind';
 
-import {Tabs, Tab} from 'material-ui/Tabs';
-
 import SwipeableViews from 'react-swipeable-views';
 
-import Header from '../shared/Header.jsx';
-import Footer from '../shared/Footer.jsx';
+import Header from '../../components/shared/Header'
+import Footer from '../../components/shared/Footer.jsx';
 
-import Course from '../../containers/coursecontainer/Course.jsx';
-import Applicant from '../applicant/Applicant.jsx';
+import Course from '../coursecontainer/Course.jsx';
+import Applicant from '../../components/applicant/Applicant.jsx';
+import * as headerActions from '../../actions/header/headerActions';
 
 class Manage extends React.Component {
 
@@ -21,16 +18,6 @@ class Manage extends React.Component {
     super(props);
     autobind(this);
 
-    this.state = {
-      tabIndex: 0,
-    };
-
-  }
-
-  onTabChange(val) {
-    this.setState({
-      tabIndex: val
-    });
   }
 
   render() {
@@ -39,11 +26,9 @@ class Manage extends React.Component {
     return (
       <div>
         <Header/>
-        <Tabs onChange={this.onTabChange} value={this.state.tabIndex}>
-          <Tab onClick={ ()=> this.props.deselectCourse() } label="Course" value={0}/>
-          <Tab label="Applicant" value={1}/>
-        </Tabs>
-        <SwipeableViews index={this.state.tabIndex} onChangeIndex={this.onTabChange}>
+        <SwipeableViews style={styles.dashboard}
+                        index={this.props.header.index}
+                        onChangeIndex={this.props.onTabChange}>
           <div style={styles.section}>
             <Course/>
           </div>
@@ -59,19 +44,24 @@ class Manage extends React.Component {
 
 Manage.styles = {
   section: {
-    padding: '0 1% 2% 1%'
+    padding: '0 1%',
+    overflowX: 'hidden',
+    height: 'calc(100vh - 116px)'
+  },
+  dashboard: {
+    height: 'calc(100vh - 116px)'
   }
 };
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    course: state.course
+    header: state.header
   }
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    deselectCourse: course => dispatch(courseActions.deselectCourse())
+    onTabChange: index => dispatch(headerActions.selectTab(index))
   }
 };
 
