@@ -93,6 +93,15 @@ paths:
           in: body
           description: Max number of students (ex. 150)
           required: false
+        - name: currentta
+          in: body
+          description: Current number of TAs (ex. 1)
+          required: false
+        - name: maxta
+          in: body
+          description: Max number of TAs (ex. 5)
+          required: false
+        
       responses:
         200:
           description: New course added to database
@@ -167,6 +176,14 @@ paths:
         - name: max_enrollment
           in: body
           description: Max number of students (ex. 150)
+          required: false
+        - name: currentta
+          in: body
+          description: Current number of TAs (ex. 1)
+          required: false
+        - name: maxta
+          in: body
+          description: Max number of TAs (ex. 5)
           required: false
       responses:
         200:
