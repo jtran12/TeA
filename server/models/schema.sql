@@ -44,6 +44,8 @@ CREATE TABLE applications(
 
 CREATE TABLE groups(
 	name text,
+	course text,
+	email text,
 	utorids text[],
 	PRIMARY KEY(name)
 );
