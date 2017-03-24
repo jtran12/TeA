@@ -128,7 +128,9 @@ exports.postCourseBulk = function(req, res) {
 };
 
 exports.getCourseBulk = function(req, res) {
-  var query = "SELECT * FROM courses";
+  var limit = req.query.limit || 'ALL';
+  var offset = req.query.offset || 0;
+  var query = "SELECT * FROM courses ORDER BY course ASC LIMIT " + limit + " OFFSET " + offset;
   pool.query(query, function(err, result) {
     if (err) {
       sendError(res, 400, err);
