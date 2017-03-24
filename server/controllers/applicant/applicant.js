@@ -1,5 +1,5 @@
 var pool = require(appRoot + '/controllers/database/database.js').pool;
-
+var recommendation = require(appRoot + '/controllers/recommender/recommender.js');
 
 function sendError(res, errorCode, errorMsg) {
   var json = {"success" : "false", "error_code" : errorCode, "errorMst" : errorMsg};
@@ -22,9 +22,10 @@ exports.postApplicant = function(req, res) {
   applicant.studentdepartment, applicant.tacourses, applicant.courses, applicant.applied_courses, applicant.declined,
   applicant.declinedcount, applicant.declinedcourses], function(err, result) {
     if (err) {
-      sendError(res, 404, err);
+      sendError(res, 400, err);
     }
     else {
+	  recommendation.updateRecommendations(applicant.utorid);
       res.sendStatus(200);
     }
   });
@@ -70,6 +71,7 @@ exports.putApplicant = function(req, res) {
       sendError(res, 404, "Applicant not found");
     }
     else {
+	  recommendation.updateRecommendations(applicant.utorid);
       res.sendStatus(200);
     }
   });

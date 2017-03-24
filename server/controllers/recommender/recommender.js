@@ -13,9 +13,9 @@ function sendData(res, data) {
 
 function courseCodeParser(course) {
   var regex = /[a-z]+[0-9]+/i;
-  var courseCode = regex.exec(course);
+  var courseCode = regex.exec(course.toLowerCase());
 
-  return courseCode;
+  return courseCode[0];
 }
 
 function courseArrayCodeParser(courseArray) {
@@ -66,14 +66,29 @@ function sortByElement(path, reverse, primer, then) {
     };
 }
 
-/**
- * Returns a list of recommended applicants for a given course
- *
- * course Applicant course to recommend for
- * limit Integer limits the number of recommendations (optional)
- * returns List
- **/
-exports.recommendGET = function(args, res, next) {
+// TODO: Implement updateTopTen
+updateTopTen(course, applicant, offerData){
+	/*
+	// Compute rank of 'applicant' for 'course'
+	
+    Prioritize graduate over undergraduate applicants.
+
+    Exhaust list of applicants from the department of Computer science before making offers to applicants from other departments.
+
+    Prioritize based on how many times an applicant has taught a course in the past.
+
+    Applicants give a ranking of courses they would like to TA, prioritize based on each applicant’s preferences.
+
+    Consider that each graduate has to be made at least one offer.
+
+    Consider that you need to match previous hours of Phd applicants.
+
+    If given enough time, a rating system where professors can rate the performance of TAs. Highest rating recommended first.
+	
+	
+	// Update recommended_applicants
+	
+	
     var applicantQuery = 'SELECT * FROM applicants';
     var offersQuery = 'SELECT * FROM applications';
     var offerData = null;
@@ -108,9 +123,9 @@ exports.recommendGET = function(args, res, next) {
                 for (var j = 0; j < offerData.length; j++) {
                     var offer = offerData[j];
 
-                    /* Make sure applicant not already offered this course.
-                       If they are, remove applicant from dataset.
-                    */
+                    //Make sure applicant not already offered this course.
+                    //If they are, remove applicant from dataset.
+                    
                     if (!courseCode.length) {
                         sendError(res, 404, "No course to recommend for");
                     }
@@ -183,5 +198,67 @@ exports.recommendGET = function(args, res, next) {
             }
             sendData(res, data);
         }
+    }); */
+}
+
+
+exports.updateRecommendations(utorid){
+	var applicantQuery = 'SELECT * FROM applicants WHERE utorid=$1';
+	var applicant = null;
+	pool.query(applicantQuery, [utorid], function(err, result) {
+      if (err) {
+        sendError(res, 400, err);
+      } else if (!result.rows.length) {
+          sendError(res, 404, "Applicant with utorid: " + utorid + " not found");
+      } else {
+          applicant = result.rows[0];
+      }
+    });
+
+	var offersQuery = 'SELECT * FROM applications WHERE utorid=$1';
+	var offerData = null;
+    pool.query(offersQuery, [utorid], function(offErr, offResult) {
+        if (offErr) {
+            sendError(res, 400, err);
+        } else if (!offResult.rows.length) {
+            offerData = [];
+        } else {
+            offerData = offResult.rows;
+        }
+    });
+    
+    var courseQuery = 'SELECT * FROM course_recommendations';
+    pool.query(courseQuery, function(err, result) {
+      if (err) {
+        sendError(res, 400, err);
+      } else if (!result.rows.length) {
+          sendError(res, 404, "No courses to recommend");
+      } else {
+		  var courses = result.rows;
+          for (var i = 0; i < courses.length; i++){
+		    updateTopTen(courses[i], applicant, offerData);
+		  }
+      }
+    });
+}
+
+
+/**
+ * Returns a list of recommended applicants for a given course
+ * INPUT = course id
+ * OUTPUT = {list of top 10 most recommended applicants}
+ **/
+exports.recommendGET = function(args, res, next) {
+	var courseCode = courseCodeParser(args.query.course); 
+	var courseQuery = "SELECT * FROM course_recommendations WHERE coursecode=$1";
+	pool.query(courseQuery, [courseCode], function(err, result) {
+      if (err) {
+        sendError(res, 400, err);
+      } else if (!result.rows.length) {
+          sendError(res, 404, "No recommendation for course: " + args.query.course);
+      } else {
+		  // TODO: Remove ranks before return
+          sendData(res, result.rows.recommended_applicants);
+      }
     });
 };
