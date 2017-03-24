@@ -13,9 +13,18 @@ function sendData(res, data) {
 
 function courseCodeParser(course) {
   var regex = /[a-z]+[0-9]+/i;
-  var coursecode = regex.exec(course);
+  var courseCode = regex.exec(course);
 
-  return coursecode;
+  return courseCode;
+}
+
+function courseArrayCodeParser(courseArray) {
+  for (var i = 0; i < courseArray.length; i++) {
+    var course = courseCodeParser(courseArray[i]);
+    if (course.length) {
+      courseArray[i] = course[0];
+    }
+  }
 }
 
 function lowerCaseArray(courses) {
@@ -102,12 +111,10 @@ exports.recommendGET = function(args, res, next) {
                     /* Make sure applicant not already offered this course.
                        If they are, remove applicant from dataset.
                     */
-                    courseCode = courseCodeParser(offer.course.toLowerCase());
                     if (!courseCode.length) {
                         sendError(res, 404, "No course to recommend for");
                     }
-                    // CourseCode check needs to be extended to the whole courseCode (w/ session and year)
-                    if ((applicant.utorid.toLowerCase() === offer.utorid.toLowerCase()) && (courseCode[0] === args.query.course)) {
+                    if ((applicant.utorid.toLowerCase() === offer.utorid.toLowerCase()) && (offer.course.toLowerCase() === args.query.course.toLowerCase())) {
                         data.splice(i, 1);
                         applicant = null;
                         i--;
@@ -139,14 +146,17 @@ exports.recommendGET = function(args, res, next) {
                 }
 
                 // Prefer applicants who have previously TA'd the course
+                var course = courseCodeParser(args.query.course);
                 lowerCaseArray(applicant.tacourses);
-                if (applicant.tacourses.includes(args.query.course)) {
+                courseArrayCodeParser(applicant.tacourses);
+                if (applicant.tacourses.includes(course[0])) {
                     ranking += 10;
                 }
 
                 lowerCaseArray(applicant.courses);
+                courseArrayCodeParser(applicant.courses);
                 // Give a little bump to applicants who previously took the course
-                if (applicant.courses.includes(args.query.course)) {
+                if (applicant.courses.includes(course[0])) {
                     ranking += 5;
                 }
 
