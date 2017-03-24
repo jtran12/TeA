@@ -246,7 +246,8 @@ paths:
             $ref: '#/definitions/Success'
     get:
       description: |
-        Gets all data in the system formatted in JSON.
+        Gets all data in the system formatted in JSON. Use the 'limit' and 'offset' to for lazy loading.
+        For example, offset=10 and limit=5 would skip the first 10 results and return the next 5. 
       security:
        - basicAuth: []
       parameters:
@@ -255,6 +256,16 @@ paths:
           description: session token to identify the user and ensure permissable access
           required: true
           type: string
+        - name: limit
+          in: query
+          description: number of entries to return
+          required: false
+          type: int
+        - name: offset
+          in: query
+          description: number of entries to skip before returning results
+          required: false
+          type: int
       responses:
         200:
           description: operation success, return data
