@@ -30,6 +30,8 @@ CREATE TABLE courses(
 	expected_enrollment integer,
 	current_enrollment integer,
 	max_enrollment integer,
+	currentta integer,
+	maxta integer,
 	PRIMARY KEY(course)
 );
 

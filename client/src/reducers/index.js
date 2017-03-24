@@ -14,9 +14,11 @@ import { combineReducers } from 'redux';
 // import child reducers
 
 import courseReducer from './course/courseReducer';
+import headerReducer from './header/headerReducer';
 
 const reducers = {
-  course: courseReducer
+  course: courseReducer,
+  header: headerReducer
 };
 
 export default combineReducers(reducers);

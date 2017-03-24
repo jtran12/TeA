@@ -6,16 +6,27 @@ class Footer extends React.Component {
     const styles = lodash.cloneDeep(this.constructor.styles);
 
     return (
-      <h6 className="text-center">
-        CSC302 Course Project | Team 17
-        <br/>
-        University of Toronto
-      </h6>
+      <div style={styles.footer}>
+        <h6 className="text-center" style={styles.h6}>
+          CSC302 Course Project | Team 17
+          <br/>
+          University of Toronto
+        </h6>
+      </div>
     );
   }
 }
 
 Footer.styles = {
+  footer: {
+    background: '#777',
+    color: '#FFF'
+  },
+  h6: {
+    margin: '0',
+    padding: '13.2px 0'
+  }
+
 };
 
 export default Footer;
