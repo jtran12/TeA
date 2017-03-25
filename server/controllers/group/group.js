@@ -79,3 +79,14 @@ exports.putGroup = function(req, res) {
   });
 };
 
+exports.deleteGroup = function(req, res) {
+  var query = "DELETE FROM groups WHERE name=$1";
+  pool.query(query, [req.query.name], function(err, result) {
+    if (err) {
+      sendError(res, 400, err);
+    }
+    else {
+      res.sendStatus(200);
+    }
+  });
+};

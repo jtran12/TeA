@@ -42,4 +42,5 @@ module.exports = function(app) {
   app.get('/group', group.getGroup);
   app.post('/group', group.postGroup);
   app.put('/group', group.putGroup);
+  app.delete('/group', group.deleteGroup);
 };
