@@ -33,3 +33,16 @@ exports.getGroup = function(req, res) {
     }
   });
 };
+
+exports.postGroup = function(req, res) {
+  var body = req.body;
+  var query = "INSERT INTO groups VALUES($1, $2, $3, $4)";
+  pool.query(query, [body.name, body.course, body.email, body.utorids], function(err, result) {
+    if (err) {
+      sendError(res, 400, err);
+    }
+    else {
+      res.sendStatus(200);
+    }
+  });
+};
