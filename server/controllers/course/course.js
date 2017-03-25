@@ -87,7 +87,8 @@ exports.postCourse = function(req, res) {
 exports.putCourse = function(req, res) {
   var body = req.body;
   var query = "UPDATE courses SET requirements=$1, head_instructor=$2, additional_instructors=$3, tas=$4, expected_enrollment=$5, current_enrollment=$6, max_enrollment=$7, currentta=$8, maxta=$9 WHERE course=$10";
-  pool.query(query, [body.requirements, body.head_instructor, body.additional_instructors, body.tas, body.expected_enrollment, body.current_enrollment, body.max_enrollment, body.currentta, body.maxta, body.course], function(err, result) {
+  
+  pool.query("SELECT * FROM courses WHERE course=$1", [body.course], function(err, result) {
     if (err) {
       sendError(res, 400, err);
     }
@@ -95,7 +96,28 @@ exports.putCourse = function(req, res) {
       sendError(res, 404, "Course not found");
     }
     else {
-      res.sendStatus(200);
+	  var data = result.rows[0];
+	  var req = body.requirements || data.requirements;
+	  var head = body.head_instructor || data.head_instructor;
+	  var additional = body.additional_instructors || data.additional_instructors;
+	  var tas = body.tas || data.tas;
+	  var expected = body.expected_enrollment || data.expected_enrollment;
+	  var current = body.current_enrollment || data.current_enrollment;
+	  var max = body.max_enrollment || data.max_enrollment;
+	  var currentta = body.currentta || data.currentta;
+	  var maxta = body.maxta || data.maxta;
+
+	  pool.query(query, [req, head, additional, tas, expected, current, max, currentta, maxta, body.course], function(err, result) {
+        if (err) {
+          sendError(res, 400, err);
+        }
+        else if (!result.rowCount) {
+          sendError(res, 404, "Course not found");
+        }
+        else {
+          res.sendStatus(200);
+        }
+      });
     }
   });
 };
