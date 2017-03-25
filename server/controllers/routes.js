@@ -41,4 +41,5 @@ module.exports = function(app) {
   // Course
   app.get('/group', group.getGroup);
   app.post('/group', group.postGroup);
+  app.put('/group', group.putGroup);
 };

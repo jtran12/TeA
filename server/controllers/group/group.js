@@ -46,3 +46,36 @@ exports.postGroup = function(req, res) {
     }
   });
 };
+
+exports.putGroup = function(req, res) {
+  var body = req.body;
+  var query = "UPDATE groups SET course=$1, email=$2, utorids=$3 WHERE name=$4";
+  
+  pool.query("SELECT * FROM groups WHERE name=$1", [body.name], function(err, result) {
+    if (err) {
+      sendError(res, 400, err);
+    }
+    else if (!result.rowCount) {
+      sendError(res, 404, "Group not found");
+    }
+    else {
+	  var data = result.rows[0];
+	  var course = body.course || data.course;
+	  var email = body.email || data.email;
+	  var utorids = body.utorids || data.utorids;
+
+	  pool.query(query, [course, email, utorids, body.name], function(err, result) {
+        if (err) {
+          sendError(res, 400, err);
+        }
+        else if (!result.rowCount) {
+          sendError(res, 404, "Group not found");
+        }
+        else {
+          res.sendStatus(200);
+        }
+      });
+    }
+  });
+};
+
