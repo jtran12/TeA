@@ -124,12 +124,10 @@ paths:
           in: query
           description: id of course to retrieve (ex. csc302s2017)
           required: true
-          type: integer
+          type: string
       responses:
         200:
           description: Returns course data in json form
-          schema:
-            $ref: '#/definitions/Course'
         default:
           description: returns error information
           schema:
@@ -207,7 +205,7 @@ paths:
           in: query
           description: id of course to delete (ex. csc302s2017)
           required: true
-          type: integer
+          type: string
       responses:
         200:
           description: Course deleted from database
@@ -621,7 +619,136 @@ paths:
           description: indicates operation success, returns error if applicable
           schema:
             $ref: '#/definitions/Success'
-
+  /group/:
+    get:
+      description: |
+        Get a group by name.
+      security:
+       - basicAuth: []
+      parameters:
+        - name: name
+          in: query
+          description: Name of group.
+          required: true
+          type: string
+      responses:
+        200:
+          description: Returns group data in json form
+        default:
+          description: returns error information
+          schema:
+            $ref: '#/definitions/Success'
+            
+    post:
+      description: |
+        Adds a new group.
+      security:
+       - basicAuth: []
+      parameters:
+        - name: name
+          in: body
+          description: Name of group.
+          required: true
+          type: string
+        - name: course
+          in: body
+          description: Full course key (ex. csc302s2017)
+          required: true
+          type: string
+        - name: email
+          in: body
+          description: Email of head instructor or person to send notification
+          required: true
+          type: string
+        - name: utorids
+          in: body
+          description: Utorids of people in group (ex. {utorid1, utorid2, utorid3})
+          required: true
+          type: string
+        
+      responses:
+        200:
+          description: New group added to database
+        default:
+          description: indicates operation success, returns error if applicable
+          schema:
+            $ref: '#/definitions/Success'
+    put:
+      description: |
+        Updates a group.
+      security:
+       - basicAuth: []
+      parameters:
+        - name: name
+          in: body
+          description: Name of group.
+          required: true
+          type: string
+        - name: course
+          in: body
+          description: Full course key (ex. csc302s2017)
+          required: false
+          type: string
+        - name: email
+          in: body
+          description: Email of head instructor or person to send notification
+          required: false
+          type: string
+        - name: utorids
+          in: body
+          description: Utorids of people in group (ex. {utorid1, utorid2, utorid3})
+          required: false
+          type: string
+        
+      responses:
+        200:
+          description: Group updated in database
+        default:
+          description: indicates operation success, returns error if applicable
+          schema:
+            $ref: '#/definitions/Success'
+            
+    delete:
+      description: |
+        Deletes a group by name.
+      security:
+       - basicAuth: []
+      parameters:
+        - name: name
+          in: query
+          description: Name of group to delete
+          required: true
+          type: string
+      responses:
+        200:
+          description: Group deleted from database
+        default:
+          description: indicates operation success, returns error if applicable
+          schema:
+            $ref: '#/definitions/Success'
+            
+  /group/notify/:
+    post:
+      description: |
+        Send email to group's 'email' entry with first and last names of proposed TA assignment based on 
+        'utorid' values. The utorid of group members must be in the applicant table.
+      security:
+       - basicAuth: []
+      parameters:
+        - name: name
+          in: body
+          description: Name of group.
+          required: true
+          type: string
+        
+      responses:
+        200:
+          description: Notification email sent
+        default:
+          description: indicates operation success, returns error if applicable
+          schema:
+            $ref: '#/definitions/Success'
+            
 definitions:
   Applicant:
     type: object
