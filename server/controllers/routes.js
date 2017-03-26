@@ -43,4 +43,7 @@ module.exports = function(app) {
   app.post('/group', group.postGroup);
   app.put('/group', group.putGroup);
   app.delete('/group', group.deleteGroup);
+  
+  // Send emails
+  app.post('/group/notify', group.postNotify);
 };

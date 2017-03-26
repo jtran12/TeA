@@ -1,4 +1,17 @@
 var pool = require(appRoot + '/controllers/database/database.js').pool;
+var nodemailer = require('nodemailer');
+
+var smtpConfig = {
+    host: 'smtp.gmail.com',
+    port: 465,
+    secure: true,
+    auth: {
+        user: "csc302project@gmail.com",
+        pass: "csc302project123"
+	}
+};
+
+var transporter = nodemailer.createTransport(smtpConfig);
 
 function sendError(res, errorCode, errorMst) {
   var json = {"success" : "false", "error_code" : errorCode, "errorMst" : errorMst};
@@ -89,4 +102,59 @@ exports.deleteGroup = function(req, res) {
       res.sendStatus(200);
     }
   });
+};
+
+exports.postNotify = function(req, res) {
+  var name = req.body.name;
+  if (!name) {
+	  sendError(res, 400, "No group name provided");
+  }
+  else {
+    pool.query("SELECT * FROM groups WHERE name=$1", [name], function(err, result) {
+      if (err) {
+        sendError(res, 400, err);
+      }
+      else if (!result.rowCount) {
+        sendError(res, 404, "Group with that name not found");
+      }
+      else {
+		var data = result.rows[0];
+		var course = data.course;
+		var email = data.email;
+		var utorids = data.utorids;
+		var placeholders = utorids.map(function(name, i) { 
+		  return "$" + (i + 1); 
+		}).join(",");
+		
+		pool.query("SELECT * FROM applicants WHERE utorid IN (" + placeholders + ")", utorids, function(err, result) {
+          if (err) {
+            sendError(res, 400, err);
+          }
+          else {
+			var fullNames = "";
+            for (var i = 0; i < result.rows.length; i++) {
+				var curr = result.rows[i];
+				fullNames += curr.givenname + " " + curr.familyname + "\n";
+			}
+			
+			let mailOptions = {
+			  from: "csc302project@gmail.com", 
+			  to: "csc302project@gmail.com", //set to email after testing
+			  subject: "TA Groups " + course, 
+			  text: "Please give input on the proposed TA assignment for " + course + ":\n" + fullNames,
+			};
+			
+			transporter.sendMail(mailOptions, (error, info) => {
+			  if (error) {
+			    sendError(res, 400, "Error sending email");
+			  }
+			  else {
+				res.sendStatus(200);
+			  }
+			});
+          }
+        });
+      }
+    });
+  }
 };
