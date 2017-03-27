@@ -2,7 +2,7 @@
 
 CREATE TABLE applicants(
 	utorid text,
-	studentnumber integer NOT NULL,
+	studentnumber integer NOT NULL UNIQUE,
 	familyname text NOT NULL,
 	givenname text NOT NULL,
 	program text,
