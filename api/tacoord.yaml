@@ -329,11 +329,11 @@ paths:
           description: session token to identify the user and ensure permissable access
           required: true
           type: string
-        - name: student_id
+        - name: utorid
           in: query
-          description: student id of applicant to find
+          description: utorid of applicant to get
           required: true
-          type: integer
+          type: string
       responses:
         200:
           description: returns desired student information

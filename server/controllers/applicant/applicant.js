@@ -22,7 +22,7 @@ exports.postApplicant = function(req, res) {
   applicant.studentdepartment, applicant.tacourses, applicant.courses, applicant.applied_courses, applicant.declined,
   applicant.declinedcount, applicant.declinedcourses], function(err, result) {
     if (err) {
-      sendError(res, 404, err);
+      sendError(res, 400, err);
     }
     else {
       res.sendStatus(200);
@@ -32,19 +32,19 @@ exports.postApplicant = function(req, res) {
 
 
 exports.getApplicant = function(req, res) {
-  var id = req.query.studentnumber;
+  var utorid = req.query.utorid;
 
-  if (!id) {
-    sendError(res, 400, "Invalid parameter: ID");
+  if (!utorid) {
+    sendError(res, 400, "Invalid parameter: UTORid");
   }
   else {
-    var query = "SELECT * FROM applicants WHERE studentnumber=$1";
-    pool.query(query, [id], function(err, result) {
+    var query = "SELECT * FROM applicants WHERE utorid=$1";
+    pool.query(query, [utorid], function(err, result) {
       if (err) {
-        sendError(res, 404, err);
+        sendError(res, 400, err);
       }
       else if (!result.rows.length) {
-          sendError(res, 404, "Applicant with student number: " + id + " not found");
+          sendError(res, 404, "Applicant with UTORid: " + utorid + " not found");
       }
       else {
           sendData(res, result.rows);
@@ -67,7 +67,7 @@ exports.putApplicant = function(req, res) {
       sendError(res, 400, err);
     }
     else if (!result.rowCount) {
-      sendError(res, 404, "Applicant not found");
+      sendError(res, 404, "Applicant: " + applicant.utorid + " not found");
     }
     else {
       res.sendStatus(200);
@@ -80,15 +80,14 @@ exports.deleteApplicant = function(req, res) {
   var id = req.query.studentnumber;
 
   if (!id) {
-    sendError(res, 404, "Invalid parameter: ID");
+    sendError(res, 400, "Invalid parameter: ID");
   }
   else {
     var query = "DELETE FROM applicants WHERE studentnumber=$1";
     pool.query(query, [id], function(err, result) {
       if (err) {
         sendError(res, 400, err);
-      }
-      else {
+      } else {
         res.sendStatus(200);
       }
     });
