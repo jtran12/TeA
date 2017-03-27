@@ -12,7 +12,7 @@ CREATE TABLE applicants(
 	studentdepartment text,
 	tacourses text[],
 	courses text[],
-	applied_courses text[],
+	appliedcourses text[],
 	declined boolean NOT NULL,
 	declinedcount integer,
 	declinedcourses text[],

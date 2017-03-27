@@ -305,12 +305,81 @@ paths:
           description: session token to identify the user and ensure permissable access
           required: true
           type: string
-        - name: applicant
+        - name: utorid
           in: body
-          description: applicant information to create
+          description: applicant's UTORid
           required: true
-          schema:
-            $ref: '#/definitions/Applicant'
+          type: string
+        - name: studentnumber
+          in: body
+          description: applicant's student number
+          required: true
+          type: integer
+        - name: familyname
+          in: body
+          description: applicant's last name
+          required: true
+          type: string
+        - name: givenname
+          in: body
+          description: applicant's first name
+          required: true
+          type: string
+        - name: program
+          in: body
+          description: either undergrad, masters, phd or other
+          required: false
+          type: string
+        - name: year
+          in: body
+          description: year of study
+          required: false
+          type: integer
+        - name: phonenumber
+          in: body
+          description: applicant's phone number
+          required: false
+          type: string
+        - name: email
+          in: body
+          description: applicant's email
+          required: true
+          type: string
+        - name: studentdepartment
+          in: body
+          description: e.g csc or ece or mat e.t.c.
+          required: false
+          type: string
+        - name: tacourses
+          in: body
+          description: previously ta'ed courses ex. {course1, course2}
+          required: false
+          type: string
+        - name: courses
+          in: body
+          description: courses taken ex. {course1, course2}
+          required: false
+          type: string
+        - name: appliedcourses
+          in: body
+          description: applicant's top five preferences ex. {course1, course2, ...}
+          required: false
+          type: string
+        - name: declined
+          in: body
+          description: has applicant declined offer in the past?
+          required: true
+          type: boolean
+        - name: declinedcount
+          in: body
+          description: number of offers applicant has declined
+          required: false
+          type: integer
+        - name: declinedcourses
+          in: body
+          description: courses that this applicant has declined an offer to
+          required: false
+          type: string
       responses:
           200:
             description: New applicant added to the database
@@ -354,12 +423,81 @@ paths:
           description: session token to identify the user and ensure permissable access
           required: true
           type: string
-        - name: applicant
+        - name: utorid
           in: body
-          description: updated applicant
+          description: applicant's UTORid
           required: true
-          schema:
-            $ref: '#/definitions/Applicant'
+          type: string
+        - name: studentnumber
+          in: body
+          description: applicant's student number
+          required: true
+          type: integer
+        - name: familyname
+          in: body
+          description: applicant's last name
+          required: true
+          type: string
+        - name: givenname
+          in: body
+          description: applicant's first name
+          required: true
+          type: string
+        - name: program
+          in: body
+          description: either undergrad, masters, phd or other
+          required: false
+          type: string
+        - name: year
+          in: body
+          description: year of study
+          required: false
+          type: integer
+        - name: phonenumber
+          in: body
+          description: applicant's phone number
+          required: false
+          type: string
+        - name: email
+          in: body
+          description: applicant's email
+          required: true
+          type: string
+        - name: studentdepartment
+          in: body
+          description: e.g csc or ece or mat e.t.c.
+          required: false
+          type: string
+        - name: tacourses
+          in: body
+          description: previously ta'ed courses ex. {course1, course2}
+          required: false
+          type: string
+        - name: courses
+          in: body
+          description: courses taken ex. {course1, course2}
+          required: false
+          type: string
+        - name: appliedcourses
+          in: body
+          description: applicant's top five preferences ex. {course1, course2, ...}
+          required: false
+          type: string
+        - name: declined
+          in: body
+          description: has applicant declined offer in the past?
+          required: true
+          type: boolean
+        - name: declinedcount
+          in: body
+          description: number of offers applicant has declined
+          required: false
+          type: integer
+        - name: declinedcourses
+          in: body
+          description: courses that this applicant has declined an offer to
+          required: false
+          type: string
       responses:
         200:
           description: applicant data updated in database
@@ -767,7 +905,7 @@ definitions:
       year:
         type: integer
       phonenumber:
-        type: integer
+        type: string
         format: int32
       email:
         type: string
@@ -779,6 +917,9 @@ definitions:
       courses:
         type: string
         description: courses taken (ex. {course1, course2, course3})
+      appliedcourses:
+        type: string
+        description: Applicant's top 5 preferences(ex. {course1, course2, ...})
       declined:
         type: boolean
       declinedcount:

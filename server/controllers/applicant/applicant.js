@@ -19,7 +19,7 @@ exports.postApplicant = function(req, res) {
 
   pool.query(query, [applicant.utorid, applicant.studentnumber, applicant.familyname, applicant.givenname,
   applicant.program, applicant.year, applicant.phonenumber, applicant.email,
-  applicant.studentdepartment, applicant.tacourses, applicant.courses, applicant.applied_courses, applicant.declined,
+  applicant.studentdepartment, applicant.tacourses, applicant.courses, applicant.appliedcourses, applicant.declined,
   applicant.declinedcount, applicant.declinedcourses], function(err, result) {
     if (err) {
       sendError(res, 400, err);
@@ -58,10 +58,10 @@ exports.putApplicant = function(req, res) {
   var applicant = JSON.parse(req.body.applicant);
   var query = "UPDATE applicants SET studentnumber=$2, familyname=$3, givenname=$4, program=$5," +
         "year=$6, phonenumber=$7, email=$8, studentdepartment=$9, tacourses=$10, courses=$11," +
-        " applied_courses=$12, declined=$13, declinedcount=$14, declinedcourses=$15 WHERE utorid=$1";
+        " appliedcourses=$12, declined=$13, declinedcount=$14, declinedcourses=$15 WHERE utorid=$1";
   pool.query(query, [applicant.utorid, applicant.studentnumber, applicant.familyname, applicant.givenname,
   applicant.program, applicant.year, applicant.phonenumber, applicant.email,
-  applicant.studentdepartment, applicant.tacourses, applicant.courses, applicant.applied_courses, applicant.declined,
+  applicant.studentdepartment, applicant.tacourses, applicant.courses, applicant.appliedcourses, applicant.declined,
   applicant.declinedcount, applicant.declinedcourses], function(err, result) {
     if (err) {
       sendError(res, 400, err);
