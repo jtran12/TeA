@@ -4,10 +4,9 @@ class CourseAPI {
 
   static getCourses() {
 
-    // REPLACE COURSE_MOCK_URL WITH SERVER API URL ONCE IT'S THERE !!!
-    const COURSE_MOCK_URL = './mock/course/course.json';
+    const COURSE_MOCK_URL = 'http://localhost:3000/course/bulk';
 
-    return fetch(COURSE_MOCK_URL)
+    return fetch(COURSE_MOCK_URL, options)
       .then(response => response.json())
       .catch(error => error);
   }
