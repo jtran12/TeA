@@ -28,7 +28,7 @@ class CourseList extends React.Component {
     // key property should be replaced with unique key retrieved by course database.
 
     const courses = this.props.courses
-      .filter((course) => course.name.toLowerCase().includes(this.state.filter.toLowerCase()))
+      .filter((course) => course.course.toLowerCase().includes(this.state.filter.toLowerCase()))
       .map((course, index) =>
         <CourseListSingle select={this.props.selectCourse.bind(this, course)}
                           key={index}
