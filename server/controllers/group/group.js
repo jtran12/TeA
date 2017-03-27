@@ -1,3 +1,4 @@
+var sender = require(appRoot + '/controllers/sender.js');
 var pool = require(appRoot + '/controllers/database/database.js').pool;
 var nodemailer = require('nodemailer');
 

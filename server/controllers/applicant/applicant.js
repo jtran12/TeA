@@ -1,16 +1,5 @@
+var sender = require(appRoot + '/controllers/sender.js');
 var pool = require(appRoot + '/controllers/database/database.js').pool;
-
-
-function sendError(res, errorCode, errorMsg) {
-  var json = {"success" : "false", "error_code" : errorCode, "errorMst" : errorMsg};
-  res.status(errorCode).send(json);
-}
-
-
-function sendData(res, data) {
-  var json = {"success" : "true", "data" : data};
-  res.send(json);
-}
 
 
 exports.postApplicant = function(req, res) {
@@ -22,7 +11,7 @@ exports.postApplicant = function(req, res) {
   applicant.studentdepartment, applicant.tacourses, applicant.courses, applicant.appliedcourses, applicant.declined,
   applicant.declinedcount, applicant.declinedcourses], function(err, result) {
     if (err) {
-      sendError(res, 400, err);
+      sender.sendError(res, 400, err);
     }
     else {
       res.sendStatus(200);
@@ -35,19 +24,19 @@ exports.getApplicant = function(req, res) {
   var utorid = req.query.utorid;
 
   if (!utorid) {
-    sendError(res, 400, "Invalid parameter: UTORid");
+    sender.sendError(res, 400, "Invalid parameter: UTORid");
   }
   else {
     var query = "SELECT * FROM applicants WHERE utorid=$1";
     pool.query(query, [utorid], function(err, result) {
       if (err) {
-        sendError(res, 400, err);
+        sender.sendError(res, 400, err);
       }
       else if (!result.rows.length) {
-          sendError(res, 404, "Applicant with UTORid: " + utorid + " not found");
+          sender.sendError(res, 404, "Applicant with UTORid: " + utorid + " not found");
       }
       else {
-          sendData(res, result.rows);
+          sender.sendData(res, result.rows);
       }
     });
   }
@@ -64,10 +53,10 @@ exports.putApplicant = function(req, res) {
   applicant.studentdepartment, applicant.tacourses, applicant.courses, applicant.appliedcourses, applicant.declined,
   applicant.declinedcount, applicant.declinedcourses], function(err, result) {
     if (err) {
-      sendError(res, 400, err);
+      sender.sendError(res, 400, err);
     }
     else if (!result.rowCount) {
-      sendError(res, 404, "Applicant: " + applicant.utorid + " not found");
+      sender.sendError(res, 404, "Applicant: " + applicant.utorid + " not found");
     }
     else {
       res.sendStatus(200);
@@ -80,13 +69,13 @@ exports.deleteApplicant = function(req, res) {
   var id = req.query.studentnumber;
 
   if (!id) {
-    sendError(res, 400, "Invalid parameter: ID");
+    sender.sendError(res, 400, "Invalid parameter: ID");
   }
   else {
     var query = "DELETE FROM applicants WHERE studentnumber=$1";
     pool.query(query, [id], function(err, result) {
       if (err) {
-        sendError(res, 400, err);
+        sender.sendError(res, 400, err);
       } else {
         res.sendStatus(200);
       }

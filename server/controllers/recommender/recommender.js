@@ -1,12 +1,13 @@
+var sender = require(appRoot + '/controllers/sender.js');
 var pool = require(appRoot + '/controllers/database/database.js').pool;
 var pool2 = require(appRoot + '/controllers/database/database.js').pool;
 
-function sendError(res, errorCode, errorMst) {
+function sender.sendError(res, errorCode, errorMst) {
   var json = {"success" : "false", "error_code" : errorCode, "errorMst" : errorMst};
   res.status(errorCode).send(json);
 }
 
-function sendData(res, data) {
+function sender.sendData(res, data) {
   var json = {"success" : "true", "data" : data};
   res.send(json);
 }
@@ -81,7 +82,7 @@ exports.recommendGET = function(args, res, next) {
 
     pool2.query(offersQuery, function(offErr, offResult) {
         if (offErr) {
-            sendError(res, 404, err);
+            sender.sendError(res, 404, err);
         }
         else if (!offResult.rows.length) {
             offerData = [];
@@ -93,10 +94,10 @@ exports.recommendGET = function(args, res, next) {
 
     pool.query(applicantQuery, function(err, result) {
         if (err) {
-            sendError(res, 400, err);
+            sender.sendError(res, 400, err);
         }
         else if (!result.rows.length) {
-            sendError(res, 404, "No applicants");
+            sender.sendError(res, 404, "No applicants");
         }
         else {
             var data = result.rows;
@@ -112,7 +113,7 @@ exports.recommendGET = function(args, res, next) {
                        If they are, remove applicant from dataset.
                     */
                     if (!courseCode.length) {
-                        sendError(res, 404, "No course to recommend for");
+                        sender.sendError(res, 404, "No course to recommend for");
                     }
                     if ((applicant.utorid.toLowerCase() === offer.utorid.toLowerCase()) && (offer.course.toLowerCase() === args.query.course.toLowerCase())) {
                         data.splice(i, 1);
@@ -181,7 +182,7 @@ exports.recommendGET = function(args, res, next) {
             if (args.query.limit) {
               data = data.slice(0, args.query.limit);
             }
-            sendData(res, data);
+            sender.sendData(res, data);
         }
     });
 };
