@@ -2,16 +2,6 @@ var sender = require(appRoot + '/controllers/sender.js');
 var pool = require(appRoot + '/controllers/database/database.js').pool;
 var pool2 = require(appRoot + '/controllers/database/database.js').pool;
 
-function sender.sendError(res, errorCode, errorMst) {
-  var json = {"success" : "false", "error_code" : errorCode, "errorMst" : errorMst};
-  res.status(errorCode).send(json);
-}
-
-function sender.sendData(res, data) {
-  var json = {"success" : "true", "data" : data};
-  res.send(json);
-}
-
 function courseCodeParser(course) {
   var regex = /[a-z]+[0-9]+/i;
   var courseCode = regex.exec(course);
