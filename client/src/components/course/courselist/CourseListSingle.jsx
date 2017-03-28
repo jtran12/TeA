@@ -21,8 +21,8 @@ class CourseListSingle extends React.Component {
         <h1 style={ styles.text }> { this.props.courseData.course.toUpperCase() } </h1>
         <LinearProgress style={ styles.progress }
                         mode="determinate"
-                        max={this.props.courseData.max_enrollment}
-                        value={this.props.courseData.current_enrollment}>
+                        max={this.props.courseData.maxta}
+                        value={this.props.courseData.currentta}>
         </LinearProgress>
       </div>
     );

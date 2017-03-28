@@ -99,14 +99,14 @@ class CourseView extends React.Component {
           </div>
           <div className="row text-center">
             <p>
-              {course.current_enrollment === null ? 0 : course.current_enrollment}
-              /{course.max_enrollment === null || course.max_enrollment === 0 ? 1 : course.max_enrollment}
-              Assigned Positions
+              {course.currentta === null ? 0 : course.currentta}
+              /{course.maxta === null || course.maxta === 0 ? 1 : course.maxta}
+               Assigned Positions
             </p>
             <LinearProgress style={styles.progress}
                             mode="determinate"
-                            max={course.max_enrollment}
-                            value={course.current_enrollment} />
+                            max={course.maxta}
+                            value={course.currentta} />
             <RaisedButton primary={true} label="Assign Applicants" onClick={this.onOpenAssignDialog}/>
           </div>
           <Card style={styles.card}>
