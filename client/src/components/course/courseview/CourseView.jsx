@@ -101,7 +101,7 @@ class CourseView extends React.Component {
             <p>
               {course.currentta === null ? 0 : course.currentta}
               /{course.maxta === null || course.maxta === 0 ? 1 : course.maxta}
-               Assigned Positions
+              &nbsp;Assigned Positions
             </p>
             <LinearProgress style={styles.progress}
                             mode="determinate"
