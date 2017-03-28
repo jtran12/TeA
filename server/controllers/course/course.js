@@ -87,18 +87,18 @@ exports.putCourse = function(req, res) {
       sender.sendError(res, 404, "Course not found");
     }
     else {
-	  var data = result.rows[0];
-	  var req = body.requirements || data.requirements;
-	  var head = body.head_instructor || data.head_instructor;
-	  var additional = body.additional_instructors || data.additional_instructors;
-	  var tas = body.tas || data.tas;
-	  var expected = body.expected_enrollment || data.expected_enrollment;
-	  var current = body.current_enrollment || data.current_enrollment;
-	  var max = body.max_enrollment || data.max_enrollment;
-	  var currentta = body.currentta || data.currentta;
-	  var maxta = body.maxta || data.maxta;
+      var data = result.rows[0];
+      var req = body.requirements || data.requirements;
+      var head = body.head_instructor || data.head_instructor;
+      var additional = body.additional_instructors || data.additional_instructors;
+      var tas = body.tas || data.tas;
+      var expected = body.expected_enrollment || data.expected_enrollment;
+      var current = body.current_enrollment || data.current_enrollment;
+      var max = body.max_enrollment || data.max_enrollment;
+      var currentta = body.currentta || data.currentta;
+      var maxta = body.maxta || data.maxta;
 
-	  pool.query(query, [req, head, additional, tas, expected, current, max, currentta, maxta, body.course], function(err, result) {
+      pool.query(query, [req, head, additional, tas, expected, current, max, currentta, maxta, body.course], function(err, result) {
         if (err) {
           sender.sendError(res, 400, err);
         }

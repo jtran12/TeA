@@ -1,9 +1,9 @@
 module.exports = {
-  sendError: function (res, errorCode, errorMst) {
+  sendError(res, errorCode, errorMst) {
     var json = {"success" : "false", "error_code" : errorCode, "errorMst" : errorMst};
     res.status(errorCode).send(json);
   },
-  sendData: function (res, data) {
+  sendData(res, data) {
     var json = {"success" : "true", "data" : data};
     res.send(json);
   }
