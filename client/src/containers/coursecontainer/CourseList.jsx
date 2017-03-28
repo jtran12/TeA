@@ -5,8 +5,8 @@ import CourseListSingle from '../../components/course/courselist/CourseListSingl
 
 import { connect } from 'react-redux';
 import * as courseActions from '../../actions/course/courseActions';
-
 import TextField from 'material-ui/TextField';
+
 
 class CourseList extends React.Component {
 
@@ -28,7 +28,7 @@ class CourseList extends React.Component {
     // key property should be replaced with unique key retrieved by course database.
 
     const courses = this.props.courses
-      .filter((course) => course.name.toLowerCase().includes(this.state.filter.toLowerCase()))
+      .filter((course) => course.course.toLowerCase().includes(this.state.filter.toLowerCase()))
       .map((course, index) =>
         <CourseListSingle select={this.props.selectCourse.bind(this, course)}
                           key={index}
@@ -49,6 +49,9 @@ class CourseList extends React.Component {
             hintText="Search"/>
         </div>
         { courses }
+        <div className="courseMore" style={styles.courseMore}>
+          <p style={styles.courseMoreP}> more courses </p>
+        </div>
       </div>
     );
   }
@@ -83,6 +86,16 @@ CourseList.styles = {
   },
   input: {
     color: 'rgba(255, 255, 255, 0.9)'
+  },
+  courseMore: {
+    cursor: 'pointer',
+    background: 'rgb(119, 119, 119)',
+    textAlign: 'center',
+    padding: '15px'
+  },
+  courseMoreP: {
+    color: '#FFF',
+    margin: '0'
   }
 };
 
