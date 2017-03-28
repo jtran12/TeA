@@ -56,8 +56,6 @@ class CourseView extends React.Component {
     this.onCloseAssignDialog = this.onCloseAssignDialog.bind(this);
   }
 
-
-
   onOpenAssignDialog(){
     this.setState({showAssignDialog: true});
   }
@@ -73,6 +71,14 @@ class CourseView extends React.Component {
         return "Spring ";
       default:
         return "NO TERM ";
+    }
+  }
+
+  getAdditionalInstructors(instructors) {
+    if(instructors !== null) {
+      return instructors.map((instructor, index) =>
+          <ListItem key={index} primaryText={instructor}/>
+      )
     }
   }
 
@@ -110,9 +116,8 @@ class CourseView extends React.Component {
               showExpandableButton={true} />
             <CardText expandable={true}>
               <List>
-                <ListItem primaryText="Professor Prefessorson" rightIcon={<CourseCoordinatorIcon />}/>
-                <ListItem primaryText="Lecture Name"/>
-                <ListItem primaryText="Another Instructor"/>
+                <ListItem primaryText={course.head_instructor} rightIcon={<CourseCoordinatorIcon />}/>
+                { this.getAdditionalInstructors(course.additional_instructors) }
               </List>
             </CardText>
           </Card>
