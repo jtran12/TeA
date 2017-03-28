@@ -65,23 +65,42 @@ class CourseView extends React.Component {
     this.setState({showAssignDialog: false});
   }
 
+  getTerm(term) {
+    switch(term) {
+      case "F":
+        return "Fall ";
+      case "S":
+        return "Spring ";
+      default:
+        return "NO TERM ";
+    }
+  }
 
   render() {
     const styles = lodash.cloneDeep(this.constructor.styles);
+    const course = this.props.selected;
 
     // A course must be selected, otherwise display a get clicking menu
-    if(this.props.selected !== null) {
+    if(course !== null) {
       return (
         <div style={styles.noScrollX}>
           <div className="page-header">
-            <h2>{ this.props.selected.name } <small>Spring 2017 - St. George</small></h2>
+            <h2>{ course.coursecode.toUpperCase() }
+              <small> { this.getTerm(course.term.toUpperCase()) }
+              { course.year } - St. George
+              </small>
+            </h2>
           </div>
           <div className="row text-center">
-            <p>{this.props.selected.currentTAs}/{this.props.selected.maxTAs} Assigned Positions</p>
+            <p>
+              {course.current_enrollment === null ? 0 : course.current_enrollment}
+              /{course.max_enrollment === null || course.max_enrollment === 0 ? 1 : course.max_enrollment}
+              Assigned Positions
+            </p>
             <LinearProgress style={styles.progress}
                             mode="determinate"
-                            max={this.props.selected.maxTAs}
-                            value={this.props.selected.currentTAs} />
+                            max={course.max_enrollment}
+                            value={course.current_enrollment} />
             <RaisedButton primary={true} label="Assign Applicants" onClick={this.onOpenAssignDialog}/>
           </div>
           <Card style={styles.card}>
