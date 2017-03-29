@@ -79,21 +79,6 @@ class ApplicantView extends React.Component {
         </Card>
         <Card style={styles.card}>
           <CardHeader
-            title="Application Statement"
-            actAsExpander={true}
-            showExpandableButton={true} />
-          <CardText expandable={true}>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-            Donec mattis pretium massa. Aliquam erat volutpat. Nulla facilisi.
-            Donec vulputate interdum sollicitudin. Nunc lacinia auctor quam sed pellentesque.
-            Aliquam dui mauris, mattis quis lacus id, pellentesque lobortis odio.
-          </CardText>
-          <CardActions>
-            <FlatButton primary={true} label="Respond" />
-          </CardActions>
-        </Card>
-        <Card style={styles.card}>
-          <CardHeader
             title="Assigned Courses"
             actAsExpander={true}
             showExpandableButton={true} />
