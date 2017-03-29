@@ -91,8 +91,8 @@ exports.getOffer = function(req, res) {
 exports.putOffer = function(req, res) {
   var body = req.body;
 
-  pool.query( "SELECT * FROM applications WHERE utorid=$1 AND course=$2",
-   [body.utorid, body.course], function(err,result) {
+  pool.query("SELECT * FROM applications WHERE utorid=$1 AND course=$2",
+   [body.utorid, body.course], function(err, result) {
     if (err) {
       sender.sendError(res, 400, err);
     }
@@ -100,7 +100,7 @@ exports.putOffer = function(req, res) {
       sender.sendError(res, 404, "Offer not found");
     }
     else {
-      // found previous data
+      // Found previous data
       var data = result.rows[0];
       var assigned = body.assigned || data.assigned;
       var accepted = body.accepted || data.accepted;
@@ -147,8 +147,7 @@ exports.deleteOffer = function(req, res) {
 exports.getOffersPending = function(req, res) {
   var limit = req.query.limit || 'ALL';
   var offset = req.query.offset || 0;
-  var query = "SELECT * FROM applications WHERE assigned='true' AND accepted='false' \
-  ORDER BY utorid ASC LIMIT " + limit + " OFFSET " + offset;
+  var query = "SELECT * FROM applications WHERE assigned='true' AND accepted='false'ORDER BY utorid ASC LIMIT " + limit + " OFFSET " + offset;
 
   pool.query(query, function(err, result) {
     if (err) {
