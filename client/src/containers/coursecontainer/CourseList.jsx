@@ -19,7 +19,54 @@ class CourseList extends React.Component {
   }
 
   onSearch(e){
-    this.setState({filter: e.target.value}, () => console.log(this.state.filter));
+    this.setState({filter: e.target.value});
+  }
+
+  isNum(char) {
+    if(isNaN(char)) {
+      return false;
+    }
+    return true;
+  }
+
+  numTAParser(filter) {
+    let search = filter.split();
+
+    // Determine if first char in command is an operator
+    if(search[0] === "<" && search.length > 1 && this.isNum(search.slice(1,))) {
+      return {"operator": "LESS_THAN", "filterNum": parseInt(search.slice(1,))}
+    }
+    else if(search[0] === ">" && search.length > 1 && this.isNum(search.slice(1,))) {
+      return {"operator": "GREATER_THAN", "filterNum": parseInt(search.slice(1,))}
+    }
+    // Determine if first char is an operator if no space
+    else if (filter[0] === "<" && filter.length > 1 && this.isNum(filter.substring(1,))) {
+      return {"operator": "LESS_THAN", "filterNum": parseInt(filter.substring(1,))}
+    }
+    else if (filter[0] === ">" && filter.length > 1 && this.isNum(filter.substring(1,))) {
+      return {"operator": "GREATER_THAN", "filterNum": parseInt(filter.substring(1,))}
+    }
+    else {
+      return false;
+    }
+  }
+
+  numTAsOperator(numTAs, filter) {
+    let parse = this.numTAParser(filter);
+    // If valid parse, get operator and perform on filterNum
+    if(parse !== false) {
+      // Less than
+      if(parse.operator === "LESS_THAN") {
+        return numTAs <= parseInt(parse.filterNum);
+      }
+      // Greater than
+      if(parse.operator === "GREATER_THAN") {
+        return numTAs >= parseInt(parse.filterNum);
+      }
+    }
+    else {
+      return false;
+    }
   }
 
   render() {
@@ -28,7 +75,12 @@ class CourseList extends React.Component {
     // key property should be replaced with unique key retrieved by course database.
 
     const courses = this.props.courses
-      .filter((course) => course.course.toLowerCase().includes(this.state.filter.toLowerCase()))
+      .filter((course) => {
+        return (
+          course.course.toLowerCase().includes(this.state.filter.toLowerCase()) ||
+          this.numTAsOperator(course.currentta, this.state.filter)
+        )
+      })
       .map((course, index) =>
         <CourseListSingle select={this.props.selectCourse.bind(this, course)}
                           key={index}

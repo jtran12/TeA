@@ -18,7 +18,7 @@ class ApplicantList extends React.Component {
   }
 
   onSearch(e){
-    this.setState({filter: e.target.value}, () => console.log(this.state.filter));
+    this.setState({filter: e.target.value});
   }
 
   render() {
@@ -27,7 +27,14 @@ class ApplicantList extends React.Component {
     // key property should be replaced with unique key retrieved by applicant database.
 
     const applicants = this.props.applicants
-      .filter((applicant) => applicant.program.toLowerCase().includes(this.state.filter.toLowerCase()))
+      .filter((applicant) => {
+        return (
+          applicant.program.toLowerCase().includes(this.state.filter.toLowerCase()) ||
+          applicant.utorid.toLowerCase().includes(this.state.filter.toLowerCase()) ||
+          applicant.studentnumber.toString().includes(this.state.filter.toLowerCase()) ||
+          applicant.studentdepartment.toLowerCase().includes(this.state.filter.toLowerCase())
+        )
+      })
       .map((applicant, index) =>
         <ApplicantListSingle select={this.props.selectApplicant.bind(this, applicant)}
                           key={index}
