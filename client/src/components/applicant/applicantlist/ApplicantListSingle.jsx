@@ -17,12 +17,12 @@ class ApplicantListSingle extends React.Component {
     const styles = lodash.cloneDeep(this.constructor.styles);
 
     return (
-      <div onClick={ () => this.props.select(this.props.courseData) } style={ styles.course }>
-        <h1 style={ styles.text }> { this.props.courseData.course.toUpperCase() } </h1>
+      <div onClick={ () => this.props.select(this.props.applicantData) } style={ styles.applicant }>
+        <h1 style={ styles.text }> { this.props.applicantData.applicant.toUpperCase() } </h1>
         <LinearProgress style={ styles.progress }
                         mode="determinate"
-                        max={this.props.courseData.maxta}
-                        value={this.props.courseData.currentta}>
+                        max={1}
+                        value={1}>
         </LinearProgress>
       </div>
     );

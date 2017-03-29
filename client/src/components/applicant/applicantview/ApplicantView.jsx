@@ -34,6 +34,7 @@ class ApplicantView extends React.Component {
 
   render() {
     const styles = lodash.cloneDeep(this.constructor.styles);
+    const applicant = this.props.selected;
 
     return (
       <div>
