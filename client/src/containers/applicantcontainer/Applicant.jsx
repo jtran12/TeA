@@ -3,8 +3,8 @@ import lodash from 'lodash';
 
 import Paper from 'material-ui/Paper';
 
-import ApplicantView from './applicantview/ApplicantView.jsx';
-import ApplicantList from './applicantlist/ApplicantList.jsx'
+import ApplicantView from '../../components/applicant/applicantview/ApplicantView.jsx';
+import ApplicantList from './ApplicantList.jsx'
 
 class Applicant extends React.Component {
 
