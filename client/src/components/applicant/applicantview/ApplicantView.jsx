@@ -40,15 +40,29 @@ class ApplicantView extends React.Component {
       return (
         <div style={styles.noScrollX}>
           <div className="page-header">
-            <h2>{applicant.familyname} {applicant.givenname} &ndsp;
-              <small>{applicant.program.toUpperCase()} - Year {applicant.year}</small>
+            <h2 style={styles.headerH2}>{applicant.familyname} {applicant.givenname} &nbsp;
+              <small>{applicant.studentdepartment}</small>
             </h2>
+            <Table fixedHeader={true}>
+              <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
+                <TableRow>
+                  <TableHeaderColumn style={styles.idwidth}>Utorid</TableHeaderColumn>
+                  <TableHeaderColumn>Student Number</TableHeaderColumn>
+                  <TableHeaderColumn>Program</TableHeaderColumn>
+                  <TableHeaderColumn>Program Year</TableHeaderColumn>
+                </TableRow>
+              </TableHeader>
+              <TableBody displayRowCheckbox={false}>
+                <TableRow selectable={false}>
+                  <TableRowColumn style={styles.idwidth}>{applicant.utorid}</TableRowColumn>
+                  <TableRowColumn>{applicant.studentnumber}</TableRowColumn>
+                  <TableRowColumn>{applicant.program.toUpperCase()}</TableRowColumn>
+                  <TableRowColumn>{applicant.year}</TableRowColumn>
+                </TableRow>
+              </TableBody>
+            </Table>
           </div>
           <div className="row text-center">
-            <p>6/12 Required Hours Filled</p>
-            <LinearProgress style={styles.progress}
-                            mode="determinate"
-                            value={50} />
             <RaisedButton primary={true} label="Assign to Course" onClick={this.onOpenAssignDialog}/>
           </div>
           <Card style={styles.card}>

@@ -4,10 +4,9 @@ class ApplicantAPI {
 
   static getApplicants() {
 
-    const APPLICANT_API = 'http://localhost:3000/applicant/bulk';
-    const MOCK_API = '../../mock/applicant/applicant.json';
+    const APPLICANT_API = 'http://localhost:3000/applicant?utorid=anniann';
 
-    return fetch(MOCK_API)
+    return fetch(APPLICANT_API)
       .then(response => response.json())
       .catch(error => error);
   }
