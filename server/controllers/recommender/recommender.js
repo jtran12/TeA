@@ -1,21 +1,21 @@
+var sender = require(appRoot + '/controllers/sender.js');
 var pool = require(appRoot + '/controllers/database/database.js').pool;
 var pool2 = require(appRoot + '/controllers/database/database.js').pool;
 
-function sendError(res, errorCode, errorMst) {
-  var json = {"success" : "false", "error_code" : errorCode, "errorMst" : errorMst};
-  res.status(errorCode).send(json);
-}
-
-function sendData(res, data) {
-  var json = {"success" : "true", "data" : data};
-  res.send(json);
-}
-
 function courseCodeParser(course) {
   var regex = /[a-z]+[0-9]+/i;
-  var coursecode = regex.exec(course);
+  var courseCode = regex.exec(course);
 
-  return coursecode;
+  return courseCode;
+}
+
+function courseArrayCodeParser(courseArray) {
+  for (var i = 0; i < courseArray.length; i++) {
+    var course = courseCodeParser(courseArray[i]);
+    if (course.length) {
+      courseArray[i] = course[0];
+    }
+  }
 }
 
 function lowerCaseArray(courses) {
@@ -60,7 +60,6 @@ function sortByElement(path, reverse, primer, then) {
 /**
  * Returns a list of recommended applicants for a given course
  *
- * session String session token to identify the user and ensure permissable access
  * course Applicant course to recommend for
  * limit Integer limits the number of recommendations (optional)
  * returns List
@@ -73,7 +72,7 @@ exports.recommendGET = function(args, res, next) {
 
     pool2.query(offersQuery, function(offErr, offResult) {
         if (offErr) {
-            sendError(res, 404, err);
+            sender.sendError(res, 404, err);
         }
         else if (!offResult.rows.length) {
             offerData = [];
@@ -85,10 +84,10 @@ exports.recommendGET = function(args, res, next) {
 
     pool.query(applicantQuery, function(err, result) {
         if (err) {
-            sendError(res, 400, err);
+            sender.sendError(res, 400, err);
         }
         else if (!result.rows.length) {
-            sendError(res, 404, "No applicants");
+            sender.sendError(res, 404, "No applicants");
         }
         else {
             var data = result.rows;
@@ -103,11 +102,10 @@ exports.recommendGET = function(args, res, next) {
                     /* Make sure applicant not already offered this course.
                        If they are, remove applicant from dataset.
                     */
-                    courseCode = courseCodeParser(offer.course.toLowerCase());
                     if (!courseCode.length) {
-                        sendError(res, 404, "No course to recommend for");
+                        sender.sendError(res, 404, "No course to recommend for");
                     }
-                    if ((applicant.utorid.toLowerCase() === offer.utorid.toLowerCase()) && (courseCode[0] === args.query.course)) {
+                    if ((applicant.utorid.toLowerCase() === offer.utorid.toLowerCase()) && (offer.course.toLowerCase() === args.query.course.toLowerCase())) {
                         data.splice(i, 1);
                         applicant = null;
                         i--;
@@ -139,14 +137,17 @@ exports.recommendGET = function(args, res, next) {
                 }
 
                 // Prefer applicants who have previously TA'd the course
+                var course = courseCodeParser(args.query.course);
                 lowerCaseArray(applicant.tacourses);
-                if (applicant.tacourses.includes(args.query.course)) {
+                courseArrayCodeParser(applicant.tacourses);
+                if (applicant.tacourses.includes(course[0])) {
                     ranking += 10;
                 }
 
                 lowerCaseArray(applicant.courses);
+                courseArrayCodeParser(applicant.courses);
                 // Give a little bump to applicants who previously took the course
-                if (applicant.courses.includes(args.query.course)) {
+                if (applicant.courses.includes(course[0])) {
                     ranking += 5;
                 }
 
@@ -171,7 +172,7 @@ exports.recommendGET = function(args, res, next) {
             if (args.query.limit) {
               data = data.slice(0, args.query.limit);
             }
-            sendData(res, data);
+            sender.sendData(res, data);
         }
     });
 };

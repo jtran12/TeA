@@ -4,6 +4,7 @@ var course = require(path.join(__dirname, 'course', 'course'));
 var offer = require(path.join(__dirname, 'offer', 'offer'));
 var applicant = require(path.join(__dirname, 'applicant', 'applicant'));
 var recommender = require(path.join(__dirname, 'recommender', 'recommender'));
+var group = require(path.join(__dirname, 'group', 'group'));
 
 module.exports = function(app) {
   app.get('/', index.getIndex);
@@ -36,4 +37,13 @@ module.exports = function(app) {
 
   // Recommender
   app.get('/recommender', recommender.recommendGET);
+  
+  // Course
+  app.get('/group', group.getGroup);
+  app.post('/group', group.postGroup);
+  app.put('/group', group.putGroup);
+  app.delete('/group', group.deleteGroup);
+  
+  // Send emails
+  app.post('/group/notify', group.postNotify);
 };

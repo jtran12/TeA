@@ -5,8 +5,8 @@ import CourseListSingle from '../../components/course/courselist/CourseListSingl
 
 import { connect } from 'react-redux';
 import * as courseActions from '../../actions/course/courseActions';
-
 import TextField from 'material-ui/TextField';
+
 
 class CourseList extends React.Component {
 
@@ -28,7 +28,7 @@ class CourseList extends React.Component {
     // key property should be replaced with unique key retrieved by course database.
 
     const courses = this.props.courses
-      .filter((course) => course.name.toLowerCase().includes(this.state.filter.toLowerCase()))
+      .filter((course) => course.course.toLowerCase().includes(this.state.filter.toLowerCase()))
       .map((course, index) =>
         <CourseListSingle select={this.props.selectCourse.bind(this, course)}
                           key={index}
@@ -37,22 +37,65 @@ class CourseList extends React.Component {
 
     return (
       <div style={CourseList.styles.courseList}>
-        <div className="text-center">
-          <TextField
+        <div className="text-center" style={styles.searchBackground}>
+          <i className="material-icons" style={styles.searchIcon}>search</i>
+            <TextField
+            style={styles.search}
+            inputStyle={styles.input}
+            hintStyle={styles.hintStyle}
+            underlineStyle={styles.underlineStyle}
+            underlineFocusStyle={styles.focuslineStyle}
             onChange={this.onSearch}
-            floatingLabelText="Search"/>
+            hintText="Search"/>
         </div>
-        <br />
         { courses }
+        <div className="courseMore" style={styles.courseMore}>
+          <p style={styles.courseMoreP}> more courses </p>
+        </div>
       </div>
     );
   }
 }
 
 CourseList.styles = {
+  searchIcon: {
+    verticalAlign: 'middle',
+    color: 'rgba(255, 255, 255, 0.9)',
+    marginRight: '5px'
+  },
   courseList: {
     flex: 1,
-    flexDirection: 'column'
+    flexDirection: 'column',
+    height: '100%'
+  },
+  searchBackground: {
+    background: '#777'
+  },
+  underlineStyle: {
+    borderWidth: '2px',
+    borderColor: '#777'
+  },
+  focuslineStyle: {
+    borderColor: 'rgba(255, 255, 255, 0.9)'
+  },
+  hintStyle: {
+    color: 'rgba(255, 255, 255, 0.9)'
+  },
+  search: {
+    width: '85%',
+  },
+  input: {
+    color: 'rgba(255, 255, 255, 0.9)'
+  },
+  courseMore: {
+    cursor: 'pointer',
+    background: 'rgb(119, 119, 119)',
+    textAlign: 'center',
+    padding: '15px'
+  },
+  courseMoreP: {
+    color: '#FFF',
+    margin: '0'
   }
 };
 

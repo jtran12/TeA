@@ -18,11 +18,11 @@ class CourseListSingle extends React.Component {
 
     return (
       <div onClick={ () => this.props.select(this.props.courseData) } style={ styles.course }>
-        <h1 style={ styles.text }> { this.props.courseData.name } </h1>
+        <h1 style={ styles.text }> { this.props.courseData.course.toUpperCase() } </h1>
         <LinearProgress style={ styles.progress }
                         mode="determinate"
-                        max={this.props.courseData.maxTAs}
-                        value={this.props.courseData.currentTAs}>
+                        max={this.props.courseData.maxta}
+                        value={this.props.courseData.currentta}>
         </LinearProgress>
       </div>
     );
@@ -44,10 +44,10 @@ CourseListSingle.styles = {
     height: '48px',
     cursor: 'pointer',
     color: "#FFF",
-    opacity: '0.9',
+    opacity: '0.75',
     ':hover': {
-      color: '#EEE',
-      opacity: '1'
+      color: '#ddd',
+      opacity: '1',
     }
   },
   progress: {

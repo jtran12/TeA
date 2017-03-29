@@ -93,6 +93,15 @@ paths:
           in: body
           description: Max number of students (ex. 150)
           required: false
+        - name: currentta
+          in: body
+          description: Current number of TAs (ex. 1)
+          required: false
+        - name: maxta
+          in: body
+          description: Max number of TAs (ex. 5)
+          required: false
+        
       responses:
         200:
           description: New course added to database
@@ -115,12 +124,10 @@ paths:
           in: query
           description: id of course to retrieve (ex. csc302s2017)
           required: true
-          type: integer
+          type: string
       responses:
         200:
           description: Returns course data in json form
-          schema:
-            $ref: '#/definitions/Course'
         default:
           description: returns error information
           schema:
@@ -168,6 +175,14 @@ paths:
           in: body
           description: Max number of students (ex. 150)
           required: false
+        - name: currentta
+          in: body
+          description: Current number of TAs (ex. 1)
+          required: false
+        - name: maxta
+          in: body
+          description: Max number of TAs (ex. 5)
+          required: false
       responses:
         200:
           description: course data updated in database
@@ -190,7 +205,7 @@ paths:
           in: query
           description: id of course to delete (ex. csc302s2017)
           required: true
-          type: integer
+          type: string
       responses:
         200:
           description: Course deleted from database
@@ -229,7 +244,8 @@ paths:
             $ref: '#/definitions/Success'
     get:
       description: |
-        Gets all data in the system formatted in JSON.
+        Gets all data in the system formatted in JSON. Use the 'limit' and 'offset' to for lazy loading.
+        For example, offset=10 and limit=5 would skip the first 10 results and return the next 5. 
       security:
        - basicAuth: []
       parameters:
@@ -238,6 +254,16 @@ paths:
           description: session token to identify the user and ensure permissable access
           required: true
           type: string
+        - name: limit
+          in: query
+          description: number of entries to return
+          required: false
+          type: int
+        - name: offset
+          in: query
+          description: number of entries to skip before returning results
+          required: false
+          type: int
       responses:
         200:
           description: operation success, return data
@@ -279,12 +305,81 @@ paths:
           description: session token to identify the user and ensure permissable access
           required: true
           type: string
-        - name: applicant
+        - name: utorid
           in: body
-          description: applicant information to create
+          description: applicant's UTORid
           required: true
-          schema:
-            $ref: '#/definitions/Applicant'
+          type: string
+        - name: studentnumber
+          in: body
+          description: applicant's student number
+          required: true
+          type: integer
+        - name: familyname
+          in: body
+          description: applicant's last name
+          required: true
+          type: string
+        - name: givenname
+          in: body
+          description: applicant's first name
+          required: true
+          type: string
+        - name: program
+          in: body
+          description: either undergrad, masters, phd or other
+          required: false
+          type: string
+        - name: year
+          in: body
+          description: year of study
+          required: false
+          type: integer
+        - name: phonenumber
+          in: body
+          description: applicant's phone number
+          required: false
+          type: string
+        - name: email
+          in: body
+          description: applicant's email
+          required: true
+          type: string
+        - name: studentdepartment
+          in: body
+          description: e.g csc or ece or mat e.t.c.
+          required: false
+          type: string
+        - name: tacourses
+          in: body
+          description: previously ta'ed courses ex. {course1, course2}
+          required: false
+          type: string
+        - name: courses
+          in: body
+          description: courses taken ex. {course1, course2}
+          required: false
+          type: string
+        - name: appliedcourses
+          in: body
+          description: applicant's top five preferences ex. {course1, course2, ...}
+          required: false
+          type: string
+        - name: declined
+          in: body
+          description: has applicant declined offer in the past?
+          required: true
+          type: boolean
+        - name: declinedcount
+          in: body
+          description: number of offers applicant has declined
+          required: false
+          type: integer
+        - name: declinedcourses
+          in: body
+          description: courses that this applicant has declined an offer to
+          required: false
+          type: string
       responses:
           200:
             description: New applicant added to the database
@@ -303,11 +398,11 @@ paths:
           description: session token to identify the user and ensure permissable access
           required: true
           type: string
-        - name: student_id
+        - name: utorid
           in: query
-          description: student id of applicant to find
+          description: utorid of applicant to get
           required: true
-          type: integer
+          type: string
       responses:
         200:
           description: returns desired student information
@@ -328,12 +423,81 @@ paths:
           description: session token to identify the user and ensure permissable access
           required: true
           type: string
-        - name: applicant
+        - name: utorid
           in: body
-          description: updated applicant
+          description: applicant's UTORid
           required: true
-          schema:
-            $ref: '#/definitions/Applicant'
+          type: string
+        - name: studentnumber
+          in: body
+          description: applicant's student number
+          required: true
+          type: integer
+        - name: familyname
+          in: body
+          description: applicant's last name
+          required: true
+          type: string
+        - name: givenname
+          in: body
+          description: applicant's first name
+          required: true
+          type: string
+        - name: program
+          in: body
+          description: either undergrad, masters, phd or other
+          required: false
+          type: string
+        - name: year
+          in: body
+          description: year of study
+          required: false
+          type: integer
+        - name: phonenumber
+          in: body
+          description: applicant's phone number
+          required: false
+          type: string
+        - name: email
+          in: body
+          description: applicant's email
+          required: true
+          type: string
+        - name: studentdepartment
+          in: body
+          description: e.g csc or ece or mat e.t.c.
+          required: false
+          type: string
+        - name: tacourses
+          in: body
+          description: previously ta'ed courses ex. {course1, course2}
+          required: false
+          type: string
+        - name: courses
+          in: body
+          description: courses taken ex. {course1, course2}
+          required: false
+          type: string
+        - name: appliedcourses
+          in: body
+          description: applicant's top five preferences ex. {course1, course2, ...}
+          required: false
+          type: string
+        - name: declined
+          in: body
+          description: has applicant declined offer in the past?
+          required: true
+          type: boolean
+        - name: declinedcount
+          in: body
+          description: number of offers applicant has declined
+          required: false
+          type: integer
+        - name: declinedcourses
+          in: body
+          description: courses that this applicant has declined an offer to
+          required: false
+          type: string
       responses:
         200:
           description: applicant data updated in database
@@ -572,11 +736,6 @@ paths:
       security:
        - basicAuth: []
       parameters:
-        - name: session
-          in: query
-          description: session token to identify the user and ensure permissable access
-          required: true
-          type: string
         - name: limit
           in: query
           description: limits the number of recommendations
@@ -586,7 +745,7 @@ paths:
           in: query
           description: course to recommend for
           required: true
-          type: string #Ex: "CSC302"
+          type: string #Ex: "CSC302S2017"
       responses:
         200:
           description: list of suggested applications
@@ -598,7 +757,136 @@ paths:
           description: indicates operation success, returns error if applicable
           schema:
             $ref: '#/definitions/Success'
-
+  /group/:
+    get:
+      description: |
+        Get a group by name.
+      security:
+       - basicAuth: []
+      parameters:
+        - name: name
+          in: query
+          description: Name of group.
+          required: true
+          type: string
+      responses:
+        200:
+          description: Returns group data in json form
+        default:
+          description: returns error information
+          schema:
+            $ref: '#/definitions/Success'
+            
+    post:
+      description: |
+        Adds a new group.
+      security:
+       - basicAuth: []
+      parameters:
+        - name: name
+          in: body
+          description: Name of group.
+          required: true
+          type: string
+        - name: course
+          in: body
+          description: Full course key (ex. csc302s2017)
+          required: true
+          type: string
+        - name: email
+          in: body
+          description: Email of head instructor or person to send notification
+          required: true
+          type: string
+        - name: utorids
+          in: body
+          description: Utorids of people in group (ex. {utorid1, utorid2, utorid3})
+          required: true
+          type: string
+        
+      responses:
+        200:
+          description: New group added to database
+        default:
+          description: indicates operation success, returns error if applicable
+          schema:
+            $ref: '#/definitions/Success'
+    put:
+      description: |
+        Updates a group.
+      security:
+       - basicAuth: []
+      parameters:
+        - name: name
+          in: body
+          description: Name of group.
+          required: true
+          type: string
+        - name: course
+          in: body
+          description: Full course key (ex. csc302s2017)
+          required: false
+          type: string
+        - name: email
+          in: body
+          description: Email of head instructor or person to send notification
+          required: false
+          type: string
+        - name: utorids
+          in: body
+          description: Utorids of people in group (ex. {utorid1, utorid2, utorid3})
+          required: false
+          type: string
+        
+      responses:
+        200:
+          description: Group updated in database
+        default:
+          description: indicates operation success, returns error if applicable
+          schema:
+            $ref: '#/definitions/Success'
+            
+    delete:
+      description: |
+        Deletes a group by name.
+      security:
+       - basicAuth: []
+      parameters:
+        - name: name
+          in: query
+          description: Name of group to delete
+          required: true
+          type: string
+      responses:
+        200:
+          description: Group deleted from database
+        default:
+          description: indicates operation success, returns error if applicable
+          schema:
+            $ref: '#/definitions/Success'
+            
+  /group/notify/:
+    post:
+      description: |
+        Send email to group's 'email' entry with first and last names of proposed TA assignment based on 
+        'utorid' values. The utorid of group members must be in the applicant table.
+      security:
+       - basicAuth: []
+      parameters:
+        - name: name
+          in: body
+          description: Name of group.
+          required: true
+          type: string
+        
+      responses:
+        200:
+          description: Notification email sent
+        default:
+          description: indicates operation success, returns error if applicable
+          schema:
+            $ref: '#/definitions/Success'
+            
 definitions:
   Applicant:
     type: object
@@ -617,7 +905,7 @@ definitions:
       year:
         type: integer
       phonenumber:
-        type: integer
+        type: string
         format: int32
       email:
         type: string
@@ -629,6 +917,9 @@ definitions:
       courses:
         type: string
         description: courses taken (ex. {course1, course2, course3})
+      appliedcourses:
+        type: string
+        description: Applicant's top 5 preferences(ex. {course1, course2, ...})
       declined:
         type: boolean
       declinedcount:

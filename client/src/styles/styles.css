@@ -1,5 +1,9 @@
 /* Spinner from Luke Haas, https://projects.lukehaas.me/css-loaders/ */
 
+body, #app {
+  height: 100vh;
+}
+
 .loader,
 .loader:after {
   border-radius: 50%;

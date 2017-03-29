@@ -56,8 +56,6 @@ class CourseView extends React.Component {
     this.onCloseAssignDialog = this.onCloseAssignDialog.bind(this);
   }
 
-
-
   onOpenAssignDialog(){
     this.setState({showAssignDialog: true});
   }
@@ -65,23 +63,50 @@ class CourseView extends React.Component {
     this.setState({showAssignDialog: false});
   }
 
+  getTerm(term) {
+    switch(term) {
+      case "F":
+        return "Fall ";
+      case "S":
+        return "Spring ";
+      default:
+        return "NO TERM ";
+    }
+  }
+
+  getAdditionalInstructors(instructors) {
+    if(instructors !== null) {
+      return instructors.map((instructor, index) =>
+          <ListItem key={index} primaryText={instructor}/>
+      )
+    }
+  }
 
   render() {
     const styles = lodash.cloneDeep(this.constructor.styles);
+    const course = this.props.selected;
 
     // A course must be selected, otherwise display a get clicking menu
-    if(this.props.selected !== null) {
+    if(course !== null) {
       return (
-        <div>
+        <div style={styles.noScrollX}>
           <div className="page-header">
-            <h2>{ this.props.selected.name } <small>Spring 2017 - St. George</small></h2>
+            <h2>{ course.coursecode.toUpperCase() }
+              <small> { this.getTerm(course.term.toUpperCase()) }
+              { course.year } - St. George
+              </small>
+            </h2>
           </div>
           <div className="row text-center">
-            <p>{this.props.selected.currentTAs}/{this.props.selected.maxTAs} Assigned Positions</p>
+            <p>
+              {course.currentta === null ? 0 : course.currentta}
+              /{course.maxta === null || course.maxta === 0 ? 1 : course.maxta}
+              &nbsp;Assigned Positions
+            </p>
             <LinearProgress style={styles.progress}
                             mode="determinate"
-                            max={this.props.selected.maxTAs}
-                            value={this.props.selected.currentTAs} />
+                            max={course.maxta}
+                            value={course.currentta} />
             <RaisedButton primary={true} label="Assign Applicants" onClick={this.onOpenAssignDialog}/>
           </div>
           <Card style={styles.card}>
@@ -91,26 +116,10 @@ class CourseView extends React.Component {
               showExpandableButton={true} />
             <CardText expandable={true}>
               <List>
-                <ListItem primaryText="Professor Prefessorson" rightIcon={<CourseCoordinatorIcon />}/>
-                <ListItem primaryText="Lecture Name"/>
-                <ListItem primaryText="Another Instructor"/>
+                <ListItem primaryText={course.head_instructor} rightIcon={<CourseCoordinatorIcon />}/>
+                { this.getAdditionalInstructors(course.additional_instructors) }
               </List>
             </CardText>
-          </Card>
-          <Card style={styles.card}>
-            <CardHeader
-              title="Course Coordinator Note"
-              actAsExpander={true}
-              showExpandableButton={true} />
-            <CardText expandable={true}>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-              Donec mattis pretium massa. Aliquam erat volutpat. Nulla facilisi.
-              Donec vulputate interdum sollicitudin. Nunc lacinia auctor quam sed pellentesque.
-              Aliquam dui mauris, mattis quis lacus id, pellentesque lobortis odio.
-            </CardText>
-            <CardActions>
-              <FlatButton primary={true} label="Respond" />
-            </CardActions>
           </Card>
           <Card style={styles.card}>
             <CardHeader
@@ -227,8 +236,8 @@ class CourseView extends React.Component {
     // Display default course view, user has not clicked any course.
     else {
       return (
-        <div className="text-center" style={styles.title}>
-          <h2>No course selected</h2>
+        <div className="text-center">
+          <h2 style={styles.notSelected}>No course selected</h2>
         </div>
       );
     }
@@ -243,8 +252,11 @@ CourseView.styles = {
   progress: {
     margin:'1% 0 1% 0'
   },
-  title: {
-    margin: '25% 0 25% 0'
+  noScrollX: {
+    overflowX: 'hidden'
+  },
+  notSelected: {
+    margin: '10% 0'
   }
 };
 
