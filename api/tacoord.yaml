@@ -507,7 +507,7 @@ paths:
             $ref: '#/definitions/Success'
     delete:
       description: |
-        deletes applicant by id
+        deletes applicant by utorid
       security:
        - basicAuth: []
       parameters:
@@ -516,11 +516,11 @@ paths:
           description: session token to identify the user and ensure permissable access
           required: true
           type: string
-        - name: a_id
+        - name: utorid
           in: query
-          description: the id of applicant to delete
+          description: the utorid of applicant to delete
           required: true
-          type: integer
+          type: string
       responses:
         200:
           description: applicant deleted from database
