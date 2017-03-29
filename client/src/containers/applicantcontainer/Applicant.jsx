@@ -1,19 +1,20 @@
 import React from 'react';
 import lodash from 'lodash';
-
-import Paper from 'material-ui/Paper';
+import { connect } from 'react-redux';
+import { Scrollbars } from 'react-custom-scrollbars';
 
 import ApplicantView from '../../components/applicant/applicantview/ApplicantView.jsx';
 import ApplicantList from './ApplicantList.jsx'
+import * as applicantActions from '../../actions/applicant/applicantActions';
 
 class Applicant extends React.Component {
 
   constructor(props){
     super(props);
+  }
 
-    this.state = {
-      selectedCourse: {}
-    };
+  componentDidMount() {
+    this.props.loadApplicants();
   }
 
   render() {
@@ -43,16 +44,40 @@ class Applicant extends React.Component {
 }
 
 Applicant.styles = {
-  applicant:{
-    margin: '0% 0% 2% 0'
+  dashboard: {
+    height: '100%'
   },
-  card: {
-    margin: '2% 0 2% 0'
+  applicant:{
+    height: '100%',
+    background: '#fafafa'
+  },
+  idwidth: {
+    width: '20%'
+  },
+  sessionwidth:{
+    width: '20%'
+  },
+  actionwidth:{
+    width: '18%'
   },
   applicantList: {
-    padding: '0'
+    padding: '0',
+    height: '100%',
+    background: 'rgb(189, 189, 189)'
   }
 
 };
 
-export default Applicant;
+const mapStateToProps = (state, ownProps) => {
+  return {
+    applicant: state.applicant
+  }
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    loadApplicants: () => dispatch(applicantActions.loadApplicants()),
+  }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Applicant);
