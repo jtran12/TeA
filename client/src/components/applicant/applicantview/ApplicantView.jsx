@@ -39,7 +39,9 @@ class ApplicantView extends React.Component {
     return (
       <div>
         <div className="page-header">
-          <h2>John Smith  <small>Undergraduate - 3rd Year</small></h2>
+          <h2>{applicant.familyname} &nbsp; {applicant.givenname}
+            <small>{applicant.program} - Year {applicant.year}</small>
+          </h2>
         </div>
         <div className="row text-center">
           <p>6/12 Required Hours Filled</p>

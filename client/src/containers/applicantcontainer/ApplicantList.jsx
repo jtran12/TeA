@@ -27,7 +27,7 @@ class ApplicantList extends React.Component {
     // key property should be replaced with unique key retrieved by applicant database.
 
     const applicants = this.props.applicants
-      .filter((applicant) => applicant.applicant.toLowerCase().includes(this.state.filter.toLowerCase()))
+      .filter((applicant) => applicant.program.toLowerCase().includes(this.state.filter.toLowerCase()))
       .map((applicant, index) =>
         <ApplicantListSingle select={this.props.selectApplicant.bind(this, applicant)}
                           key={index}

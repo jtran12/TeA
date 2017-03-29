@@ -18,7 +18,7 @@ class ApplicantListSingle extends React.Component {
 
     return (
       <div onClick={ () => this.props.select(this.props.applicantData) } style={ styles.applicant }>
-        <h1 style={ styles.text }> { this.props.applicantData.applicant.toUpperCase() } </h1>
+        <h1 style={ styles.text }> { this.props.applicantData.utorid.toLowerCase() } </h1>
         <LinearProgress style={ styles.progress }
                         mode="determinate"
                         max={1}
