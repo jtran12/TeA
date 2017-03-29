@@ -3,21 +3,21 @@ var pool = require(appRoot + '/controllers/database/database.js').pool;
 
 function genCourse(query) {
     // Generates the course code
-    
+
     if (query.coursecode && query.term && query.year) {
         return query.coursecode + query.term + query.year;
     }
-    
+
     return null;
 }
 
 function courseParser(req) {
   var query = req.query;
-  
+
   if (query.id) {
     return query.id;
   }
-  
+
   return genCourse(query);
 }
 
@@ -25,10 +25,10 @@ function courseParser(req) {
 // Individual Offers
 
 exports.postOffer = function(req, res) {
-  
+
     var body = req.body;
     var course = genCourse(body);
-    
+
     if (!course) {
         sender.sendError(res, 400, "Missing course fields");
     } else if (!body.utorid) {
@@ -36,16 +36,16 @@ exports.postOffer = function(req, res) {
     } else {
         // Check if offer exists already
         var query = "SELECT * FROM applications WHERE utorid=$1 AND course=$2";
-        
+
     pool.query(query, [body.utorid, course], function(err, result) {
       if (err) {
         sender.sendError(res, 404, err);
       }
       else if (!result.rows.length) {
           // Make new entry
-                    
+
           query = "INSERT INTO applications VALUES($1, $2, $3, $4)";
-          
+
           pool.query(query, [body.utorid, course, "true", "false"], function(err, result) {
               if (err) {
                   sender.sendError(res, 400, err);
@@ -59,20 +59,20 @@ exports.postOffer = function(req, res) {
         sender.sendError(res, 400, "The offer already exists.");
       }
     });
-        
+
     }
 };
 
 exports.getOffer = function(req, res) {
-         
+
     var utorid = req.query.utorid;
     var course = courseParser(req);
-    
+
     if (!utorid || !course) {
         sender.sendError(res, 400, "Offer not found");
     } else {
     var query = "SELECT * FROM applications WHERE utorid=$1 AND course=$2";
-        
+
     pool.query(query, [utorid, course], function(err, result) {
       if (err) {
         sender.sendError(res, 404, err);
@@ -87,36 +87,45 @@ exports.getOffer = function(req, res) {
   }
 };
 
+
 exports.putOffer = function(req, res) {
-    // Assume that the concatenated course code is already available
-    
   var body = req.body;
-      
-    if (!body.utorid || !body.course) {
-        sender.sendError(res, 400, "Offer not found");
-    } else {
-        // The TA coordinator doesn't set whether a TA accepted or not
-        var query = "UPDATE applications SET assigned=$1, accepted=$2 WHERE utorid=$3 AND course=$4";
-        
-        pool.query(query, [body.assigned, body.accepted, body.utorid, body.course], function(err, result) {
-            if (err) {
-                sender.sendError(res, 400, err);
-            }
-            else if (!result.rowCount) {
-                sender.sendError(res, 404, "Offer not found");
-            }
-            else {
-                res.sendStatus(200);
-            }
-        });
+
+  pool.query("SELECT * FROM applications WHERE utorid=$1 AND course=$2",
+   [body.utorid, body.course], function(err, result) {
+    if (err) {
+      sender.sendError(res, 400, err);
     }
+    else if (!result.rowCount) {
+      sender.sendError(res, 404, "Offer not found");
+    }
+    else {
+      // Found previous data
+      var data = result.rows[0];
+      var assigned = body.assigned || data.assigned;
+      var accepted = body.accepted || data.accepted;
+      var query = "UPDATE applications SET assigned=$1, accepted=$2 WHERE utorid=$3 AND course=$4";
+
+      pool.query(query, [assigned, accepted, body.utorid, body.course], function(err, result) {
+          if (err) {
+              sender.sendError(res, 400, err);
+          }
+          else if (!result.rowCount) {
+              sender.sendError(res, 404, "Offer not found");
+          }
+          else {
+              res.sendStatus(200);
+          }
+      });
+    }
+  });
 };
 
 exports.deleteOffer = function(req, res) {
   // Assume that the concatenated course code is already available
-  
+
   var que = req.query;
-    
+
   if (!que.utorid || !que.course) {
     sender.sendError(res, 404, "Offer not found");
   } else {
@@ -136,7 +145,10 @@ exports.deleteOffer = function(req, res) {
 // Pending Offers
 
 exports.getOffersPending = function(req, res) {
-  var query = "SELECT * FROM applications WHERE assigned='true' AND accepted='false'";
+  var limit = req.query.limit || 'ALL';
+  var offset = req.query.offset || 0;
+  var query = "SELECT * FROM applications WHERE assigned='true' AND accepted='false'ORDER BY utorid ASC LIMIT " + limit + " OFFSET " + offset;
+
   pool.query(query, function(err, result) {
     if (err) {
       sender.sendError(res, 400, err);
@@ -146,4 +158,3 @@ exports.getOffersPending = function(req, res) {
     }
   });
 };
-

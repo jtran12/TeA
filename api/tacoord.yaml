@@ -101,7 +101,7 @@ paths:
           in: body
           description: Max number of TAs (ex. 5)
           required: false
-        
+
       responses:
         200:
           description: New course added to database
@@ -245,7 +245,7 @@ paths:
     get:
       description: |
         Gets all data in the system formatted in JSON. Use the 'limit' and 'offset' to for lazy loading.
-        For example, offset=10 and limit=5 would skip the first 10 results and return the next 5. 
+        For example, offset=10 and limit=5 would skip the first 10 results and return the next 5.
       security:
        - basicAuth: []
       parameters:
@@ -623,9 +623,9 @@ paths:
           description: id of applicant
           required: true
           type: string
-        - name: id
+        - name: course
           in: query
-          description: id of course to retrieve (ex. csc302s2017)
+          description: course to retrieve (ex. csc302s2017)
           required: true
           type: integer
       responses:
@@ -687,9 +687,9 @@ paths:
           description: session token to identify the user and ensure permissable access
           required: true
           type: string
-        - name: id
+        - name: course
           in: query
-          description: id of course to retrieve (ex. csc302s2017)
+          description: course to retrieve (ex. csc302s2017)
           required: true
           type: integer
         - name: utorid
@@ -776,7 +776,7 @@ paths:
           description: returns error information
           schema:
             $ref: '#/definitions/Success'
-            
+
     post:
       description: |
         Adds a new group.
@@ -803,7 +803,7 @@ paths:
           description: Utorids of people in group (ex. {utorid1, utorid2, utorid3})
           required: true
           type: string
-        
+
       responses:
         200:
           description: New group added to database
@@ -837,7 +837,7 @@ paths:
           description: Utorids of people in group (ex. {utorid1, utorid2, utorid3})
           required: false
           type: string
-        
+
       responses:
         200:
           description: Group updated in database
@@ -845,7 +845,7 @@ paths:
           description: indicates operation success, returns error if applicable
           schema:
             $ref: '#/definitions/Success'
-            
+
     delete:
       description: |
         Deletes a group by name.
@@ -864,11 +864,11 @@ paths:
           description: indicates operation success, returns error if applicable
           schema:
             $ref: '#/definitions/Success'
-            
+
   /group/notify/:
     post:
       description: |
-        Send email to group's 'email' entry with first and last names of proposed TA assignment based on 
+        Send email to group's 'email' entry with first and last names of proposed TA assignment based on
         'utorid' values. The utorid of group members must be in the applicant table.
       security:
        - basicAuth: []
@@ -878,7 +878,7 @@ paths:
           description: Name of group.
           required: true
           type: string
-        
+
       responses:
         200:
           description: Notification email sent
@@ -886,7 +886,7 @@ paths:
           description: indicates operation success, returns error if applicable
           schema:
             $ref: '#/definitions/Success'
-            
+
 definitions:
   Applicant:
     type: object

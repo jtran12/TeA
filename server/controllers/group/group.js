@@ -14,16 +14,6 @@ var smtpConfig = {
 
 var transporter = nodemailer.createTransport(smtpConfig);
 
-function sendError(res, errorCode, errorMst) {
-  var json = {"success" : "false", "error_code" : errorCode, "errorMst" : errorMst};
-  res.status(errorCode).send(json);
-}
-
-function sendData(res, data) {
-  var json = {"success" : "true", "data" : data};
-  res.send(json);
-}
-
 exports.getGroup = function(req, res) {
   if (req.query.name) {
     var name = req.query.name;
@@ -34,16 +24,16 @@ exports.getGroup = function(req, res) {
     var offset = req.query.offset || 0;
     var query = "SELECT * FROM groups ORDER BY name ASC LIMIT " + limit + " OFFSET " + offset;
   }
- 
+
   pool.query(query, function(err, result) {
     if (err) {
-      sendError(res, 400, err);
+      sender.sendError(res, 400, err);
     }
     else if (!result.rows.length && name) {
-      sendError(res, 404, "Group with name: " + name + " not found");
+      sender.sendError(res, 404, "Group with name: " + name + " not found");
     }
     else {
-      sendData(res, result.rows);
+      sender.sendData(res, result.rows);
     }
   });
 };
@@ -53,7 +43,7 @@ exports.postGroup = function(req, res) {
   var query = "INSERT INTO groups VALUES($1, $2, $3, $4)";
   pool.query(query, [body.name, body.course, body.email, body.utorids], function(err, result) {
     if (err) {
-      sendError(res, 400, err);
+      sender.sendError(res, 400, err);
     }
     else {
       res.sendStatus(200);
@@ -64,13 +54,13 @@ exports.postGroup = function(req, res) {
 exports.putGroup = function(req, res) {
   var body = req.body;
   var query = "UPDATE groups SET course=$1, email=$2, utorids=$3 WHERE name=$4";
-  
+
   pool.query("SELECT * FROM groups WHERE name=$1", [body.name], function(err, result) {
     if (err) {
-      sendError(res, 400, err);
+      sender.sendError(res, 400, err);
     }
     else if (!result.rowCount) {
-      sendError(res, 404, "Group not found");
+      sender.sendError(res, 404, "Group not found");
     }
     else {
       var data = result.rows[0];
@@ -80,10 +70,10 @@ exports.putGroup = function(req, res) {
 
       pool.query(query, [course, email, utorids, body.name], function(err, result) {
         if (err) {
-          sendError(res, 400, err);
+          sender.sendError(res, 400, err);
         }
         else if (!result.rowCount) {
-          sendError(res, 404, "Group not found");
+          sender.sendError(res, 404, "Group not found");
         }
         else {
           res.sendStatus(200);
@@ -97,7 +87,7 @@ exports.deleteGroup = function(req, res) {
   var query = "DELETE FROM groups WHERE name=$1";
   pool.query(query, [req.query.name], function(err, result) {
     if (err) {
-      sendError(res, 400, err);
+      sender.sendError(res, 400, err);
     }
     else {
       res.sendStatus(200);
@@ -108,15 +98,15 @@ exports.deleteGroup = function(req, res) {
 exports.postNotify = function(req, res) {
   var name = req.body.name;
   if (!name) {
-      sendError(res, 400, "No group name provided");
+      sender.sendError(res, 400, "No group name provided");
   }
   else {
     pool.query("SELECT * FROM groups WHERE name=$1", [name], function(err, result) {
       if (err) {
-        sendError(res, 400, err);
+        sender.sendError(res, 400, err);
       }
       else if (!result.rowCount) {
-        sendError(res, 404, "Group with that name not found");
+        sender.sendError(res, 404, "Group with that name not found");
       }
       else {
         var data = result.rows[0];
@@ -129,7 +119,7 @@ exports.postNotify = function(req, res) {
 
         pool.query("SELECT * FROM applicants WHERE utorid IN (" + placeholders + ")", utorids, function(err, result) {
           if (err) {
-            sendError(res, 400, err);
+            sender.sendError(res, 400, err);
           }
           else {
             var fullNames = "";
@@ -147,7 +137,7 @@ exports.postNotify = function(req, res) {
 
             transporter.sendMail(mailOptions, (error, info) => {
               if (error) {
-                sendError(res, 400, "Error sending email");
+                sender.sendError(res, 400, "Error sending email");
               }
               else {
                 res.sendStatus(200);
