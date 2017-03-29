@@ -17,6 +17,9 @@ function courseParser(req) {
   if (query.id) {
     return query.id;
   }
+  else if (query.course) {
+    return query.course;
+  }
   
   return genCourse(query);
 }
