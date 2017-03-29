@@ -66,14 +66,14 @@ exports.putApplicant = function(req, res) {
 
 
 exports.deleteApplicant = function(req, res) {
-  var id = req.query.studentnumber;
+  var utorid = req.query.utorid;
 
-  if (!id) {
-    sender.sendError(res, 400, "Invalid parameter: ID");
+  if (!utorid) {
+    sender.sendError(res, 400, "Invalid parameter: UTORid");
   }
   else {
-    var query = "DELETE FROM applicants WHERE studentnumber=$1";
-    pool.query(query, [id], function(err, result) {
+    var query = "DELETE FROM applicants WHERE utorid=$1";
+    pool.query(query, [utorid], function(err, result) {
       if (err) {
         sender.sendError(res, 400, err);
       } else {
