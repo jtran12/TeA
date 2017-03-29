@@ -87,14 +87,16 @@ exports.getOffer = function(req, res) {
   }
 };
 
+
 exports.putOffer = function(req, res) {
   var body = req.body;
 
-  pool.query( "SELECT * FROM applications WHERE utorid=$1 AND course=$2", [body.utorid, body.course], function(err,result) {
+  pool.query( "SELECT * FROM applications WHERE utorid=$1 AND course=$2",
+   [body.utorid, body.course], function(err,result) {
     if (err) {
       sender.sendError(res, 400, err);
     }
-    else if (!result.rowCount){
+    else if (!result.rowCount) {
       sender.sendError(res, 404, "Offer not found");
     }
     else {
@@ -115,9 +117,9 @@ exports.putOffer = function(req, res) {
               res.sendStatus(200);
           }
       });
-
     }
   });
+};
 
 exports.deleteOffer = function(req, res) {
   // Assume that the concatenated course code is already available
@@ -143,7 +145,11 @@ exports.deleteOffer = function(req, res) {
 // Pending Offers
 
 exports.getOffersPending = function(req, res) {
-  var query = "SELECT * FROM applications WHERE assigned='true' AND accepted='false'";
+  var limit = req.query.limit || 'ALL';
+  var offset = req.query.offset || 0;
+  var query = "SELECT * FROM applications WHERE assigned='true' AND accepted='false' \
+  ORDER BY utorid ASC LIMIT " + limit + " OFFSET " + offset;
+
   pool.query(query, function(err, result) {
     if (err) {
       sender.sendError(res, 400, err);
