@@ -38,10 +38,10 @@ class ApplicantView extends React.Component {
 
     if(applicant !== null) {
       return (
-        <div>
+        <div style={styles.noScrollX}>
           <div className="page-header">
-            <h2>{applicant.familyname} &nbsp; {applicant.givenname}
-              <small>{applicant.program} - Year {applicant.year}</small>
+            <h2>{applicant.familyname} {applicant.givenname} &ndsp;
+              <small>{applicant.program.toUpperCase()} - Year {applicant.year}</small>
             </h2>
           </div>
           <div className="row text-center">

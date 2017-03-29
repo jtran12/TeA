@@ -39,7 +39,7 @@ ApplicantListSingle.styles = {
     height: '100%',
     textShadow: '0 0 4px #888',
   },
-  course: {
+  applicant: {
     position: 'relative',
     height: '48px',
     cursor: 'pointer',
