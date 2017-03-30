@@ -42,10 +42,10 @@ export function loadCoursesFailure(error) {
   };
 }
 
-export function loadCourses() {
+export function loadCourses(currSize) {
   return (dispatch) => {
     dispatch(loadCoursesRequest());
-    return CourseAPI.getCourses().then((courses) => {
+    return CourseAPI.getCourses(currSize).then((courses) => {
       dispatch(loadCoursesSuccess(courses));
     }).catch((error) => {
       dispatch(loadCoursesFailure(error));

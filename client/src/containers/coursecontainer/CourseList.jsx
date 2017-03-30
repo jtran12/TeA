@@ -21,6 +21,9 @@ class CourseList extends React.Component {
   onSearch(e){
     this.setState({filter: e.target.value}, () => console.log(this.state.filter));
   }
+  onLoadMore(){
+    this.props.loadCourses(this.props.courses.length);
+  }
 
   render() {
     const styles = lodash.cloneDeep(this.constructor.styles);
@@ -50,7 +53,7 @@ class CourseList extends React.Component {
         </div>
         { courses }
         <div className="courseMore" style={styles.courseMore}>
-          <p style={styles.courseMoreP}> more courses </p>
+          <p style={styles.courseMoreP} onClick={this.onLoadMore}> more courses </p>
         </div>
       </div>
     );
