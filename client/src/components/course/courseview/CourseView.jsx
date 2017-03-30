@@ -109,6 +109,34 @@ class CourseView extends React.Component {
                             value={course.currentta} />
             <RaisedButton primary={true} label="Assign Applicants" onClick={this.onOpenAssignDialog}/>
           </div>
+          <div className="row" style={styles.info}>
+            <Table>
+              <TableBody displayRowCheckbox={false}>
+                <TableRow selectable={false}>
+                  <TableRowColumn>Current Enrollment</TableRowColumn>
+                  <TableRowColumn>{course.current_enrollment}</TableRowColumn>
+                </TableRow>
+                <TableRow selectable={false}>
+                  <TableRowColumn>Expected Enrollment</TableRowColumn>
+                  <TableRowColumn>{course.expected_enrollment}</TableRowColumn>
+                </TableRow>
+                <TableRow selectable={false}>
+                  <TableRowColumn>Max Enrollment</TableRowColumn>
+                  <TableRowColumn>{course.max_enrollment}</TableRowColumn>
+                </TableRow>
+                <TableRow selectable={false}>
+                  <TableRowColumn>Required Prerequisite Courses</TableRowColumn>
+                  <TableRowColumn>
+                    <div style={styles.required}>
+                      {course.requirements.map((course, key) => (
+                        <p>{course}</p>
+                      ))}
+                    </div>
+                  </TableRowColumn>
+                </TableRow>
+              </TableBody>
+            </Table>
+          </div>
           <Card style={styles.card}>
             <CardHeader
               title="Instructors"
@@ -246,6 +274,12 @@ class CourseView extends React.Component {
 }
 
 CourseView.styles = {
+  info: {
+    margin: '2% 0 0 0'
+  },
+  required: {
+    padding: '2% 0 2% 0'
+  },
   card: {
     margin: '2% 0 2% 0'
   },
