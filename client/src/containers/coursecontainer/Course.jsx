@@ -16,7 +16,7 @@ class Course extends React.Component {
   }
 
   componentDidMount() {
-    this.props.loadCourses();
+    this.props.loadCourses([]);
   }
 
   render() {
@@ -29,7 +29,7 @@ class Course extends React.Component {
                       autoHide
                       autoHideTimeout={500}
                       autoHideDuration={200}>
-            <CourseList courses={this.props.course.courses}/>
+            <CourseList courses={this.props.course.courses} full={this.props.course.full} loadCourses={this.props.loadCourses}/>
           </Scrollbars>
         </div>
         <div style={styles.course} className="col-xs-12 col-md-8">
@@ -53,15 +53,6 @@ Course.styles = {
     height: '100%',
     background: '#fafafa'
   },
-  idwidth: {
-    width: '20%'
-  },
-  sessionwidth:{
-    width: '20%'
-  },
-  actionwidth:{
-    width: '18%'
-  },
   courseList: {
     padding: '0',
     height: '100%',
@@ -78,7 +69,7 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    loadCourses: () => dispatch(courseActions.loadCourses()),
+    loadCourses: (curr) => dispatch(courseActions.loadCourses(curr)),
   }
 };
 
