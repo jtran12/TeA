@@ -129,7 +129,7 @@ class CourseView extends React.Component {
                   <TableRowColumn>
                     <div style={styles.required}>
                       {course.requirements.map((course, key) => (
-                        <p>{course}</p>
+                        <p key={key}>{course}</p>
                       ))}
                     </div>
                   </TableRowColumn>

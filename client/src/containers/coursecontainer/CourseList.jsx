@@ -19,10 +19,10 @@ class CourseList extends React.Component {
   }
 
   onSearch(e){
-    this.setState({filter: e.target.value}, () => console.log(this.state.filter));
+    this.setState({filter: e.target.value});
   }
   onLoadMore(){
-    this.props.loadCourses(this.props.courses.length);
+    this.props.loadCourses(this.props.courses);
   }
 
   render() {
@@ -52,9 +52,13 @@ class CourseList extends React.Component {
             hintText="Search"/>
         </div>
         { courses }
-        <div className="courseMore" style={styles.courseMore}>
-          <p style={styles.courseMoreP} onClick={this.onLoadMore}> more courses </p>
-        </div>
+        {
+          this.props.full ? null :
+            <div className="courseMore" style={styles.courseMore}>
+              <p style={styles.courseMoreP} onClick={this.onLoadMore}> more courses </p>
+            </div>
+        }
+
       </div>
     );
   }

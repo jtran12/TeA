@@ -42,10 +42,12 @@ export function loadCoursesFailure(error) {
   };
 }
 
-export function loadCourses(currSize) {
+export function loadCourses(curr) {
   return (dispatch) => {
     dispatch(loadCoursesRequest());
-    return CourseAPI.getCourses(currSize).then((courses) => {
+    return CourseAPI.getCourses(curr.length).then((courses) => {
+      courses.full = courses.data.length == 0;
+      courses.data = curr.concat(courses.data);
       dispatch(loadCoursesSuccess(courses));
     }).catch((error) => {
       dispatch(loadCoursesFailure(error));
