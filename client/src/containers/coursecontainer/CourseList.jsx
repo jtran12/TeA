@@ -90,7 +90,7 @@ class CourseList extends React.Component {
           return Math.ceil(((numTAs / maxTAs) * 100)) <= parseInt(parse.filterNum);
         }
         else if (parse.mode === "normal") {
-          return numTAs <= parseInt(parse.filterNum);
+          return maxTAs <= parseInt(parse.filterNum);
         }
         return false;
       }
@@ -100,7 +100,7 @@ class CourseList extends React.Component {
           return Math.ceil(((numTAs / maxTAs) * 100)) >= parseInt(parse.filterNum);
         }
         else if (parse.mode === "normal") {
-          return numTAs >= parseInt(parse.filterNum);
+          return maxTAs >= parseInt(parse.filterNum);
         }
         return false;
       }
