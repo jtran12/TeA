@@ -116,6 +116,11 @@ exports.putOffer = function(req, res) {
                 sendError(res, 404, "Offer not found");
             }
             else {
+				/* Extra functionality for an edge case here: if body.accepted is true 
+				*  (the applicant accepted an offer), rerun recommendation ranking for
+				*  every course they show up in the top list for
+				*  Not needed for MVP
+				*/
                 res.sendStatus(200);
             }
         });
