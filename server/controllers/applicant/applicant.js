@@ -87,3 +87,17 @@ exports.deleteApplicant = function(req, res) {
 exports.postApplicantFilter = function(req, res) {
   return null;
 };
+
+exports.getAllApplicants = function(req, res) {
+  var limit = req.query.limit || 'ALL';
+  var offset = req.query.offset || 0;
+  var query = "SELECT * FROM applicants ORDER BY utorid ASC LIMIT " + limit + " OFFSET " + offset;
+  pool.query(query, function(err, result) {
+    if (err) {
+      sender.sendError(res, 400, err);
+    }
+    else {
+      sender.sendData(res, result.rows);
+    }
+  });
+};
