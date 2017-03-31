@@ -84,11 +84,25 @@ updateTopTen(course, applicant, offerData){
     Consider that you need to match previous hours of Phd applicants.
 
     If given enough time, a rating system where professors can rate the performance of TAs. Highest rating recommended first.
+	*/
 	
+    var recomQuery = 'SELECT * FROM courses WHERE coursecode=$1';
+	var recomData = null;
+	pool.query(recomQuery, [course], function(recomErr, recomResult) {
+        if (recomErr) {
+            sendError(res, 404, recomErr);
+        }
+        else if (!recomResult.rows.length) {
+            recomData = [];
+        }
+        else {
+            recomData = recomResult[0];
+        }
+    });
 	
 	// Update recommended_applicants
 	
-	
+	/*
     var applicantQuery = 'SELECT * FROM applicants';
     var offersQuery = 'SELECT * FROM applications';
     var offerData = null;
@@ -96,7 +110,7 @@ updateTopTen(course, applicant, offerData){
 
     pool2.query(offersQuery, function(offErr, offResult) {
         if (offErr) {
-            sendError(res, 404, err);
+            sendError(res, 404, offErr);
         }
         else if (!offResult.rows.length) {
             offerData = [];
@@ -219,7 +233,7 @@ exports.updateRecommendations(utorid){
 	var offerData = null;
     pool.query(offersQuery, [utorid], function(offErr, offResult) {
         if (offErr) {
-            sendError(res, 400, err);
+            sendError(res, 400, offErr);
         } else if (!offResult.rows.length) {
             offerData = [];
         } else {
@@ -227,12 +241,10 @@ exports.updateRecommendations(utorid){
         }
     });
     
-    var courseQuery = 'SELECT * FROM course_recommendations';
+    var courseQuery = 'SELECT * FROM courses';
     pool.query(courseQuery, function(err, result) {
       if (err) {
         sendError(res, 400, err);
-      } else if (!result.rows.length) {
-          sendError(res, 404, "No courses to recommend");
       } else {
 		  var courses = result.rows;
           for (var i = 0; i < courses.length; i++){
@@ -249,16 +261,16 @@ exports.updateRecommendations(utorid){
  * OUTPUT = {list of top 10 most recommended applicants}
  **/
 exports.recommendGET = function(args, res, next) {
-	var courseCode = courseCodeParser(args.query.course); 
-	var courseQuery = "SELECT * FROM course_recommendations WHERE coursecode=$1";
-	pool.query(courseQuery, [courseCode], function(err, result) {
+	var course = args.query.course.toLowerCase(); 
+	var courseQuery = "SELECT * FROM courses WHERE course=$1";
+	pool.query(courseQuery, [course], function(err, result) {
       if (err) {
         sendError(res, 400, err);
       } else if (!result.rows.length) {
-          sendError(res, 404, "No recommendation for course: " + args.query.course);
+          sendError(res, 404, "Course: " + args.query.course + " not found");
       } else {
 		  // TODO: Remove ranks before return
-          sendData(res, result.rows.recommended_applicants);
+          sendData(res, result.rows[0].recommended_applicants);
       }
     });
 };

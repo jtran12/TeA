@@ -33,6 +33,7 @@ CREATE TABLE courses(
 	max_enrollment integer,
 	currentta integer NOT NULL,
 	maxta integer NOT NULL,
+	recommended_applicants text[],
 	PRIMARY KEY(course)
 );
 
@@ -47,10 +48,4 @@ CREATE TABLE groups(
 	name text,
 	utorids text[],
 	PRIMARY KEY(name)
-);
-
-CREATE TABLE course_recommendations(
-	coursecode text,
-	recommended_applicants text[],
-	PRIMARY KEY(coursecode)
 );
