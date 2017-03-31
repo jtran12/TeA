@@ -110,6 +110,19 @@ class CourseView extends React.Component {
             <RaisedButton primary={true} label="Assign Applicants" onClick={this.onOpenAssignDialog}/>
           </div>
           <div className="row" style={styles.info}>
+            <Card style={styles.card}>
+              <CardHeader
+                title="Instructors"
+                actAsExpander={false} />
+              <CardText expandable={false}>
+                <List>
+                  <ListItem primaryText={course.head_instructor} rightIcon={<CourseCoordinatorIcon />}/>
+                  { this.getAdditionalInstructors(course.additional_instructors) }
+                </List>
+              </CardText>
+            </Card>
+          </div>
+          <div className="row" style={styles.info}>
             <Table>
               <TableBody displayRowCheckbox={false}>
                 <TableRow selectable={false}>
@@ -137,24 +150,13 @@ class CourseView extends React.Component {
               </TableBody>
             </Table>
           </div>
-          <Card style={styles.card}>
-            <CardHeader
-              title="Instructors"
-              actAsExpander={true}
-              showExpandableButton={true} />
-            <CardText expandable={true}>
-              <List>
-                <ListItem primaryText={course.head_instructor} rightIcon={<CourseCoordinatorIcon />}/>
-                { this.getAdditionalInstructors(course.additional_instructors) }
-              </List>
-            </CardText>
-          </Card>
+
           <Card style={styles.card}>
             <CardHeader
               title="Recommended Applicants"
-              actAsExpander={true}
-              showExpandableButton={true} />
-            <CardText expandable={true}>
+              actAsExpander={false}
+              showExpandableButton={false} />
+            <CardText expandable={false}>
               <ApplicantRecommendations/>
             </CardText>
           </Card>

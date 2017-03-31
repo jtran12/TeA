@@ -53,7 +53,7 @@ class ApplicantRecommendations extends React.Component {
       <div className="recommendations">
         <div style={styles.root}>
           <GridList
-            cols={2}
+            cols={1}
             cellHeight={100}
             padding={1}
             style={styles.gridList}
@@ -82,12 +82,12 @@ class ApplicantRecommendations extends React.Component {
 
 ApplicantRecommendations.styles = {
     root: {
-    display: 'flex',
-    flexWrap: 'wrap',
-    justifyContent: 'space-around',
+      display: 'flex',
+      flexWrap: 'wrap',
+      justifyContent: 'space-around',
     },
     gridList: {
-      width: 500,
+      width: 1250,
       height: 450,
       overflowY: 'auto',
     },

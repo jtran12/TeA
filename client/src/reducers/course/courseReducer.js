@@ -14,7 +14,9 @@ export default function courseReducer(state = createInitialCourseState(), action
       return Object.assign({}, state, {isFetching: true });
 
     case 'LOAD_COURSES_SUCCESS':
-      return Object.assign({}, state, {isFetching: false, courses: action.courses.data, full: action.courses.full});
+      return Object.assign({}, state, {
+        isFetching: false, courses: action.courses.data, full: action.courses.full
+      });
 
     case 'LOAD_COURSES_FAILURE':
       return Object.assign({}, state, {isFetching: false });

@@ -46,8 +46,10 @@ export function loadCourses(curr) {
   return (dispatch) => {
     dispatch(loadCoursesRequest());
     return CourseAPI.getCourses(curr.length).then((courses) => {
-      courses.full = courses.data.length == 0;
+      /* eslint-disable no-param-reassign */
+      courses.full = courses.data.length === 0;
       courses.data = curr.concat(courses.data);
+      /* eslint-enable no-param-reassign */
       dispatch(loadCoursesSuccess(courses));
     }).catch((error) => {
       dispatch(loadCoursesFailure(error));
