@@ -2,6 +2,7 @@ var sender = require(appRoot + '/controllers/sender.js');
 var pool = require(appRoot + '/controllers/database/database.js').pool;
 var recommendation = require(appRoot + '/controllers/recommender/recommender.js');
 
+
 exports.postApplicant = function(req, res) {
   var applicant = JSON.parse(req.body.applicant);
   var query = "INSERT INTO applicants VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15)";
