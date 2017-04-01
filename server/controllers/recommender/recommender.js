@@ -60,6 +60,7 @@ function sortByElement(path, reverse, primer, then) {
 updateTopThirty(course, applicant, offerData){
 	// Compute rank of 'applicant' for 'course'
 
+
     var ranking = 100;
 
     for (var j = 0; j < offerData.length; j++) {
