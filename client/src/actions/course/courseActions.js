@@ -42,10 +42,14 @@ export function loadCoursesFailure(error) {
   };
 }
 
-export function loadCourses() {
+export function loadCourses(curr) {
   return (dispatch) => {
     dispatch(loadCoursesRequest());
-    return CourseAPI.getCourses().then((courses) => {
+    return CourseAPI.getCourses(curr.length).then((courses) => {
+      /* eslint-disable no-param-reassign */
+      courses.full = courses.data.length === 0;
+      courses.data = curr.concat(courses.data);
+      /* eslint-enable no-param-reassign */
       dispatch(loadCoursesSuccess(courses));
     }).catch((error) => {
       dispatch(loadCoursesFailure(error));

@@ -2,7 +2,7 @@
 
 CREATE TABLE applicants(
 	utorid text,
-	studentnumber integer NOT NULL,
+	studentnumber integer NOT NULL UNIQUE,
 	familyname text NOT NULL,
 	givenname text NOT NULL,
 	program text,
@@ -12,7 +12,7 @@ CREATE TABLE applicants(
 	studentdepartment text,
 	tacourses text[],
 	courses text[],
-	applied_courses text[],
+	appliedcourses text[],
 	declined boolean NOT NULL,
 	declinedcount integer,
 	declinedcourses text[],
@@ -45,6 +45,8 @@ CREATE TABLE applications(
 
 CREATE TABLE groups(
 	name text,
+	course text,
+	email text,
 	utorids text[],
 	PRIMARY KEY(name)
 );

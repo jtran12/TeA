@@ -3,6 +3,7 @@ export default function createInitialCourseState() {
     selectedCourse: null,
     isFetching: false,
     error: null,
-    courses: []
+    courses: [],
+    full: false
   };
 }

@@ -2,12 +2,10 @@ import fetch from 'isomorphic-fetch';
 
 class CourseAPI {
 
-  static getCourses() {
+  static getCourses(currSize) {
+    const COURSE_API = `http://localhost:3000/course/bulk?limit=10&offset=${currSize}`;
 
-    // REPLACE COURSE_MOCK_URL WITH SERVER API URL ONCE IT'S THERE !!!
-    const COURSE_MOCK_URL = './mock/course/course.json';
-
-    return fetch(COURSE_MOCK_URL)
+    return fetch(COURSE_API)
       .then(response => response.json())
       .catch(error => error);
   }
