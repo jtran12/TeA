@@ -4,9 +4,9 @@ var pool2 = require(appRoot + '/controllers/database/database.js').pool;
 
 function courseCodeParser(course) {
   var regex = /[a-z]+[0-9]+/i;
-  var courseCode = regex.exec(course);
+  var courseCode = regex.exec(course.toLowerCase());
 
-  return courseCode;
+  return courseCode[0];
 }
 
 function courseArrayCodeParser(courseArray) {
@@ -57,122 +57,157 @@ function sortByElement(path, reverse, primer, then) {
     };
 }
 
-/**
- * Returns a list of recommended applicants for a given course
- *
- * course Applicant course to recommend for
- * limit Integer limits the number of recommendations (optional)
- * returns List
- **/
-exports.recommendGET = function(args, res, next) {
-    var applicantQuery = 'SELECT * FROM applicants';
-    var offersQuery = 'SELECT * FROM applications';
-    var offerData = null;
-    args.query.course = args.query.course.toLowerCase();
+updateTopThirty(course, applicant, offerData){
+	// Compute rank of 'applicant' for 'course'
 
-    pool2.query(offersQuery, function(offErr, offResult) {
+    var ranking = 100;
+
+    for (var j = 0; j < offerData.length; j++) {
+	  var offer = offerData[j];
+
+      //Make sure applicant not already offered this course.
+      //If they are, do not put them in the recommendation list and return.
+
+      if ((applicant.utorid.toLowerCase() === offer.utorid.toLowerCase()) && (offer.course.toLowerCase() === args.query.course.toLowerCase())) {
+        return;
+      }
+    }
+
+    // Prioritize graduate over undergraduate and phd applicants.
+	if (applicant.program.toLowerCase() === "undergrad") {
+		ranking -= 15;
+	}
+	else if (applicant.program.toLowerCase() === "phd") {
+		ranking -= 10;
+	}
+	else if (applicant.program.toLowerCase() === 'masters') {
+		ranking += 5;
+	}
+	else {
+		ranking -= 15;
+	}
+
+	// Prefer CSC applicants for TAship over non-CSC
+	if (applicant.studentdepartment.toLowerCase() !== "csc") {
+		ranking -= 20;
+	}
+
+	// Prefer applicants who have previously TA'd the course
+	var courseCode = courseCodeParser(course.course);
+	lowerCaseArray(applicant.tacourses);
+	courseArrayCodeParser(applicant.tacourses);
+	if (applicant.tacourses.includes(courseCode[0])) {
+		ranking += 10;
+	}
+
+	lowerCaseArray(applicant.courses);
+	courseArrayCodeParser(applicant.courses);
+	// Give a little bump to applicants who previously took the course
+	if (applicant.courses.includes(courseCode[0])) {
+		ranking += 5;
+	}
+
+	// Give higher ranking to those who listed the course as a preference
+	// What happened to applied_courses?
+	if (applicant.applied_courses.includes(course.course.toLowerCase())) {
+		ranking += 5;
+	}
+
+	// Reduce priority if masters applicant and already made an offer
+	if (offerData && (applicant.program.toLowerCase() === "masters")) {
+		for (var j = 0; j < offerData.length; j++) {
+			var offer = offerData[j];
+			if (applicant.utorid === offer.utorid) {
+				ranking -= 5;
+				break;
+			}
+		}
+	}
+
+
+    var recommendationsLength = course.recommended_applicants.length;
+    for (var i = 0; i < recommendationsLength; i++){
+		var curr_rank = course.recommended_applicants[i].split(" ")[1];
+		if (ranking > curr_rank){
+			course.recommended_applicants.splice(i, 0, applicant.utorid + " " + ranking);
+			break;
+		}
+	}
+	if ((course.recommended_applicants.length < 30) && (course.recommended_applicants.length == recommendationsLength)){
+		course.recommended_applicants.push(applicant.utorid + " " + ranking);
+	}
+
+	course.recommended_applicants.splice(30,);
+
+	var query = "UPDATE courses SET recommended_applicants=$1 WHERE course=$2";
+	pool.query(query, [course.recommended_applicants, course.course], function(err, result) {
+      if (err) {
+        sender.sendError(res, 400, err);
+      }
+      else if (!result.rowCount) {
+        sender.sendError(res, 404, "Course not found");
+      }
+      else {
+        res.sendStatus(200);
+      }
+    });
+}
+
+
+exports.updateRecommendations(utorid){
+	var applicantQuery = 'SELECT * FROM applicants WHERE utorid=$1';
+	var applicant = null;
+	pool.query(applicantQuery, [utorid], function(err, result) {
+      if (err) {
+          sender.sendError(res, 400, err);
+      } else if (!result.rows.length) {
+          sender.sendError(res, 404, "Applicant with utorid: " + utorid + " not found");
+      } else {
+          applicant = result.rows[0];
+      }
+    });
+
+	var offersQuery = 'SELECT * FROM applications WHERE utorid=$1';
+	var offerData = null;
+    pool.query(offersQuery, [utorid], function(offErr, offResult) {
         if (offErr) {
-            sender.sendError(res, 404, err);
-        }
-        else if (!offResult.rows.length) {
+            sender.sendError(res, 400, offErr);
+        } else if (!offResult.rows.length) {
             offerData = [];
-        }
-        else {
+        } else {
             offerData = offResult.rows;
         }
     });
 
-    pool.query(applicantQuery, function(err, result) {
-        if (err) {
-            sender.sendError(res, 400, err);
-        }
-        else if (!result.rows.length) {
-            sender.sendError(res, 404, "No applicants");
-        }
-        else {
-            var data = result.rows;
-            // Rank applicants for list, using ruleset
-            for (var i = 0; i < data.length; i++) {
-                var applicant = data[i];
-                var ranking = 100;
+    var courseQuery = 'SELECT * FROM courses';
+    pool.query(courseQuery, function(err, result) {
+      if (err) {
+        sender.sendError(res, 400, err);
+      } else {
+		    var courses = result.rows;
+        for (var i = 0; i < courses.length; i++){
+		      updateTopThirty(courses[i], applicant, offerData);
+		    }
+      }
+    });
+}
 
-                for (var j = 0; j < offerData.length; j++) {
-                    var offer = offerData[j];
-
-                    /* Make sure applicant not already offered this course.
-                       If they are, remove applicant from dataset.
-                    */
-                    if (!courseCode.length) {
-                        sender.sendError(res, 404, "No course to recommend for");
-                    }
-                    if ((applicant.utorid.toLowerCase() === offer.utorid.toLowerCase()) && (offer.course.toLowerCase() === args.query.course.toLowerCase())) {
-                        data.splice(i, 1);
-                        applicant = null;
-                        i--;
-                        break;
-                    }
-                }
-                // If applicant removed from dataset, break 1 iteration of loop
-                if (!applicant) {
-                    continue;
-                }
-
-                // Prioritize graduate over undergraduate and phd applicants.
-                if (applicant.program.toLowerCase() === "undergrad") {
-                    ranking -= 15;
-                }
-                else if (applicant.program.toLowerCase() === "phd") {
-                    ranking -= 10;
-                }
-                else if (applicant.program.toLowerCase() === 'masters') {
-                    ranking += 5;
-                }
-                else {
-                    ranking -= 15;
-                }
-
-                // Prefer CSC applicants for TAship over non-CSC
-                if (applicant.studentdepartment.toLowerCase() !== "csc") {
-                    ranking -= 20;
-                }
-
-                // Prefer applicants who have previously TA'd the course
-                var course = courseCodeParser(args.query.course);
-                lowerCaseArray(applicant.tacourses);
-                courseArrayCodeParser(applicant.tacourses);
-                if (applicant.tacourses.includes(course[0])) {
-                    ranking += 10;
-                }
-
-                lowerCaseArray(applicant.courses);
-                courseArrayCodeParser(applicant.courses);
-                // Give a little bump to applicants who previously took the course
-                if (applicant.courses.includes(course[0])) {
-                    ranking += 5;
-                }
-
-                // Give higher ranking to those who listed the course as a preference
-                // What happened to applied_courses?
-
-                // Reduce priority if masters applicant and already made an offer
-                if (offerData && (applicant.program.toLowerCase() === "masters")) {
-                    for (var j = 0; j < offerData.length; j++) {
-                        var offer = offerData[j];
-                        if (applicant.utorid === offer.utorid) {
-                            ranking -= 5;
-                            break;
-                        }
-                    }
-                }
-
-                applicant.ranking = ranking;
-            }
-            data.sort(sortByElement('ranking', true, parseInt, null));
-            // Slice list down to given size
-            if (args.query.limit) {
-              data = data.slice(0, args.query.limit);
-            }
-            sender.sendData(res, data);
-        }
+/**
+ * Returns a list of recommended applicants for a given course
+ * INPUT = course id
+ * OUTPUT = {list of top 10 most recommended applicants}
+ **/
+exports.recommendGET = function(args, res, next) {
+	var course = args.query.course.toLowerCase();
+	var courseQuery = "SELECT * FROM courses WHERE course=$1";
+	pool.query(courseQuery, [course], function(err, result) {
+      if (err) {
+          sender.sendError(res, 400, err);
+      } else if (!result.rows.length) {
+          sender.sendError(res, 404, "Course: " + args.query.course + " not found");
+      } else {
+		  // TODO: Remove ranks before return
+          sender.sendData(res, result.rows[0].recommended_applicants);
+      }
     });
 };

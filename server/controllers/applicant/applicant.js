@@ -1,6 +1,6 @@
 var sender = require(appRoot + '/controllers/sender.js');
 var pool = require(appRoot + '/controllers/database/database.js').pool;
-
+var recommendation = require(appRoot + '/controllers/recommender/recommender.js');
 
 exports.postApplicant = function(req, res) {
   var applicant = JSON.parse(req.body.applicant);
@@ -14,6 +14,7 @@ exports.postApplicant = function(req, res) {
       sender.sendError(res, 400, err);
     }
     else {
+	  recommendation.updateRecommendations(applicant.utorid);
       res.sendStatus(200);
     }
   });
@@ -59,6 +60,7 @@ exports.putApplicant = function(req, res) {
       sender.sendError(res, 404, "Applicant: " + applicant.utorid + " not found");
     }
     else {
+	  recommendation.updateRecommendations(applicant.utorid);
       res.sendStatus(200);
     }
   });
