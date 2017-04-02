@@ -80,7 +80,7 @@ exports.postCourse = function(req, res) {
 
 exports.putCourse = function(req, res) {
   var body = req.body;
-  var query = "UPDATE courses SET requirements=$1, head_instructor=$2, additional_instructors=$3, tas=$4, expected_enrollment=$5, current_enrollment=$6, max_enrollment=$7, currentta=$8, maxta=$9, recommended_applicants=$10 WHERE course=$10";
+  var query = "UPDATE courses SET requirements=$1, head_instructor=$2, additional_instructors=$3, tas=$4, expected_enrollment=$5, current_enrollment=$6, max_enrollment=$7, currentta=$8, maxta=$9 WHERE course=$10";
 
   pool.query("SELECT * FROM courses WHERE course=$1", [body.course], function(err, result) {
     if (err) {

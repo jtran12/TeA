@@ -25,6 +25,7 @@ function lowerCaseArray(courses) {
       result.push(courses[i].toLowerCase());
     }
   }
+  
   return result;
 }
 
@@ -134,7 +135,7 @@ function updateTopThirty(course, applicant, offerData) {
       i--;
       continue;
     }
-    
+
 		if (ranking > currRank) {
       course.recommended_applicants.splice(i, 0, applicant.utorid + " " + ranking);
       break;
