@@ -16,6 +16,7 @@ CREATE TABLE applicants(
 	declinedcount integer,
 	declinedcourses text[],
 	appliedcourses text[],
+	currentAssignedCourses text[],
 	PRIMARY KEY(utorid)
 );
 

@@ -354,12 +354,12 @@ paths:
           in: body
           description: previously ta'ed courses ex. {course1, course2}
           required: false
-          type: string
+          type: string array
         - name: courses
           in: body
           description: courses taken ex. {course1, course2}
           required: false
-          type: string
+          type: string array
         - name: declined
           in: body
           description: has applicant declined offer in the past?
@@ -374,12 +374,17 @@ paths:
           in: body
           description: courses that this applicant has declined an offer to
           required: false
-          type: string
+          type: string array
         - name: appliedcourses
           in: body
           description: applicant's top five preferences ex. {course1, course2, ...}
           required: false
-          type: string
+          type: string array
+        - name: currentAssignedCourses
+          in: body
+          description: courses applicant has been assigned to ex. {course1, course2, ...}
+          required: false
+          type: string array
       responses:
           200:
             description: New applicant added to the database
@@ -472,12 +477,12 @@ paths:
           in: body
           description: previously ta'ed courses ex. {course1, course2}
           required: false
-          type: string
+          type: string array
         - name: courses
           in: body
           description: courses taken ex. {course1, course2}
           required: false
-          type: string
+          type: string array
         - name: declined
           in: body
           description: has applicant declined offer in the past?
@@ -492,12 +497,17 @@ paths:
           in: body
           description: courses that this applicant has declined an offer to
           required: false
-          type: string
+          type: string array
         - name: appliedcourses
           in: body
           description: applicant's top five preferences ex. {course1, course2, ...}
           required: false
-          type: string
+          type: string array
+        - name: currentAssignedCourses
+          in: body
+          description: courses applicant has been assigned to ex. {course1, course2, ...}
+          required: false
+          type: string array
       responses:
         200:
           description: applicant data updated in database
