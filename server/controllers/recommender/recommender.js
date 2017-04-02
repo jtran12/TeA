@@ -209,8 +209,12 @@ exports.recommendGET = function(args, res, next) {
       } else if (!result.rows.length) {
           sender.sendError(res, 404, "Course: " + args.query.course + " not found");
       } else {
-        // TODO: Remove ranks before return
-          sender.sendData(res, result.rows[0].recommended_applicants);
+          var topApplicants = [];
+          for (var i = 0; i < result.rows[0].recommended_applicants.length; i++) {
+            var tokens = result.rows[0].recommended_applicants[i].split(" ");
+            topApplicants.push(tokens[0]);
+          }
+          sender.sendData(res, topApplicants);
       }
     });
 };
