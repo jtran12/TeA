@@ -68,7 +68,7 @@ exports.deleteCourse = function(req, res) {
 exports.postCourse = function(req, res) {
   var body = req.body;
   var query = "INSERT INTO courses VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)";
-  pool.query(query, [body.course, body.coursecode, body.term, body.year, body.requirements, body.head_instructor, body.additional_instructors, body.tas, body.expected_enrollment, body.current_enrollment, body.max_enrollment, body.currentta, body.maxta, '{}', function(err, result) {
+  pool.query(query, [body.course, body.coursecode, body.term, body.year, body.requirements, body.head_instructor, body.additional_instructors, body.tas, body.expected_enrollment, body.current_enrollment, body.max_enrollment, body.currentta, body.maxta, '{}'], function(err, result) {
     if (err) {
       sender.sendError(res, 404, err);
     }
