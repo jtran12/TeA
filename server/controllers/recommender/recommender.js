@@ -154,7 +154,7 @@ function updateTopThirty(course, applicant, offerData) {
 }
 
 
-exports.updateRecommendations(utorid){
+exports.updateRecommendations = function(utorid) {
 	var applicantQuery = 'SELECT * FROM applicants WHERE utorid=$1';
 	var applicant = null;
 	pool.query(applicantQuery, [utorid], function(err, result) {
