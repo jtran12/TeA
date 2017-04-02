@@ -106,6 +106,12 @@ exports.putOffer = function(req, res) {
       var accepted = body.accepted || data.accepted;
       var query = "UPDATE applications SET assigned=$1, accepted=$2 WHERE utorid=$3 AND course=$4";
 
+      /* Extra functionality for an edge case here: if body.accepted is true
+      *  (the applicant accepted an offer), rerun recommendation ranking for
+      *  every course they show up in the top list for
+      *  Not building for MVP
+      */
+
       pool.query(query, [assigned, accepted, body.utorid, body.course], function(err, result) {
           if (err) {
               sender.sendError(res, 400, err);
