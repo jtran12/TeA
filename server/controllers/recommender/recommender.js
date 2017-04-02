@@ -63,7 +63,7 @@ function updateTopThirty(course, applicant, offerData) {
     var ranking = 100;
 
     for (var j = 0; j < offerData.length; j++) {
-	  var offer = offerData[j];
+    var offer = offerData[j];
 
       // Make sure applicant not already offered this course.
       // If they are, do not put them in the recommendation list and return.
@@ -126,17 +126,16 @@ function updateTopThirty(course, applicant, offerData) {
 
 
   var recommendationsLength = course.recommended_applicants.length;
+  for (var i = 0; i < recommendationsLength; i++) {
+		var currRank = course.recommended_applicants[i].split(" ")[1];
 
-  for (var i = 0; i < recommendationsLength; i++){
-		var curr_Rank = course.recommended_applicants[i].split(" ")[1];
-
-		if (ranking > curr_Rank){
-		  course.recommended_applicants.splice(i, 0, applicant.utorid + " " + ranking);
-		  break;
+		if (ranking > currRank) {
+      course.recommended_applicants.splice(i, 0, applicant.utorid + " " + ranking);
+      break;
 		}
 	}
 
-	if ((course.recommended_applicants.length < 30) && (course.recommended_applicants.length === recommendationsLength)){
+	if ((course.recommended_applicants.length < 30) && (course.recommended_applicants.length === recommendationsLength)) {
 		course.recommended_applicants.push(applicant.utorid + " " + ranking);
 	}
 
@@ -187,14 +186,14 @@ exports.updateRecommendations = function(utorid) {
       if (err) {
         sender.sendError(res, 400, err);
       } else {
-		    var courses = result.rows;
+        var courses = result.rows;
 
-        for (var i = 0; i < courses.length; i++){
-		      updateTopThirty(courses[i], applicant, offerData);
-		    }
+        for (var i = 0; i < courses.length; i++) {
+          updateTopThirty(courses[i], applicant, offerData);
+        }
       }
     });
-}
+};
 
 /**
  * Returns a list of recommended applicants for a given course
@@ -210,7 +209,7 @@ exports.recommendGET = function(args, res, next) {
       } else if (!result.rows.length) {
           sender.sendError(res, 404, "Course: " + args.query.course + " not found");
       } else {
-		  // TODO: Remove ranks before return
+        // TODO: Remove ranks before return
           sender.sendData(res, result.rows[0].recommended_applicants);
       }
     });
