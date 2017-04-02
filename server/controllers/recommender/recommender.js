@@ -57,7 +57,7 @@ function sortByElement(path, reverse, primer, then) {
     };
 }
 
-updateTopThirty(course, applicant, offerData){
+function updateTopThirty(course, applicant, offerData) {
 	// Compute rank of 'applicant' for 'course'
 
     var ranking = 100;

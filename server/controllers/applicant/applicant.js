@@ -4,18 +4,18 @@ var recommendation = require(appRoot + '/controllers/recommender/recommender.js'
 
 
 exports.postApplicant = function(req, res) {
-  var applicant = JSON.parse(req.body.applicant);
-  var query = "INSERT INTO applicants VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15)";
+    var applicant = JSON.parse(req.body.applicant);
+    var query = "INSERT INTO applicants VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15)";
 
-  pool.query(query, [applicant.utorid, applicant.studentnumber, applicant.familyname, applicant.givenname,
-  applicant.program, applicant.year, applicant.phonenumber, applicant.email,
-  applicant.studentdepartment, applicant.tacourses, applicant.courses, applicant.appliedcourses, applicant.declined,
-  applicant.declinedcount, applicant.declinedcourses], function(err, result) {
+    pool.query(query, [applicant.utorid, applicant.studentnumber, applicant.familyname, applicant.givenname,
+    applicant.program, applicant.year, applicant.phonenumber, applicant.email,
+    applicant.studentdepartment, applicant.tacourses, applicant.courses, applicant.appliedcourses, applicant.declined,
+    applicant.declinedcount, applicant.declinedcourses], function(err, result) {
     if (err) {
       sender.sendError(res, 400, err);
     }
     else {
-	  recommendation.updateRecommendations(applicant.utorid);
+      recommendation.updateRecommendations(applicant.utorid);
       res.sendStatus(200);
     }
   });
@@ -61,7 +61,7 @@ exports.putApplicant = function(req, res) {
       sender.sendError(res, 404, "Applicant: " + applicant.utorid + " not found");
     }
     else {
-	  recommendation.updateRecommendations(applicant.utorid);
+      recommendation.updateRecommendations(applicant.utorid);
       res.sendStatus(200);
     }
   });
