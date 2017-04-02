@@ -19,7 +19,8 @@ class Footer extends React.Component {
 
 Footer.styles = {
   footer: {
-    background: '#777',
+    boxShadow: '0 1px 4px #aaa',
+    background: '#008596',
     color: '#FFF'
   },
   h6: {

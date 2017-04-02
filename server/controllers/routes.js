@@ -34,16 +34,17 @@ module.exports = function(app) {
   app.delete('/applicant', applicant.deleteApplicant);
 
   app.post('/applicant/filter', applicant.postApplicantFilter);
+  app.get('/applicant/all', applicant.getAllApplicants);
 
   // Recommender
   app.get('/recommender', recommender.recommendGET);
-  
+
   // Course
   app.get('/group', group.getGroup);
   app.post('/group', group.postGroup);
   app.put('/group', group.putGroup);
   app.delete('/group', group.deleteGroup);
-  
+
   // Send emails
   app.post('/group/notify', group.postNotify);
 };
