@@ -33,7 +33,7 @@ CREATE TABLE courses(
 	max_enrollment integer,
 	currentta integer NOT NULL,
 	maxta integer NOT NULL,
-	recommended_applicants text[],
+	recommended_applicants text[] NOT NULL,
 	PRIMARY KEY(course)
 );
 

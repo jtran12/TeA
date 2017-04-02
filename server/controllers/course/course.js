@@ -3,30 +3,30 @@ var pool = require(appRoot + '/controllers/database/database.js').pool;
 
 function genCourse(query) {
     // Generates the course code
-    
+
     if (query.coursecode && query.term && query.year) {
         return query.coursecode + query.term + query.year;
     }
-    
+
     return null;
 }
 
 function courseParser(req) {
   var query = req.query;
-  
+
   if (query.id) {
     return query.id;
   }
   else if (query.course) {
     return query.course;
   }
-  
+
   return genCourse(query);
 }
 
 exports.getCourse = function(req, res) {
   var id = courseParser(req);
-  
+
   if (!id) {
     sender.sendError(res, 400, "Course not found");
   }
@@ -48,7 +48,7 @@ exports.getCourse = function(req, res) {
 
 exports.deleteCourse = function(req, res) {
   var id = courseParser(req);
-  
+
   if (!id) {
     sender.sendError(res, 404, "Course not found");
   }
@@ -67,8 +67,8 @@ exports.deleteCourse = function(req, res) {
 
 exports.postCourse = function(req, res) {
   var body = req.body;
-  var query = "INSERT INTO courses VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)";
-  pool.query(query, [body.course, body.coursecode, body.term, body.year, body.requirements, body.head_instructor, body.additional_instructors, body.tas, body.expected_enrollment, body.current_enrollment, body.max_enrollment, body.currentta, body.maxta], function(err, result) {
+  var query = "INSERT INTO courses VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)";
+  pool.query(query, [body.course, body.coursecode, body.term, body.year, body.requirements, body.head_instructor, body.additional_instructors, body.tas, body.expected_enrollment, body.current_enrollment, body.max_enrollment, body.currentta, body.maxta, [], function(err, result) {
     if (err) {
       sender.sendError(res, 404, err);
     }
@@ -80,8 +80,8 @@ exports.postCourse = function(req, res) {
 
 exports.putCourse = function(req, res) {
   var body = req.body;
-  var query = "UPDATE courses SET requirements=$1, head_instructor=$2, additional_instructors=$3, tas=$4, expected_enrollment=$5, current_enrollment=$6, max_enrollment=$7, currentta=$8, maxta=$9 WHERE course=$10";
-  
+  var query = "UPDATE courses SET requirements=$1, head_instructor=$2, additional_instructors=$3, tas=$4, expected_enrollment=$5, current_enrollment=$6, max_enrollment=$7, currentta=$8, maxta=$9, recommended_applicants=$10 WHERE course=$10";
+
   pool.query("SELECT * FROM courses WHERE course=$1", [body.course], function(err, result) {
     if (err) {
       sender.sendError(res, 400, err);
@@ -118,23 +118,23 @@ exports.putCourse = function(req, res) {
 
 exports.postCourseBulk = function(req, res) {
   var data = JSON.parse(req.body.data);
-  var query = "INSERT INTO courses VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) " +
-        "ON CONFLICT (course) DO UPDATE SET requirements=$5, head_instructor=$6, additional_instructors=$7, tas=$8, expected_enrollment=$9, current_enrollment=$10, max_enrollment=$11, currentta=$12, maxta=$13";
-        
+  var query = "INSERT INTO courses VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14) " +
+        "ON CONFLICT (course) DO UPDATE SET requirements=$5, head_instructor=$6, additional_instructors=$7, tas=$8, expected_enrollment=$9, current_enrollment=$10, max_enrollment=$11, currentta=$12, maxta=$13, recommended_applicants=$14";
+
   var error = null;
   for (var i = 0; i < data.length; i++) {
     if (error) {
       break;
     }
-    
+
     var entry = data[i];
-    pool.query(query, [entry.course, entry.coursecode, entry.term, entry.year, entry.requirements, entry.head_instructor, entry.additional_instructors, entry.tas, entry.expected_enrollment, body.current_enrollment, body.max_enrollment, body.currentta, body.maxta], function(err, result) {
+    pool.query(query, [entry.course, entry.coursecode, entry.term, entry.year, entry.requirements, entry.head_instructor, entry.additional_instructors, entry.tas, entry.expected_enrollment, body.current_enrollment, body.max_enrollment, body.currentta, body.maxta, []], function(err, result) {
       if (err) {
         error = err;
       }
     });
   }
-  
+
   if (!error) {
     res.sendStatus(200);
   }
