@@ -137,7 +137,7 @@ function updateTopThirty(course, applicant, offerData) {
 		course.recommended_applicants.push(applicant.utorid + " " + ranking);
 	}
 
-	course.recommended_applicants.splice(30,);
+	course.recommended_applicants.splice(30);
 
 	var query = "UPDATE courses SET recommended_applicants=$1 WHERE course=$2";
 	pool.query(query, [course.recommended_applicants, course.course], function(err, result) {
