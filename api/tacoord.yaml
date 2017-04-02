@@ -354,17 +354,12 @@ paths:
           in: body
           description: previously ta'ed courses ex. {course1, course2}
           required: false
-          type: string
+          type: string array
         - name: courses
           in: body
           description: courses taken ex. {course1, course2}
           required: false
-          type: string
-        - name: appliedcourses
-          in: body
-          description: applicant's top five preferences ex. {course1, course2, ...}
-          required: false
-          type: string
+          type: string array
         - name: declined
           in: body
           description: has applicant declined offer in the past?
@@ -379,7 +374,17 @@ paths:
           in: body
           description: courses that this applicant has declined an offer to
           required: false
-          type: string
+          type: string array
+        - name: appliedcourses
+          in: body
+          description: applicant's top five preferences ex. {course1, course2, ...}
+          required: false
+          type: string array
+        - name: currentAssignedCourses
+          in: body
+          description: courses applicant has been assigned to ex. {course1, course2, ...}
+          required: false
+          type: string array
       responses:
           200:
             description: New applicant added to the database
@@ -389,7 +394,7 @@ paths:
               $ref: '#/definitions/Success'
     get:
       description: |
-        finds and returns applicant identified by id
+        finds and returns applicant identified by utorid
       security:
        - basicAuth: []
       parameters:
@@ -472,17 +477,12 @@ paths:
           in: body
           description: previously ta'ed courses ex. {course1, course2}
           required: false
-          type: string
+          type: string array
         - name: courses
           in: body
           description: courses taken ex. {course1, course2}
           required: false
-          type: string
-        - name: appliedcourses
-          in: body
-          description: applicant's top five preferences ex. {course1, course2, ...}
-          required: false
-          type: string
+          type: string array
         - name: declined
           in: body
           description: has applicant declined offer in the past?
@@ -497,7 +497,17 @@ paths:
           in: body
           description: courses that this applicant has declined an offer to
           required: false
-          type: string
+          type: string array
+        - name: appliedcourses
+          in: body
+          description: applicant's top five preferences ex. {course1, course2, ...}
+          required: false
+          type: string array
+        - name: currentAssignedCourses
+          in: body
+          description: courses applicant has been assigned to ex. {course1, course2, ...}
+          required: false
+          type: string array
       responses:
         200:
           description: applicant data updated in database
@@ -518,7 +528,7 @@ paths:
           type: string
         - name: utorid
           in: query
-          description: the utorid of applicant to delete
+          description: utorid of applicant to delete
           required: true
           type: string
       responses:
@@ -917,9 +927,6 @@ definitions:
       courses:
         type: string
         description: courses taken (ex. {course1, course2, course3})
-      appliedcourses:
-        type: string
-        description: Applicant's top 5 preferences(ex. {course1, course2, ...})
       declined:
         type: boolean
       declinedcount:
@@ -927,6 +934,9 @@ definitions:
       declinedcourses:
         type: string
         description: courses prev declined (ex. {course1, course2, course3})
+      appliedcourses:
+        type: string
+        description: Applicant's top 5 preferences(ex. {course1, course2, ...})
   Course:
     type: object
     properties:

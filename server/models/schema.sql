@@ -12,10 +12,11 @@ CREATE TABLE applicants(
 	studentdepartment text,
 	tacourses text[],
 	courses text[],
-	appliedcourses text[],
 	declined boolean NOT NULL,
 	declinedcount integer,
 	declinedcourses text[],
+	appliedcourses text[],
+	currentAssignedCourses text[],
 	PRIMARY KEY(utorid)
 );
 

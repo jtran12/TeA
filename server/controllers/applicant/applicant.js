@@ -4,13 +4,13 @@ var recommendation = require(appRoot + '/controllers/recommender/recommender.js'
 
 
 exports.postApplicant = function(req, res) {
-    var applicant = JSON.parse(req.body.applicant);
-    var query = "INSERT INTO applicants VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15)";
+  var applicant = req.body;
+  var query = "INSERT INTO applicants VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15)";
 
-    pool.query(query, [applicant.utorid, applicant.studentnumber, applicant.familyname, applicant.givenname,
-    applicant.program, applicant.year, applicant.phonenumber, applicant.email,
-    applicant.studentdepartment, applicant.tacourses, applicant.courses, applicant.appliedcourses, applicant.declined,
-    applicant.declinedcount, applicant.declinedcourses], function(err, result) {
+  pool.query(query, [applicant.utorid, applicant.studentnumber, applicant.familyname, applicant.givenname,
+  applicant.program, applicant.year, applicant.phonenumber, applicant.email, applicant.studentdepartment,
+  applicant.tacourses, applicant.courses, applicant.declined, applicant.declinedcount, applicant.declinedcourses,
+  applicant.appliedcourses, applicant.currentAssignedCourses], function(err, result) {
     if (err) {
       sender.sendError(res, 400, err);
     }
@@ -46,14 +46,14 @@ exports.getApplicant = function(req, res) {
 
 
 exports.putApplicant = function(req, res) {
-  var applicant = JSON.parse(req.body.applicant);
+  var applicant = req.body;
   var query = "UPDATE applicants SET studentnumber=$2, familyname=$3, givenname=$4, program=$5," +
         "year=$6, phonenumber=$7, email=$8, studentdepartment=$9, tacourses=$10, courses=$11," +
-        " appliedcourses=$12, declined=$13, declinedcount=$14, declinedcourses=$15 WHERE utorid=$1";
+        " declined=$12, declinedcount=$13, declinedcourses=$14, appliedcourses=$15 WHERE utorid=$1";
   pool.query(query, [applicant.utorid, applicant.studentnumber, applicant.familyname, applicant.givenname,
-  applicant.program, applicant.year, applicant.phonenumber, applicant.email,
-  applicant.studentdepartment, applicant.tacourses, applicant.courses, applicant.appliedcourses, applicant.declined,
-  applicant.declinedcount, applicant.declinedcourses], function(err, result) {
+  applicant.program, applicant.year, applicant.phonenumber, applicant.email, applicant.studentdepartment,
+  applicant.tacourses, applicant.courses, applicant.declined, applicant.declinedcount, applicant.declinedcourses,
+  applicant.appliedcourses, applicant.currentAssignedCourses], function(err, result) {
     if (err) {
       sender.sendError(res, 400, err);
     }
