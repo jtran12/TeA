@@ -360,11 +360,6 @@ paths:
           description: courses taken ex. {course1, course2}
           required: false
           type: string
-        - name: appliedcourses
-          in: body
-          description: applicant's top five preferences ex. {course1, course2, ...}
-          required: false
-          type: string
         - name: declined
           in: body
           description: has applicant declined offer in the past?
@@ -380,6 +375,11 @@ paths:
           description: courses that this applicant has declined an offer to
           required: false
           type: string
+        - name: appliedcourses
+          in: body
+          description: applicant's top five preferences ex. {course1, course2, ...}
+          required: false
+          type: string
       responses:
           200:
             description: New applicant added to the database
@@ -389,7 +389,7 @@ paths:
               $ref: '#/definitions/Success'
     get:
       description: |
-        finds and returns applicant identified by id
+        finds and returns applicant identified by utorid
       security:
        - basicAuth: []
       parameters:
@@ -478,11 +478,6 @@ paths:
           description: courses taken ex. {course1, course2}
           required: false
           type: string
-        - name: appliedcourses
-          in: body
-          description: applicant's top five preferences ex. {course1, course2, ...}
-          required: false
-          type: string
         - name: declined
           in: body
           description: has applicant declined offer in the past?
@@ -496,6 +491,11 @@ paths:
         - name: declinedcourses
           in: body
           description: courses that this applicant has declined an offer to
+          required: false
+          type: string
+        - name: appliedcourses
+          in: body
+          description: applicant's top five preferences ex. {course1, course2, ...}
           required: false
           type: string
       responses:
@@ -516,11 +516,11 @@ paths:
           description: session token to identify the user and ensure permissable access
           required: true
           type: string
-        - name: a_id
+        - name: utorid
           in: query
-          description: the id of applicant to delete
+          description: utorid of applicant to delete
           required: true
-          type: integer
+          type: string
       responses:
         200:
           description: applicant deleted from database
@@ -917,9 +917,6 @@ definitions:
       courses:
         type: string
         description: courses taken (ex. {course1, course2, course3})
-      appliedcourses:
-        type: string
-        description: Applicant's top 5 preferences(ex. {course1, course2, ...})
       declined:
         type: boolean
       declinedcount:
@@ -927,6 +924,9 @@ definitions:
       declinedcourses:
         type: string
         description: courses prev declined (ex. {course1, course2, course3})
+      appliedcourses:
+        type: string
+        description: Applicant's top 5 preferences(ex. {course1, course2, ...})
   Course:
     type: object
     properties:
