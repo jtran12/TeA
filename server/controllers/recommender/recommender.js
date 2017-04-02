@@ -58,15 +58,15 @@ function sortByElement(path, reverse, primer, then) {
 }
 
 function updateTopThirty(course, applicant, offerData) {
-	// Compute rank of 'applicant' for 'course'
+    // Compute rank of 'applicant' for 'course'
 
     var ranking = 100;
 
     for (var j = 0; j < offerData.length; j++) {
 	  var offer = offerData[j];
 
-      //Make sure applicant not already offered this course.
-      //If they are, do not put them in the recommendation list and return.
+      // Make sure applicant not already offered this course.
+      // If they are, do not put them in the recommendation list and return.
 
       if ((applicant.utorid.toLowerCase() === offer.utorid.toLowerCase()) && (offer.course.toLowerCase() === args.query.course.toLowerCase())) {
         return;
@@ -125,15 +125,18 @@ function updateTopThirty(course, applicant, offerData) {
 	}
 
 
-    var recommendationsLength = course.recommended_applicants.length;
-    for (var i = 0; i < recommendationsLength; i++){
-		var curr_rank = course.recommended_applicants[i].split(" ")[1];
-		if (ranking > curr_rank){
-			course.recommended_applicants.splice(i, 0, applicant.utorid + " " + ranking);
-			break;
+  var recommendationsLength = course.recommended_applicants.length;
+
+  for (var i = 0; i < recommendationsLength; i++){
+		var curr_Rank = course.recommended_applicants[i].split(" ")[1];
+
+		if (ranking > curr_Rank){
+		  course.recommended_applicants.splice(i, 0, applicant.utorid + " " + ranking);
+		  break;
 		}
 	}
-	if ((course.recommended_applicants.length < 30) && (course.recommended_applicants.length == recommendationsLength)){
+
+	if ((course.recommended_applicants.length < 30) && (course.recommended_applicants.length === recommendationsLength)){
 		course.recommended_applicants.push(applicant.utorid + " " + ranking);
 	}
 
@@ -185,6 +188,7 @@ exports.updateRecommendations = function(utorid) {
         sender.sendError(res, 400, err);
       } else {
 		    var courses = result.rows;
+
         for (var i = 0; i < courses.length; i++){
 		      updateTopThirty(courses[i], applicant, offerData);
 		    }
