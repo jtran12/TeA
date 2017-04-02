@@ -47,8 +47,8 @@ exports.putApplicant = function(req, res) {
   var applicant = req.body;
   var query = "UPDATE applicants SET studentnumber=$2, familyname=$3, givenname=$4, program=$5," +
         "year=$6, phonenumber=$7, email=$8, studentdepartment=$9, tacourses=$10, courses=$11," +
-        " declined=$12, declinedcount=$13, declinedcourses=$14, appliedcourses=$15, currentAssignedCourses=$16 " + 
-		"WHERE utorid=$1";
+        " declined=$12, declinedcount=$13, declinedcourses=$14, appliedcourses=$15, currentAssignedCourses=$16 " +
+        "WHERE utorid=$1";
   pool.query(query, [applicant.utorid, applicant.studentnumber, applicant.familyname, applicant.givenname,
   applicant.program, applicant.year, applicant.phonenumber, applicant.email, applicant.studentdepartment,
   applicant.tacourses, applicant.courses, applicant.declined, applicant.declinedcount, applicant.declinedcourses,
