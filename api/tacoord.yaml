@@ -746,11 +746,6 @@ paths:
       security:
        - basicAuth: []
       parameters:
-        - name: limit
-          in: query
-          description: limits the number of recommendations
-          required: false
-          type: integer
         - name: course
           in: query
           description: course to recommend for
