@@ -39,7 +39,10 @@ exports.updateAssignedCourse = function(utorid, prevCourse, course, res) {
         sender.sendError(res, 404, "Applicant not found.");
       }
       else {
-          var courses = result.currentAssignedCourses;
+          console.log(result.rows[0]);
+          console.log(result.rows[0].utorid);
+          var courses = result.rows[0].currentAssignedCourses || [];
+          console.log(courses);
 
           if (prevCourse === null && course !== null) {
             console.log("POST. Adding a course to currentAssignedCourses");
@@ -49,14 +52,18 @@ exports.updateAssignedCourse = function(utorid, prevCourse, course, res) {
             console.log("PUT. Editing a course in currentAssignedCourses");
             var index = courses.indexof(prevCourse);
             if (index !== -1) {
-              courses[index] = course;
+                courses[index] = course;
+            } else {
+                sender.sendError(res, 404, "The previous course for applicant is not found");
             }
           }
           else if (prevCourse !== null && course === null) {
             console.log("DELETE. Deleting a course.");
             var index = courses.indexof(course);
             if (index !== -1) {
-              courses.splice(index, 1);
+                courses.splice(index, 1);
+            } else {
+                sender.sendError(res, 404, "The previous course for applicant isn't found");
             }
           } else {
             sender.sendError(res, 400, "Course was not updated for applicant.");
@@ -184,7 +191,7 @@ exports.putOffer = function(req, res) {
                   exports.updateAssignedCourse(body.utorid, data.course, body.course, res);
               }
               res.sendStatus(200);
-              
+
           }
       });
     }
@@ -205,7 +212,7 @@ exports.deleteOffer = function(req, res) {
         sender.sendError(res, 400, err);
       }
       else {
-        exports.updateAssignedCourse(body.utorid, que.course, null, res);
+        exports.updateAssignedCourse(que.utorid, que.course, null, res);
       }
     });
   }
