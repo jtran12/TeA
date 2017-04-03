@@ -410,7 +410,7 @@ paths:
           type: string
       responses:
         200:
-          description: returns desired student information
+          description: returns desired applicant's information
           schema:
             $ref: '#/definitions/Applicant'
         default:
@@ -433,20 +433,15 @@ paths:
           description: applicant's UTORid
           required: true
           type: string
-        - name: studentnumber
-          in: body
-          description: applicant's student number
-          required: true
-          type: integer
         - name: familyname
           in: body
           description: applicant's last name
-          required: true
+          required: false
           type: string
         - name: givenname
           in: body
           description: applicant's first name
-          required: true
+          required: false
           type: string
         - name: program
           in: body
@@ -466,7 +461,7 @@ paths:
         - name: email
           in: body
           description: applicant's email
-          required: true
+          required: false
           type: string
         - name: studentdepartment
           in: body
@@ -486,7 +481,7 @@ paths:
         - name: declined
           in: body
           description: has applicant declined offer in the past?
-          required: true
+          required: false
           type: boolean
         - name: declinedcount
           in: body
@@ -510,7 +505,7 @@ paths:
           type: string array
       responses:
         200:
-          description: applicant data updated in database
+          description: applicant's data successfully updated in database
         default:
           description: indcates operation usccess, returns error if applicable
           schema:
@@ -533,7 +528,7 @@ paths:
           type: string
       responses:
         200:
-          description: applicant deleted from database
+          description: applicant successfully deleted from database
         default:
           description: indcates operation usccess, returns error if applicable
           schema:
@@ -911,27 +906,29 @@ definitions:
         type: integer
       phonenumber:
         type: string
-        format: int32
       email:
         type: string
       studentdepartment:
         type: string
       tacourses:
-        type: string
-        description: past courses ta'd (ex. {course1, course2, course3})
+        type: string array
+        description: past courses ta'd ex. {course1, course2, ...}
       courses:
-        type: string
-        description: courses taken (ex. {course1, course2, course3})
+        type: string array
+        description: courses taken ex. {course1, course2, ...}
       declined:
         type: boolean
       declinedcount:
         type: integer
       declinedcourses:
-        type: string
-        description: courses prev declined (ex. {course1, course2, course3})
+        type: string array
+        description: courses prev declined ex. {course1, course2, ...}
       appliedcourses:
-        type: string
-        description: Applicant's top 5 preferences(ex. {course1, course2, ...})
+        type: string array
+        description: Applicant's top 5 preferences ex. {course1, course2, ...}
+      currentAssignedCourses:
+        type: string array
+        description: courses applicant has been assigned to ex. {course1, course2, ...}
   Course:
     type: object
     properties:
