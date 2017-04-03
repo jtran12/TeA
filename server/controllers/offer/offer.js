@@ -1,5 +1,6 @@
 var sender = require(appRoot + '/controllers/sender.js');
 var pool = require(appRoot + '/controllers/database/database.js').pool;
+var applicant = require(appRoot + '/controllers/applicant/applicant.js');
 
 function genCourse(query) {
     // Generates the course code
@@ -20,6 +21,63 @@ function courseParser(req) {
 
   return genCourse(query);
 }
+
+exports.updateAssignedCourse = function(utorid, prev_course, course, res) {
+  // Note: the following routes use the given inputs:
+  //    PUT, prev_course = course, course = course
+  //    POST, prev_course = NULL, course = course
+  //    DELETE, prev_course = course, course = NULL
+  // Helper function for changing assigned course of applicants
+
+  var query = "SELECT * FROM applicants where utorid=$1";
+
+  pool.query(query, [utorid], function(err, result) {
+      if (err) {
+        sender.sendError(res, 400, err);
+      }
+      else if (!result.rowCount) {
+        sender.sendError(res, 404, "Applicant not found.");
+      }
+      else {
+          var courses = result.currentAssignedCourses;
+          if (prev_course == null && course != null ) {
+            console.log("POST. Adding a course to currentAssignedCourses");
+            courses.push(course);
+          }
+          else if (prev_course != null && course != null) {
+            console.log("PUT. Editing a course in currentAssignedCourses");
+            var index = courses.indexof(prev_course);
+            if (~index) {
+              courses[index] = course;
+            }
+          }
+          else if (prev_course != null && course == null) {
+            console.log("DELETE. Deleting a course.");
+            var index = courses.indexof(course);
+            if (~index) {
+              courses.splice(index, 1);
+            }
+          } else {
+            sender.sendError(res, 400, "Course was not updated for applicant.");
+          }
+
+          query = "UPDATE applicants SET currentAssignedCourses=$2 where utorid=$1";
+
+          pool.query(query, [utorid, courses], function(err, result) {
+              if (err) {
+                sender.sendError(res, 400, err);
+              }
+              else if (!result.rowCount) {
+                sender.sendError(res, 404, "Course not found");
+              }
+              else {
+                res.sendStatus(200);
+              }
+          });
+      }
+  });
+  */
+};
 
 
 // Individual Offers
@@ -51,6 +109,9 @@ exports.postOffer = function(req, res) {
                   sender.sendError(res, 400, err);
               }
               else {
+                  // Update applicant's currentAssignedCourses
+                  exports.updateAssignedCourse(body.utorid,)
+
                   res.sendStatus(200);
               }
           });
