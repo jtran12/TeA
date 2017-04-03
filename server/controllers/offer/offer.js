@@ -22,7 +22,7 @@ function courseParser(req) {
   return genCourse(query);
 }
 
-exports.updateAssignedCourse = function(utorid, prev_course, course, res) {
+exports.updateAssignedCourse = function(utorid, prevCourse, course, res) {
   // Note: the following routes use the given inputs:
   //    PUT, prev_course = course, course = course
   //    POST, prev_course = NULL, course = course
@@ -40,21 +40,22 @@ exports.updateAssignedCourse = function(utorid, prev_course, course, res) {
       }
       else {
           var courses = result.currentAssignedCourses;
-          if (prev_course == null && course != null ) {
+
+          if (prevCourse === null && course !== null) {
             console.log("POST. Adding a course to currentAssignedCourses");
             courses.push(course);
           }
-          else if (prev_course != null && course != null) {
+          else if (prevCourse !== null && course !== null) {
             console.log("PUT. Editing a course in currentAssignedCourses");
-            var index = courses.indexof(prev_course);
-            if (~index) {
+            var index = courses.indexof(prevCourse);
+            if (index !== -1) {
               courses[index] = course;
             }
           }
-          else if (prev_course != null && course == null) {
+          else if (prevCourse !== null && course === null) {
             console.log("DELETE. Deleting a course.");
             var index = courses.indexof(course);
-            if (~index) {
+            if (index !== -1) {
               courses.splice(index, 1);
             }
           } else {
@@ -76,7 +77,6 @@ exports.updateAssignedCourse = function(utorid, prev_course, course, res) {
           });
       }
   });
-  */
 };
 
 
@@ -110,9 +110,7 @@ exports.postOffer = function(req, res) {
               }
               else {
                   // Update applicant's currentAssignedCourses
-                  exports.updateAssignedCourse(body.utorid,)
-
-                  res.sendStatus(200);
+                  exports.updateAssignedCourse(body.utorid, null, course, res);
               }
           });
       }
@@ -165,6 +163,7 @@ exports.putOffer = function(req, res) {
       var data = result.rows[0];
       var assigned = body.assigned || data.assigned;
       var accepted = body.accepted || data.accepted;
+      var course = body.course || data.course;
       var query = "UPDATE applications SET assigned=$1, accepted=$2 WHERE utorid=$3 AND course=$4";
 
       /* Extra functionality for an edge case here: if body.accepted is true
@@ -181,7 +180,11 @@ exports.putOffer = function(req, res) {
               sender.sendError(res, 404, "Offer not found");
           }
           else {
+              if (body.course !== data.course) {
+                  exports.updateAssignedCourse(body.utorid, data.course, body.course, res);
+              }
               res.sendStatus(200);
+              
           }
       });
     }
@@ -202,7 +205,7 @@ exports.deleteOffer = function(req, res) {
         sender.sendError(res, 400, err);
       }
       else {
-        res.sendStatus(200);
+        exports.updateAssignedCourse(body.utorid, que.course, null, res);
       }
     });
   }
