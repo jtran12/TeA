@@ -161,7 +161,6 @@ function updateTopThirty(course, applicant, offerData) {
 
 
 exports.updateRecommendations = function(utorid) {
-  console.log(utorid);
 	var applicantQuery = 'SELECT * FROM applicants WHERE utorid=$1';
 	var applicant = null;
 	pool.query(applicantQuery, [utorid], function(err, result) {
@@ -205,7 +204,6 @@ exports.updateRecommendations = function(utorid) {
         var courses = result.rows;
 
         for (var i = 0; i < courses.length; i++) {
-          console.log("12123123dieeeeeeeeeee");
           updateTopThirty(courses[i], applicant, offerData);
         }
       }
