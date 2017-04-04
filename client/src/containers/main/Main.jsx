@@ -9,7 +9,7 @@ import Header from '../../components/shared/Header'
 import Footer from '../../components/shared/Footer.jsx';
 
 import Course from '../coursecontainer/Course.jsx';
-import Applicant from '../../components/applicant/Applicant.jsx';
+import Applicant from '../applicantcontainer/Applicant.jsx';
 import * as headerActions from '../../actions/header/headerActions';
 
 class Manage extends React.Component {

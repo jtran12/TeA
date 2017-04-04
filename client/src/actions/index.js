@@ -8,6 +8,7 @@ import {action1, action2} from '../actions/'
 /* Populated by react-webpack-redux:action */
 
 import * as courseActions from './course/courseActions';
+import * as applicantActions from './applicant/applicantActions';
 import * as headerActions from './header/headerActions';
 
-export default { courseActions, headerActions };
+export default { courseActions, headerActions, applicantActions };

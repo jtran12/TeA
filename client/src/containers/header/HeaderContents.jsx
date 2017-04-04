@@ -66,7 +66,7 @@ class HeaderContents extends React.Component {
         <div className="appTabs" style={HeaderContents.styles.tabs}>
           <Tabs style={HeaderContents.styles.maxHeight} onChange={this.props.onTabChange} value={this.props.header.index}>
             <Tab style={HeaderContents.styles.tab}
-                 onClick={ ()=> this.props.deselectCourse() } label={this.state.courseLabel} value={0}/>
+                 label={this.state.courseLabel} value={0}/>
             <Tab style={HeaderContents.styles.tab}
                  label={this.state.applicantLabel}  value={1}/>
           </Tabs>
@@ -114,8 +114,7 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onTabChange: index => dispatch(headerActions.selectTab(index)),
-    deselectCourse: course => dispatch(courseActions.deselectCourse())
+    onTabChange: index => dispatch(headerActions.selectTab(index))
   }
 };
 
