@@ -15,7 +15,7 @@ import { combineReducers } from 'redux';
 
 import courseReducer from './course/courseReducer';
 import headerReducer from './header/headerReducer';
-import applicantReducer from "./applicant/applicantReducer";
+import applicantReducer from './applicant/applicantReducer';
 
 const reducers = {
   course: courseReducer,
