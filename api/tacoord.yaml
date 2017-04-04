@@ -101,7 +101,7 @@ paths:
           in: body
           description: Max number of TAs (ex. 5)
           required: false
-        
+
       responses:
         200:
           description: New course added to database
@@ -245,7 +245,7 @@ paths:
     get:
       description: |
         Gets all data in the system formatted in JSON. Use the 'limit' and 'offset' to for lazy loading.
-        For example, offset=10 and limit=5 would skip the first 10 results and return the next 5. 
+        For example, offset=10 and limit=5 would skip the first 10 results and return the next 5.
       security:
        - basicAuth: []
       parameters:
@@ -354,17 +354,12 @@ paths:
           in: body
           description: previously ta'ed courses ex. {course1, course2}
           required: false
-          type: string
+          type: string array
         - name: courses
           in: body
           description: courses taken ex. {course1, course2}
           required: false
-          type: string
-        - name: appliedcourses
-          in: body
-          description: applicant's top five preferences ex. {course1, course2, ...}
-          required: false
-          type: string
+          type: string array
         - name: declined
           in: body
           description: has applicant declined offer in the past?
@@ -379,7 +374,17 @@ paths:
           in: body
           description: courses that this applicant has declined an offer to
           required: false
-          type: string
+          type: string array
+        - name: appliedcourses
+          in: body
+          description: applicant's top five preferences ex. {course1, course2, ...}
+          required: false
+          type: string array
+        - name: currentAssignedCourses
+          in: body
+          description: courses applicant has been assigned to ex. {course1, course2, ...}
+          required: false
+          type: string array
       responses:
           200:
             description: New applicant added to the database
@@ -389,7 +394,7 @@ paths:
               $ref: '#/definitions/Success'
     get:
       description: |
-        finds and returns applicant identified by id
+        finds and returns applicant identified by utorid
       security:
        - basicAuth: []
       parameters:
@@ -472,17 +477,12 @@ paths:
           in: body
           description: previously ta'ed courses ex. {course1, course2}
           required: false
-          type: string
+          type: string array
         - name: courses
           in: body
           description: courses taken ex. {course1, course2}
           required: false
-          type: string
-        - name: appliedcourses
-          in: body
-          description: applicant's top five preferences ex. {course1, course2, ...}
-          required: false
-          type: string
+          type: string array
         - name: declined
           in: body
           description: has applicant declined offer in the past?
@@ -497,7 +497,17 @@ paths:
           in: body
           description: courses that this applicant has declined an offer to
           required: false
-          type: string
+          type: string array
+        - name: appliedcourses
+          in: body
+          description: applicant's top five preferences ex. {course1, course2, ...}
+          required: false
+          type: string array
+        - name: currentAssignedCourses
+          in: body
+          description: courses applicant has been assigned to ex. {course1, course2, ...}
+          required: false
+          type: string array
       responses:
         200:
           description: applicant data updated in database
@@ -507,7 +517,7 @@ paths:
             $ref: '#/definitions/Success'
     delete:
       description: |
-        deletes applicant by id
+        deletes applicant by utorid
       security:
        - basicAuth: []
       parameters:
@@ -516,11 +526,11 @@ paths:
           description: session token to identify the user and ensure permissable access
           required: true
           type: string
-        - name: a_id
+        - name: utorid
           in: query
-          description: the id of applicant to delete
+          description: utorid of applicant to delete
           required: true
-          type: integer
+          type: string
       responses:
         200:
           description: applicant deleted from database
@@ -623,9 +633,9 @@ paths:
           description: id of applicant
           required: true
           type: string
-        - name: id
+        - name: course
           in: query
-          description: id of course to retrieve (ex. csc302s2017)
+          description: course to retrieve (ex. csc302s2017)
           required: true
           type: integer
       responses:
@@ -687,9 +697,9 @@ paths:
           description: session token to identify the user and ensure permissable access
           required: true
           type: string
-        - name: id
+        - name: course
           in: query
-          description: id of course to retrieve (ex. csc302s2017)
+          description: course to retrieve (ex. csc302s2017)
           required: true
           type: integer
         - name: utorid
@@ -732,15 +742,8 @@ paths:
   /recommend/:
    get:
       description: |
-        returns a list of recommended applicants for a given course
-      security:
-       - basicAuth: []
+        returns a list of utorids of recommended applicants for a given course
       parameters:
-        - name: limit
-          in: query
-          description: limits the number of recommendations
-          required: false
-          type: integer
         - name: course
           in: query
           description: course to recommend for
@@ -748,11 +751,9 @@ paths:
           type: string #Ex: "CSC302S2017"
       responses:
         200:
-          description: list of suggested applications
+          description: list of utorids of suggested applications
           schema:
-            type: array
-            items:
-              $ref: '#/definitions/Applicant'
+            type: string array
         default:
           description: indicates operation success, returns error if applicable
           schema:
@@ -776,7 +777,7 @@ paths:
           description: returns error information
           schema:
             $ref: '#/definitions/Success'
-            
+
     post:
       description: |
         Adds a new group.
@@ -803,7 +804,7 @@ paths:
           description: Utorids of people in group (ex. {utorid1, utorid2, utorid3})
           required: true
           type: string
-        
+
       responses:
         200:
           description: New group added to database
@@ -837,7 +838,7 @@ paths:
           description: Utorids of people in group (ex. {utorid1, utorid2, utorid3})
           required: false
           type: string
-        
+
       responses:
         200:
           description: Group updated in database
@@ -845,7 +846,7 @@ paths:
           description: indicates operation success, returns error if applicable
           schema:
             $ref: '#/definitions/Success'
-            
+
     delete:
       description: |
         Deletes a group by name.
@@ -864,11 +865,11 @@ paths:
           description: indicates operation success, returns error if applicable
           schema:
             $ref: '#/definitions/Success'
-            
+
   /group/notify/:
     post:
       description: |
-        Send email to group's 'email' entry with first and last names of proposed TA assignment based on 
+        Send email to group's 'email' entry with first and last names of proposed TA assignment based on
         'utorid' values. The utorid of group members must be in the applicant table.
       security:
        - basicAuth: []
@@ -878,7 +879,7 @@ paths:
           description: Name of group.
           required: true
           type: string
-        
+
       responses:
         200:
           description: Notification email sent
@@ -886,7 +887,7 @@ paths:
           description: indicates operation success, returns error if applicable
           schema:
             $ref: '#/definitions/Success'
-            
+
 definitions:
   Applicant:
     type: object
@@ -917,9 +918,6 @@ definitions:
       courses:
         type: string
         description: courses taken (ex. {course1, course2, course3})
-      appliedcourses:
-        type: string
-        description: Applicant's top 5 preferences(ex. {course1, course2, ...})
       declined:
         type: boolean
       declinedcount:
@@ -927,6 +925,9 @@ definitions:
       declinedcourses:
         type: string
         description: courses prev declined (ex. {course1, course2, course3})
+      appliedcourses:
+        type: string
+        description: Applicant's top 5 preferences(ex. {course1, course2, ...})
   Course:
     type: object
     properties:

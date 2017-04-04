@@ -83,10 +83,10 @@ class CourseList extends React.Component {
   numTAsOperator(numTAs, maxTAs, filter) {
     let parse = this.numTAParser(filter);
     // If valid parse, get operator and perform on filterNum
-    if(parse !== false) {
+    if (parse !== false) {
       // Less than
-      if(parse.operator === "LESS_THAN") {
-        if(parse.mode === "percent" && maxTAs !== 0) {
+      if (parse.operator === "LESS_THAN") {
+        if (parse.mode === "percent" && maxTAs !== 0) {
           return Math.ceil(((numTAs / maxTAs) * 100)) <= parseInt(parse.filterNum);
         }
         else if (parse.mode === "normal") {
@@ -95,8 +95,8 @@ class CourseList extends React.Component {
         return false;
       }
       // Greater than
-      if(parse.operator === "GREATER_THAN") {
-        if(parse.mode === "percent" && maxTAs !== 0) {
+      if (parse.operator === "GREATER_THAN") {
+        if (parse.mode === "percent" && maxTAs !== 0) {
           return Math.ceil(((numTAs / maxTAs) * 100)) >= parseInt(parse.filterNum);
         }
         else if (parse.mode === "normal") {
@@ -108,6 +108,10 @@ class CourseList extends React.Component {
     else {
       return false;
     }
+  }
+
+  onLoadMore(){
+    this.props.loadCourses(this.props.courses);
   }
 
   render() {
@@ -142,9 +146,13 @@ class CourseList extends React.Component {
             hintText="Search"/>
         </div>
         { courses }
-        <div className="courseMore" style={styles.courseMore}>
-          <p style={styles.courseMoreP}> more courses </p>
-        </div>
+        {
+          this.props.full ? null :
+            <div className="courseMore" style={styles.courseMore}>
+              <p style={styles.courseMoreP} onClick={this.onLoadMore}> more courses </p>
+            </div>
+        }
+
       </div>
     );
   }

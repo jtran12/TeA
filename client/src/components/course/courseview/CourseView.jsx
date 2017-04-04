@@ -109,24 +109,54 @@ class CourseView extends React.Component {
                             value={course.currentta} />
             <RaisedButton primary={true} label="Assign Applicants" onClick={this.onOpenAssignDialog}/>
           </div>
-          <Card style={styles.card}>
-            <CardHeader
-              title="Instructors"
-              actAsExpander={true}
-              showExpandableButton={true} />
-            <CardText expandable={true}>
-              <List>
-                <ListItem primaryText={course.head_instructor} rightIcon={<CourseCoordinatorIcon />}/>
-                { this.getAdditionalInstructors(course.additional_instructors) }
-              </List>
-            </CardText>
-          </Card>
+          <div className="row" style={styles.info}>
+            <Card style={styles.card}>
+              <CardHeader
+                title="Instructors"
+                actAsExpander={false} />
+              <CardText expandable={false}>
+                <List>
+                  <ListItem primaryText={course.head_instructor} rightIcon={<CourseCoordinatorIcon />}/>
+                  { this.getAdditionalInstructors(course.additional_instructors) }
+                </List>
+              </CardText>
+            </Card>
+          </div>
+          <div className="row" style={styles.info}>
+            <Table>
+              <TableBody displayRowCheckbox={false}>
+                <TableRow selectable={false}>
+                  <TableRowColumn>Current Enrollment</TableRowColumn>
+                  <TableRowColumn>{course.current_enrollment}</TableRowColumn>
+                </TableRow>
+                <TableRow selectable={false}>
+                  <TableRowColumn>Expected Enrollment</TableRowColumn>
+                  <TableRowColumn>{course.expected_enrollment}</TableRowColumn>
+                </TableRow>
+                <TableRow selectable={false}>
+                  <TableRowColumn>Max Enrollment</TableRowColumn>
+                  <TableRowColumn>{course.max_enrollment}</TableRowColumn>
+                </TableRow>
+                <TableRow selectable={false}>
+                  <TableRowColumn>Required Prerequisite Courses</TableRowColumn>
+                  <TableRowColumn>
+                    <div style={styles.required}>
+                      {course.requirements.map((course, key) => (
+                        <p key={key}>{course}</p>
+                      ))}
+                    </div>
+                  </TableRowColumn>
+                </TableRow>
+              </TableBody>
+            </Table>
+          </div>
+
           <Card style={styles.card}>
             <CardHeader
               title="Recommended Applicants"
-              actAsExpander={true}
-              showExpandableButton={true} />
-            <CardText expandable={true}>
+              actAsExpander={false}
+              showExpandableButton={false} />
+            <CardText expandable={false}>
               <ApplicantRecommendations/>
             </CardText>
           </Card>
@@ -246,6 +276,12 @@ class CourseView extends React.Component {
 }
 
 CourseView.styles = {
+  info: {
+    margin: '2% 0 0 0'
+  },
+  required: {
+    padding: '2% 0 2% 0'
+  },
   card: {
     margin: '2% 0 2% 0'
   },

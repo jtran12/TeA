@@ -12,10 +12,11 @@ CREATE TABLE applicants(
 	studentdepartment text,
 	tacourses text[],
 	courses text[],
-	appliedcourses text[],
 	declined boolean NOT NULL,
 	declinedcount integer,
 	declinedcourses text[],
+	appliedcourses text[],
+	currentAssignedCourses text[],
 	PRIMARY KEY(utorid)
 );
 
@@ -33,6 +34,7 @@ CREATE TABLE courses(
 	max_enrollment integer,
 	currentta integer NOT NULL,
 	maxta integer NOT NULL,
+	recommended_applicants text[] NOT NULL,
 	PRIMARY KEY(course)
 );
 
@@ -49,10 +51,4 @@ CREATE TABLE groups(
 	email text,
 	utorids text[],
 	PRIMARY KEY(name)
-);
-
-CREATE TABLE course_recommendations(
-	coursecode text,
-	recommended_applicants text[],
-	PRIMARY KEY(coursecode)
 );
