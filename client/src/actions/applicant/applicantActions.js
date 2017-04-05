@@ -5,6 +5,9 @@ const DESELECT_APPLICANT = 'DESELECT_APPLICANT';
 const LOAD_APPLICANTS_REQUEST = 'LOAD_APPLICANTS_REQUEST';
 const LOAD_APPLICANTS_SUCCESS = 'LOAD_APPLICANTS_SUCCESS';
 const LOAD_APPLICANTS_FAILURE = 'LOAD_APPLICANTS_FAILURE';
+const ASSIGN_APPLICANT_TO_COURSE = 'ASSIGN_APPLICANT_TO_COURSE';
+const ASSIGN_APPLICANT_TO_COURSE_SUCCESS = 'ASSIGN_APPLICANT_TO_COURSE_SUCCESS';
+const ASSIGN_APPLICANT_TO_COURSE_FAILURE = 'ASSIGN_APPLICANT_TO_COURSE_FAILURE';
 
 export function selectApplicant(applicant) {
   return {
@@ -42,6 +45,28 @@ export function loadApplicantsFailure(error) {
   };
 }
 
+export function assignApplicantToCourse() {
+  return {
+    type: ASSIGN_APPLICANT_TO_COURSE,
+    isFetching: true,
+  };
+}
+
+export function assignApplicantToCourseSuccess() {
+  return {
+    type: ASSIGN_APPLICANT_TO_COURSE_SUCCESS,
+    isFetching: false,
+  };
+}
+
+export function assignApplicantToCourseFailure(error) {
+  return {
+    type: ASSIGN_APPLICANT_TO_COURSE_FAILURE,
+    isFetching: false,
+    error
+  };
+}
+
 export function loadApplicants(curr) {
   return (dispatch) => {
     dispatch(loadApplicantsRequest());
@@ -49,6 +74,17 @@ export function loadApplicants(curr) {
       dispatch(loadApplicantsSuccess(applicants));
     }).catch((error) => {
       dispatch(loadApplicantsFailure(error));
+    });
+  };
+}
+
+export function assignApplicant() {
+  return (dispatch) => {
+    dispatch(assignApplicantToCourse());
+    return ApplicantAPI.assignApplicantToCourse().then((applicants) => {
+      dispatch(assignApplicantToCourseSuccess(applicants));
+    }).catch((error) => {
+      dispatch(assignApplicantToCourseFailure(error));
     });
   };
 }
