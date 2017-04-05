@@ -60,7 +60,7 @@ exports.putApplicant = function(req, res) {
       sender.sendError(res, 404, "Applicant: " + applicant.utorid + " not found");
     }
     else {
-	  var data = result.rows[0];
+      var data = result.rows[0];
       var familyname = applicant.familyname || data.familyname;
       var givenname = applicant.givenname || data.givenname;
       var program = applicant.program || data.program;
