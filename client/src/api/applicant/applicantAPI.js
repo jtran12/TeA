@@ -23,8 +23,8 @@ class ApplicantAPI {
         year: course.year,
         utorid: applicantID
       })
-    }
-    const APPLICANT_API = `http://localhost:3000/offer`;
+    };
+    const APPLICANT_API = 'http://localhost:3000/offer';
     return fetch(APPLICANT_API, init)
       .then(response => response.json())
       .catch(error => error);

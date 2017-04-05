@@ -49,14 +49,14 @@ export function assignApplicantToCourse() {
   return {
     type: ASSIGN_APPLICANT_TO_COURSE,
     isFetching: true,
-  }
+  };
 }
 
 export function assignApplicantToCourseSuccess() {
   return {
     type: ASSIGN_APPLICANT_TO_COURSE_SUCCESS,
     isFetching: false,
-  }
+  };
 }
 
 export function assignApplicantToCourseFailure(error) {
@@ -64,7 +64,7 @@ export function assignApplicantToCourseFailure(error) {
     type: ASSIGN_APPLICANT_TO_COURSE_FAILURE,
     isFetching: false,
     error
-  }
+  };
 }
 
 export function loadApplicants(curr) {
@@ -81,7 +81,7 @@ export function loadApplicants(curr) {
 export function assignApplicant() {
   return (dispatch) => {
     dispatch(assignApplicantToCourse());
-    return ApplicantAPI.getApplicants().then((applicants) => {
+    return ApplicantAPI.assignApplicantToCourse().then((applicants) => {
       dispatch(assignApplicantToCourseSuccess(applicants));
     }).catch((error) => {
       dispatch(assignApplicantToCourseFailure(error));
