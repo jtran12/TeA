@@ -5,6 +5,9 @@ const DESELECT_COURSE = 'DESELECT_COURSE';
 const LOAD_COURSES_REQUEST = 'LOAD_COURSES_REQUEST';
 const LOAD_COURSES_SUCCESS = 'LOAD_COURSES_SUCCESS';
 const LOAD_COURSES_FAILURE = 'LOAD_COURSES_FAILURE';
+const ASSIGN_COURSE_TO_APPLICANT = 'ASSIGN_COURSE_TO_APPLICANT';
+const ASSIGN_COURSE_TO_APPLICANT_SUCCESS = 'ASSIGN_COURSE_TO_APPLICANT_SUCCESS';
+const ASSIGN_COURSE_TO_APPLICANT_FAILURE = 'ASSIGN_COURSE_TO_APPLICANT_FAILURE';
 
 export function selectCourse(course) {
   return {
@@ -42,6 +45,28 @@ export function loadCoursesFailure(error) {
   };
 }
 
+export function assignCourseToApplicant() {
+  return {
+    type: ASSIGN_COURSE_TO_APPLICANT,
+    isFetching: true,
+  }
+}
+
+export function assignCourseToApplicantSuccess() {
+  return {
+    type: ASSIGN_COURSE_TO_APPLICANT_SUCCESS,
+    isFetching: false,
+  }
+}
+
+export function assignCourseToApplicantFailure(error) {
+  return {
+    type: ASSIGN_COURSE_TO_APPLICANT_FAILURE,
+    isFetching: false,
+    error
+  }
+}
+
 export function loadCourses(curr) {
   return (dispatch) => {
     dispatch(loadCoursesRequest());
@@ -53,6 +78,17 @@ export function loadCourses(curr) {
       dispatch(loadCoursesSuccess(courses));
     }).catch((error) => {
       dispatch(loadCoursesFailure(error));
+    });
+  };
+}
+
+export function assignCourse() {
+  return (dispatch) => {
+    dispatch(assignCourseToApplicant());
+    return ApplicantAPI.getApplicants().then((applicants) => {
+      dispatch(assignCourseToApplicantSuccess(applicants));
+    }).catch((error) => {
+      dispatch(assignCourseToApplicantFailure(error));
     });
   };
 }

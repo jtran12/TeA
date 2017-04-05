@@ -9,7 +9,11 @@ class ApplicantAPI {
       .catch(error => error);
   }
 
-  static assignApplicantToCourse(course) {
+  // course refers to:
+  //  - courses listed on the assign courses modal in applicant view
+  // applicantID refers to:
+  //  - the current selected application in applicant view
+  static assignApplicantToCourse(course, applicantID) {
     const init = {
       method: 'POST',
       body: JSON.stringify({
@@ -17,7 +21,7 @@ class ApplicantAPI {
         coursecode: course.corsecode,
         term: course.term,
         year: course.year,
-        utorid: course.utorid
+        utorid: applicantID
       })
     }
     const APPLICANT_API = `http://localhost:3000/offer`;
