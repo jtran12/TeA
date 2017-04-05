@@ -42,10 +42,10 @@ export function loadApplicantsFailure(error) {
   };
 }
 
-export function loadApplicants() {
+export function loadApplicants(curr) {
   return (dispatch) => {
     dispatch(loadApplicantsRequest());
-    return ApplicantAPI.getApplicants().then((applicants) => {
+    return ApplicantAPI.getApplicants(curr.length).then((applicants) => {
       dispatch(loadApplicantsSuccess(applicants));
     }).catch((error) => {
       dispatch(loadApplicantsFailure(error));

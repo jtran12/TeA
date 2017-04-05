@@ -40,7 +40,7 @@ class ApplicantView extends React.Component {
       return (
         <div style={styles.noScrollX}>
           <div className="page-header">
-            <h2 style={styles.headerH2}>{applicant.familyname} {applicant.givenname} &nbsp;
+            <h2 style={styles.headerH2}>{applicant.givenname} {applicant.familyname} &nbsp;
               <small>{applicant.studentdepartment}</small>
             </h2>
             <Table fixedHeader={true}>

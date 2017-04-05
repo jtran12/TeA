@@ -14,7 +14,9 @@ export default function applicantReducer(state = createInitialApplicantState(), 
       return Object.assign({}, state, {isFetching: true });
 
     case 'LOAD_APPLICANTS_SUCCESS':
-      return Object.assign({}, state, {isFetching: false, applicants: action.applicants.data });
+      return Object.assign({}, state, {isFetching: false,
+        applicants: [...state.applicants, ...action.applicants.data],
+        full: action.applicants.data.length === 0});
 
     case 'LOAD_APPLICANTS_FAILURE':
       return Object.assign({}, state, {isFetching: false });
