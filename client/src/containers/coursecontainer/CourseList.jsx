@@ -148,9 +148,14 @@ class CourseList extends React.Component {
         { courses }
         {
           this.props.full ? null :
-            <div className="courseMore" style={styles.courseMore}>
-              <p style={styles.courseMoreP} onClick={this.onLoadMore}> more courses </p>
-            </div>
+            this.props.course.isFetching ?
+              <div className="courseMore" style={styles.courseMore}>
+                <p style={styles.courseMoreP} > fetching... </p>
+              </div>
+              :
+              <div className="courseMore" style={styles.courseMore}>
+                <p style={styles.courseMoreP} onClick={this.onLoadMore}> more courses </p>
+              </div>
         }
 
       </div>

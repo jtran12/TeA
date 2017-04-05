@@ -3,6 +3,7 @@ export default function createInitialApplicantState() {
     selectedApplicant: null,
     isFetching: false,
     error: null,
-    applicants: []
+    applicants: [],
+    full: false
   };
 }

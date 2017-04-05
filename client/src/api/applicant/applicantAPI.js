@@ -2,9 +2,9 @@ import fetch from 'isomorphic-fetch';
 
 class ApplicantAPI {
 
-  static getApplicants() {
+  static getApplicants(currSize) {
 
-    const APPLICANT_API = 'http://localhost:3000/applicant?utorid=anniann';
+    const APPLICANT_API = `http://localhost:3000/applicant/all?limit=10&offset=${currSize}`;
 
     return fetch(APPLICANT_API)
       .then(response => response.json())

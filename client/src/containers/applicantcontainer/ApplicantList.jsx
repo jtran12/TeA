@@ -21,11 +21,14 @@ class ApplicantList extends React.Component {
     this.setState({filter: e.target.value});
   }
 
+  onLoadMore() {
+    this.props.loadApplicants(this.props.applicants);
+  }
+
   render() {
     const styles = lodash.cloneDeep(this.constructor.styles);
 
     // key property should be replaced with unique key retrieved by applicant database.
-
     const applicants = this.props.applicants
       .filter((applicant) => {
         return (
@@ -55,9 +58,18 @@ class ApplicantList extends React.Component {
             hintText="Search"/>
         </div>
         { applicants }
-        <div className="applicantMore" style={styles.applicantMore}>
-          <p style={styles.applicantMoreP}> more applicants </p>
-        </div>
+        {
+          this.props.full ? null :
+            this.props.applicant.isFetching ?
+              <div className="applicantMore" style={styles.applicantMore}>
+                <p style={styles.applicantMoreP}> fetching... </p>
+              </div>
+              :
+              <div className="applicantMore" style={styles.applicantMore}>
+                <p style={styles.applicantMoreP} onClick={this.onLoadMore}> more applicants </p>
+              </div>
+        }
+
       </div>
     );
   }

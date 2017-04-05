@@ -14,7 +14,7 @@ class Applicant extends React.Component {
   }
 
   componentDidMount() {
-    this.props.loadApplicants();
+    this.props.loadApplicants([]);
   }
 
   render() {
@@ -27,7 +27,10 @@ class Applicant extends React.Component {
                       autoHide
                       autoHideTimeout={500}
                       autoHideDuration={200}>
-            <ApplicantList applicants={this.props.applicant.applicants}/>
+            <ApplicantList applicants={this.props.applicant.applicants}
+                           full={this.props.applicant.full}
+                           loadApplicants={this.props.loadApplicants}
+            />
           </Scrollbars>
         </div>
         <div style={styles.applicant} className="col-xs-12 col-md-8">
@@ -76,7 +79,7 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    loadApplicants: () => dispatch(applicantActions.loadApplicants()),
+    loadApplicants: (curr) => dispatch(applicantActions.loadApplicants(curr)),
   }
 };
 
