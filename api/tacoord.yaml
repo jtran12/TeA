@@ -737,9 +737,7 @@ paths:
   /recommend/:
    get:
       description: |
-        returns a list of recommended applicants for a given course
-      security:
-       - basicAuth: []
+        returns a list of utorids of recommended applicants for a given course
       parameters:
         - name: course
           in: query
@@ -748,11 +746,9 @@ paths:
           type: string #Ex: "CSC302S2017"
       responses:
         200:
-          description: list of suggested applications
+          description: list of utorids of suggested applications
           schema:
-            type: array
-            items:
-              $ref: '#/definitions/Applicant'
+            type: string array
         default:
           description: indicates operation success, returns error if applicable
           schema:
