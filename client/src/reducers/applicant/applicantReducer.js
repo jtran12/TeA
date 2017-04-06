@@ -30,8 +30,33 @@ export default function applicantReducer(state = createInitialApplicantState(), 
     case 'ASSIGN_APPLICANT_TO_COURSE_FAILURE':
       return Object.assign({}, state, {isFetching: false });
 
+    case 'UNASSIGN_APPLICANT_TO_COURSE':
+      return Object.assign({}, state, {isFetching: true });
+
+    case 'UNASSIGN_APPLICANT_TO_COURSE_SUCCESS':
+      var index = getIndex(action.applicant, state.applicants, 'utorid');
+      var courseArray = state.applicants[index].currentassignedcourses;
+      var courseIndex = getIndex(action.course, courseArray, 'course');
+      var newApplicants = state.applicants;
+      var newAssignedCourses = [ ...newApplicants[index].currentassignedcourses.slice(0, courseIndex),
+        ...newApplicants[index].currentassignedcourses.slice(courseIndex + 1) ];
+      newApplicants[index].currentassignedcourses = newAssignedCourses;
+      return Object.assign({}, state, {isFetching: false, applicants: newApplicants });
+
+    case 'UNASSIGN_APPLICANT_TO_COURSE_FAILURE':
+      return Object.assign({}, state, {isFetching: false });
+
 
     default:
       return state;
   }
+}
+
+function getIndex(value, arr, prop) {
+  for(var i = 0; i < arr.length; i++) {
+    if(arr[i][prop] === value) {
+      return i;
+    }
+  }
+  return -1; //to handle the case where the value doesn't exist
 }

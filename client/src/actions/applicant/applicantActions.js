@@ -73,14 +73,16 @@ export function assignApplicantToCourseFailure(error) {
 export function unassignApplicantToCourse() {
   return {
     type: UNASSIGN_APPLICANT_TO_COURSE,
-    isFetching: true,
+    isFetching: true
   };
 }
 
-export function unassignApplicantToCourseSuccess() {
+export function unassignApplicantToCourseSuccess(course, applicant) {
   return {
     type: UNASSIGN_APPLICANT_TO_COURSE_SUCCESS,
     isFetching: false,
+    course,
+    applicant
   };
 }
 
@@ -114,11 +116,11 @@ export function assignApplicant() {
   };
 }
 
-export function unassignApplicant() {
+export function unassignApplicant(course, applicantID) {
   return (dispatch) => {
     dispatch(unassignApplicantToCourse());
-    return ApplicantAPI.unassignApplicantToCourse().then((msg) => {
-      dispatch(unassignApplicantToCourseSuccess(msg));
+    return ApplicantAPI.unassignApplicantToCourse(course, applicantID).then((msg) => {
+      dispatch(unassignApplicantToCourseSuccess(course, applicantID));
     }).catch((error) => {
       dispatch(unassignApplicantToCourseFailure(error));
     });

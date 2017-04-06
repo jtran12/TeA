@@ -52,7 +52,7 @@ exports.getApplicant = function(req, res) {
                   sender.sendError(res, 404, "Offer with UTORid: " + utorid + " not found");
               }
               else {
-                response.assignedCourses = result.rows;
+                response.currentassignedcourses = result.rows;
                   sender.sendData(res, response);
               }
           });
