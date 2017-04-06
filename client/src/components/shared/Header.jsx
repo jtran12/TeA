@@ -4,6 +4,7 @@ import {browserHistory} from 'react-router';
 
 import AppBar from 'material-ui/AppBar';
 import FlatButton from 'material-ui/FlatButton';
+import tea from '../../static/tea.png'
 
 import HeaderContents from '../../containers/header/HeaderContents';
 
@@ -23,7 +24,8 @@ class Header extends React.Component {
 
     return (
       <AppBar title={<HeaderContents/>}
-              showMenuIconButton={false}
+              showMenuIconButton={true}
+              iconElementLeft={<img src="../../static/tea.png" />}
               iconElementRight={<FlatButton label="Logout" onClick={this.onLogout}/>}/>
     );
   }
