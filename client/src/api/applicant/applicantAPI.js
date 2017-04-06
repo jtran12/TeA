@@ -13,15 +13,16 @@ class ApplicantAPI {
   //  - courses listed on the assign courses modal in applicant view
   // applicantID refers to:
   //  - the current selected application in applicant view
-  static assignApplicantToCourse(course, applicantID) {
+  static assignApplicantToCourse(course, applicant) {
     const init = {
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
       method: 'POST',
       body: JSON.stringify({
         course: course.course,
-        coursecode: course.corsecode,
-        term: course.term,
-        year: course.year,
-        utorid: applicantID
+        utorid: applicant.utorid
       })
     };
     const APPLICANT_API = 'http://localhost:3000/offer';
