@@ -169,23 +169,33 @@ class CourseView extends React.Component {
               <Table fixedHeader={true}>
                 <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
                   <TableRow>
-                    <TableHeaderColumn style={styles.idwidth}>ID</TableHeaderColumn>
-                    <TableHeaderColumn>First Name</TableHeaderColumn>
-                    <TableHeaderColumn>Last Name</TableHeaderColumn>
+                    <TableHeaderColumn style={styles.idwidth}>utorid</TableHeaderColumn>
+                    <TableHeaderColumn>Name</TableHeaderColumn>
+                    <TableHeaderColumn>Year</TableHeaderColumn>
                     <TableHeaderColumn>Enrollment Level</TableHeaderColumn>
                     <TableHeaderColumn style={styles.actionwidth}/>
                   </TableRow>
                 </TableHeader>
-                <TableBody displayRowCheckbox={false} showRowHover={true} stripedRows={true}>
+                <TableBody displayRowCheckbox={false} showRowHover={false} stripedRows={false}>
+                  {
+                    course.tas.length > 0 ?
+                    course.tas.map((applicant, index) => {
+                    return <TableRow selectable={false} key={index}>
+                      <TableRowColumn style={styles.idwidth}>{applicant.utorid}</TableRowColumn>
+                      <TableRowColumn>{applicant.givenname} {applicant.familyname}</TableRowColumn>
+                      <TableRowColumn> {applicant.year} </TableRowColumn>
+                      <TableRowColumn>{applicant.program}</TableRowColumn>
+                      <TableRowColumn>
+                        <RaisedButton onClick={() => this.props.unassign(course.course, applicant.utorid)}
+                                      secondary={true} icon={<RemoveIcon/>}/>
+                      </TableRowColumn>
+                    </TableRow>
+                  })
+                  :
                   <TableRow selectable={false}>
-                    <TableRowColumn style={styles.idwidth}>1001143223</TableRowColumn>
-                    <TableRowColumn>Test</TableRowColumn>
-                    <TableRowColumn>User</TableRowColumn>
-                    <TableRowColumn>UG - 2</TableRowColumn>
-                    <TableRowColumn style={styles.actionwidth}>
-                      <RaisedButton secondary={true} icon={<RemoveIcon/>}/>
-                    </TableRowColumn>
+                    <TableRowColumn style={styles.notassigned}>I don't have any assigned applicants yet!</TableRowColumn>
                   </TableRow>
+                  }
                 </TableBody>
               </Table>
             </CardText>
@@ -232,6 +242,11 @@ CourseView.styles = {
   },
   notSelected: {
     margin: '10% 0'
+  },
+  notassigned: {
+    padding: "15px",
+    marginBottom: "0",
+    color: "#DE3E3E"
   }
 };
 

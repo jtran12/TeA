@@ -29,6 +29,16 @@ class CourseAPI {
       .then(response => response.json())
       .catch(error => error);
   }
+
+  static unassignCourseToApplicant(course, applicantID) {
+    const init = {
+      method: 'DELETE'
+    };
+    const APPLICANT_API = `http://localhost:3000/offer?course=${course}&utorid=${applicantID}`;
+    return fetch(APPLICANT_API, init)
+        .then(response => response.json())
+  .catch(error => error);
+  }
 }
 
 export default CourseAPI;
