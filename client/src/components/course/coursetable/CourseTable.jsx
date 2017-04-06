@@ -25,7 +25,7 @@ class CourseTable extends React.Component {
   }
 
   componentDidMount() {
-    this.props.loadCourses([]);
+    this.props.loadCourses(this.props.courses.courses);
   }
 
 
@@ -48,7 +48,7 @@ class CourseTable extends React.Component {
               </TableRow>
             </TableHeader>
             {/* The table headers should allow sortable which will be included in a function later */}
-            
+
               <TableBody displayRowCheckbox={false} showRowHover={true} stripedRows={false}>
                {
                   courses.map((course, index) =>  (
