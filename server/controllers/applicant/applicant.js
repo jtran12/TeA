@@ -12,7 +12,7 @@ exports.postApplicant = function(req, res) {
   applicant.givenname.toLowerCase(), applicant.program.toLowerCase(), applicant.year, applicant.phonenumber,
   applicant.email.toLowerCase(), applicant.studentdepartment.toLowerCase(), applicant.tacourses, applicant.courses,
   applicant.declined, applicant.declinedcount, applicant.declinedcourses, applicant.appliedcourses,
-  applicant.currentAssignedCourses], function(err, result) {
+  applicant.currentassignedcourses], function(err, result) {
     if (err) {
       sender.sendError(res, 400, err);
     }
@@ -66,7 +66,7 @@ exports.putApplicant = function(req, res) {
   var applicant = req.body;
   var query = "UPDATE applicants SET familyname=$2, givenname=$3, program=$4, year=$5, phonenumber=$6, email=$7," +
         " studentdepartment=$8, tacourses=$9, courses=$10, declined=$11, declinedcount=$12, declinedcourses=$13," +
-        " appliedcourses=$14, currentAssignedCourses=$15 WHERE utorid=$1";
+        " appliedcourses=$14, currentassignedcourses=$15 WHERE utorid=$1";
 
   pool.query("SELECT * FROM applicants WHERE utorid=$1", [applicant.utorid.toLowerCase()], function(err, result) {
     if (err) {
@@ -90,11 +90,11 @@ exports.putApplicant = function(req, res) {
       var declinedcount = applicant.declinedcount || data.declinedcount;
       var declinedcourses = applicant.declinedcourses || data.declinedcourses;
       var appliedcourses = applicant.appliedcourses || data.appliedcourses;
-      var currentAssignedCourses = applicant.currentAssignedCourses || data.currentAssignedCourses;
+      var currentassignedcourses = applicant.currentassignedcourses || data.currentassignedcourses;
 
       pool.query(query, [applicant.utorid, familyname.toLowerCase(), givenname.toLowerCase(), program.toLowerCase(),
       year, phonenumber, email.toLowerCase(), studentdepartment.toLowerCase(), tacourses, courses, declined,
-      declinedcount, declinedcourses, appliedcourses, currentAssignedCourses], function(err, result) {
+      declinedcount, declinedcourses, appliedcourses, currentassignedcourses], function(err, result) {
         if (err) {
           sender.sendError(res, 400, err);
         }
@@ -153,7 +153,7 @@ exports.getAllApplicants = function(req, res) {
               console.log(err);
             }
             else if (courseResult.rows) {
-              applicant.currentAssignedCourses = courseResult.rows;
+              applicant.currentassignedcourses = courseResult.rows;
             }
 
             return cb(null);

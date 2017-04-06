@@ -1,5 +1,6 @@
 var sender = require(appRoot + '/controllers/sender.js');
 var pool = require(appRoot + '/controllers/database/database.js').pool;
+var applicant = require(appRoot + '/controllers/applicant/applicant.js');
 
 function genCourse(query) {
     // Generates the course code
@@ -20,6 +21,71 @@ function courseParser(req) {
 
   return genCourse(query);
 }
+
+exports.updateAssignedCourse = function(utorid, prevCourse, course, res) {
+  // Note: the following routes use the given inputs:
+  //    PUT, prev_course = course, course = course
+  //    POST, prev_course = NULL, course = course
+  //    DELETE, prev_course = course, course = NULL
+  // Helper function for changing assigned course of applicants
+
+  var query = "SELECT * FROM applicants where utorid=$1";
+
+  pool.query(query, [utorid], function(err, result) {
+      if (err) {
+        sender.sendError(res, 400, err);
+      }
+      else if (!result.rowCount) {
+        sender.sendError(res, 404, "Applicant not found.");
+      }
+      else {
+          var courses = result.rows[0].currentassignedcourses || [];
+
+          if (prevCourse === null && course !== null) {
+            courses.push(course);
+          }
+          else if (prevCourse !== null && course !== null) {
+            // No functionality for this in the current MVP, offers should just be deleted
+            // Instead of edited since it'd be troublesome if they accepted it and have to
+            // Accept all over again
+            var index = courses.indexOf(prevCourse);
+            if (index !== -1) {
+                courses[index] = course;
+            } else {
+                res.sendStatus(200);
+                
+                return;
+            }
+          }
+          else if (prevCourse !== null && course === null) {
+            var index = courses.indexOf(prevCourse);
+            if (index !== -1) {
+                courses.splice(index, 1);
+            } else {
+                res.sendStatus(200);
+                
+                return;
+            }
+          } else {
+            sender.sendError(res, 400, "Course was not updated for applicant.");
+          }
+
+          query = "UPDATE applicants SET currentAssignedCourses=$2 where utorid=$1";
+
+          pool.query(query, [utorid, courses], function(err, result) {
+              if (err) {
+                sender.sendError(res, 400, err);
+              }
+              else if (!result.rowCount) {
+                sender.sendError(res, 404, "Course not found");
+              }
+              else {
+                res.sendStatus(200);
+              }
+          });
+      }
+  });
+};
 
 
 // Individual Offers
@@ -51,7 +117,8 @@ exports.postOffer = function(req, res) {
                   sender.sendError(res, 400, err);
               }
               else {
-                  res.sendStatus(200);
+                  // Update applicant's currentAssignedCourses
+                  exports.updateAssignedCourse(body.utorid, null, course, res);
               }
           });
       }
@@ -119,8 +186,14 @@ exports.putOffer = function(req, res) {
           else if (!result.rowCount) {
               sender.sendError(res, 404, "Offer not found");
           }
-          else {
-              res.sendStatus(200);
+          else if (body.assigned === "true" && data.assigned === false) {
+            // Adding the course as assigned to the TA
+            exports.updateAssignedCourse(body.utorid, null, data.course, res);
+          } else if (body.assigned === "false" && data.assigned === true) {
+            // Removing the course from TA's assigned
+            exports.updateAssignedCourse(body.utorid, data.course, null, res);
+          } else {
+            res.sendStatus(200);
           }
       });
     }
@@ -141,7 +214,7 @@ exports.deleteOffer = function(req, res) {
         sender.sendError(res, 400, err);
       }
       else {
-        res.sendStatus(200);
+        exports.updateAssignedCourse(que.utorid, que.course, null, res);
       }
     });
   }

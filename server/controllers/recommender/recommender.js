@@ -148,7 +148,7 @@ exports.updateRecommendations = function(utorid) {
           applicant.courses = lowerCaseArray(applicant.courses);
           applicant.declinedcourses = lowerCaseArray(applicant.declinedcourses);
           applicant.appliedcourses = lowerCaseArray(applicant.appliedcourses);
-          applicant.currentAssignedCourses = lowerCaseArray(applicant.currentAssignedCourses);
+          applicant.currentassignedcourses = lowerCaseArray(applicant.currentassignedcourses);
       }
     });
 
