@@ -49,7 +49,7 @@ exports.getApplicant = function(req, res) {
                   sender.sendError(res, 400, err);
               }
               else if (!result.rows.length) {
-                  sender.sendError(res, 404, "Offer with UTORid: " + utorid + " not found");
+                  sender.sendData(res, response);
               }
               else {
                 response.currentassignedcourses = result.rows;
