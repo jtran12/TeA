@@ -1,5 +1,6 @@
 var sender = require(appRoot + '/controllers/sender.js');
 var pool = require(appRoot + '/controllers/database/database.js').pool;
+var async = require('async');
 
 function genCourse(query) {
     // Generates the course code
@@ -146,13 +147,33 @@ exports.postCourseBulk = function(req, res) {
 exports.getCourseBulk = function(req, res) {
   var limit = req.query.limit || 'ALL';
   var offset = req.query.offset || 0;
+  var response = {};
   var query = "SELECT * FROM courses ORDER BY course ASC LIMIT " + limit + " OFFSET " + offset;
   pool.query(query, function(err, result) {
     if (err) {
       sender.sendError(res, 400, err);
     }
     else {
-      sender.sendData(res, result.rows);
+      response = result.rows;
+        query = "SELECT * FROM applications a LEFT JOIN applicants c ON (a.utorid = c.utorid) where a.course=$1";
+      // Get currently assigned applicants for each course
+      async.map(result.rows, function(course, cb) {
+          pool.query(query, [course.course], function(err, applicantResult) {
+              if (err) {
+                  console.log(err);
+              }
+              else if (applicantResult.rows) {
+                  course.ta = applicantResult.rows;
+              }
+
+              return cb(null);
+          });
+      }, function(err, result) {
+          if (err) {
+              console.log(err);
+          }
+          sender.sendData(res, response);
+      });
     }
   });
 };
