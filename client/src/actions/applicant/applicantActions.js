@@ -119,7 +119,7 @@ export function assignApplicant() {
 export function unassignApplicant(course, applicantID) {
   return (dispatch) => {
     dispatch(unassignApplicantToCourse());
-    return ApplicantAPI.unassignApplicantToCourse(course, applicantID).then((msg) => {
+    return ApplicantAPI.unassignApplicantToCourse(course, applicantID).then(() => {
       dispatch(unassignApplicantToCourseSuccess(course, applicantID));
     }).catch((error) => {
       dispatch(unassignApplicantToCourseFailure(error));

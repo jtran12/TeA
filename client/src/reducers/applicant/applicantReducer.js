@@ -1,5 +1,14 @@
 import createInitialApplicantState from '../../state/applicant/applicantState';
 
+function getIndex(value, arr, prop) {
+  for (let i = 0; i < arr.length; i += 1) {
+    if (arr[i][prop] === value) {
+      return i;
+    }
+  }
+  return -1;
+}
+
 export default function applicantReducer(state = createInitialApplicantState(), action) {
 
   switch (action.type) {
@@ -33,15 +42,17 @@ export default function applicantReducer(state = createInitialApplicantState(), 
     case 'UNASSIGN_APPLICANT_TO_COURSE':
       return Object.assign({}, state, {isFetching: true });
 
-    case 'UNASSIGN_APPLICANT_TO_COURSE_SUCCESS':
-      var index = getIndex(action.applicant, state.applicants, 'utorid');
-      var courseArray = state.applicants[index].currentassignedcourses;
-      var courseIndex = getIndex(action.course, courseArray, 'course');
-      var newApplicants = state.applicants;
-      var newAssignedCourses = [ ...newApplicants[index].currentassignedcourses.slice(0, courseIndex),
-        ...newApplicants[index].currentassignedcourses.slice(courseIndex + 1) ];
+    case 'UNASSIGN_APPLICANT_TO_COURSE_SUCCESS': {
+      const index = getIndex(action.applicant, state.applicants, 'utorid');
+      const courseArray = state.applicants[index].currentassignedcourses;
+      const courseIndex = getIndex(action.course, courseArray, 'course');
+      const newApplicants = state.applicants;
+      const newAssignedCourses =
+        [...newApplicants[index].currentassignedcourses.slice(0, courseIndex),
+          ...newApplicants[index].currentassignedcourses.slice(courseIndex + 1)];
       newApplicants[index].currentassignedcourses = newAssignedCourses;
-      return Object.assign({}, state, {isFetching: false, applicants: newApplicants });
+      return Object.assign({}, state, {isFetching: false, applicants: newApplicants});
+    }
 
     case 'UNASSIGN_APPLICANT_TO_COURSE_FAILURE':
       return Object.assign({}, state, {isFetching: false });
@@ -50,13 +61,4 @@ export default function applicantReducer(state = createInitialApplicantState(), 
     default:
       return state;
   }
-}
-
-function getIndex(value, arr, prop) {
-  for(var i = 0; i < arr.length; i++) {
-    if(arr[i][prop] === value) {
-      return i;
-    }
-  }
-  return -1; //to handle the case where the value doesn't exist
 }
