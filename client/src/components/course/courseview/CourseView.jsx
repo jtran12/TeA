@@ -184,7 +184,7 @@ class CourseView extends React.Component {
                       <TableRowColumn style={styles.idwidth}>{applicant.utorid}</TableRowColumn>
                       <TableRowColumn>{applicant.givenname} {applicant.familyname}</TableRowColumn>
                       <TableRowColumn> {applicant.year} </TableRowColumn>
-                      <TableRowColumn>{applicant.program}</TableRowColumn>
+                      <TableRowColumn>{applicant.program.toUpperCase()}</TableRowColumn>
                       <TableRowColumn>
                         <RaisedButton onClick={() => this.props.unassign(course.course, applicant.utorid)}
                                       secondary={true} icon={<RemoveIcon/>}/>
