@@ -29,7 +29,7 @@ function lowerCaseArray(courses) {
   return result;
 }
 
-function updateTopThirty(course, applicant, offerData) {
+function updateTopThirty(res, course, applicant, offerData) {
     // Compute rank of 'applicant' for 'course'
 
     var ranking = 100;
@@ -128,7 +128,7 @@ function updateTopThirty(course, applicant, offerData) {
 }
 
 
-exports.updateRecommendations = function(utorid) {
+exports.updateRecommendations = function(res, utorid) {
 	var applicantQuery = 'SELECT * FROM applicants WHERE utorid=$1';
 	var applicant = null;
 	pool.query(applicantQuery, [utorid], function(err, result) {
@@ -171,7 +171,7 @@ exports.updateRecommendations = function(utorid) {
       } else {
         var courses = result.rows;
         for (var i = 0; i < courses.length; i++) {
-          updateTopThirty(courses[i], applicant, offerData);
+          updateTopThirty(res, courses[i], applicant, offerData);
         }
       }
     });
