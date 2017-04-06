@@ -53,9 +53,6 @@ class ApplicantRecommendations extends React.Component {
                       {applicant.slice(0, applicant.indexOf(" "))}</TableRowColumn>
                       <TableRowColumn style={styles.idwidth} >
                       {applicant.slice(applicant.indexOf(" "))}</TableRowColumn>
-                      <TableRowColumn>
-                        <RaisedButton primary={true} icon={<AddIcon/>}/>
-                      </TableRowColumn>
                     </TableRow>
                   ))
                }
