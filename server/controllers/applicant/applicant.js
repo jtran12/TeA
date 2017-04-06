@@ -150,15 +150,19 @@ exports.getAllApplicants = function(req, res) {
       async.map(result.rows, function(applicant, cb) {
         pool.query(query, [applicant.utorid], function(err, courseResult) {
             if (err) {
-                console.log(err);
+              console.log(err);
             }
             else if (courseResult.rows) {
               applicant.currentAssignedCourses = courseResult.rows;
-              cb(null);
             }
+
+            return cb(null);
         });
       }, function(err, result) {
-          sender.sendData(res, response);
+        if (err) {
+          console.log(err);
+        }
+        sender.sendData(res, response);
       });
     }
   });
