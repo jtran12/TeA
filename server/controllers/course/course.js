@@ -163,7 +163,7 @@ exports.getCourseBulk = function(req, res) {
                   console.log(err);
               }
               else if (applicantResult.rows) {
-                  course.ta = applicantResult.rows;
+                  course.tas = applicantResult.rows;
               }
 
               return cb(null);
