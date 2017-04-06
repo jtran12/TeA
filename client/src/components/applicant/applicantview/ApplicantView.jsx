@@ -83,8 +83,8 @@ class ApplicantView extends React.Component {
                 </TableHeader>
                 <TableBody displayRowCheckbox={false} showRowHover={false} stripedRows={true}>
                 {
-                  applicant.currentAssignedCourses.length > 0 ?
-                  applicant.currentAssignedCourses.map((course, index) => {
+                  applicant.currentassignedcourses.length > 0 ?
+                  applicant.currentassignedcourses.map((course, index) => {
                     return <TableRow selectable={false} key={index}>
                         <TableRowColumn style={styles.idwidth}>{course.course}</TableRowColumn>
                         <TableRowColumn>{course.head_instructor}</TableRowColumn>
