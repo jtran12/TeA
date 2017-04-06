@@ -8,6 +8,8 @@ import {GridList, GridTile} from 'material-ui/GridList';
 import IconButton from 'material-ui/IconButton';
 import Menu from 'material-ui/svg-icons/navigation/menu';
 
+import { Scrollbars } from 'react-custom-scrollbars';
+
 @Radium
 class ApplicantRecommendations extends React.Component {
 
@@ -51,30 +53,32 @@ class ApplicantRecommendations extends React.Component {
 
     return (
       <div className="recommendations">
-        <div style={styles.root}>
-          <GridList
-            cols={1}
-            cellHeight={100}
-            padding={1}
-            style={styles.gridList}
-          >
-
-            {
-              this.state.recommendedApplicants.map((applicant) =>  (
-              <GridTile
-                key={applicant.id}
-                title={applicant.firstName + ' ' + applicant.lastName}
-                actionIcon={<IconButton><Menu color='white'/></IconButton>}
-                actionPosition={'left'}
-                titlePosition={'top'}
-                subtitle={applicant.studentLevel}
-              >
-              </GridTile>
-              ))
-            }
-
-          </GridList>
-        </div>
+        <Scrollbars style={{ width: 600, height: 400 }}>
+          <Table fixedHeader={false}>
+            <TableHeader displaySelectAll={false} adjustForCheckbox={false} sortable={true}>
+              <TableRow>
+                <TableHeaderColumn style={styles.idwidth}>Utorid</TableHeaderColumn>
+                <TableHeaderColumn>Name</TableHeaderColumn>
+                <TableHeaderColumn>Enrollment Level</TableHeaderColumn>
+                <TableHeaderColumn>Year</TableHeaderColumn>
+                <TableHeaderColumn />
+              </TableRow>
+            </TableHeader>
+            {/* The table headers should allow sortable which will be included in a function later */}
+            
+              <TableBody displayRowCheckbox={false} showRowHover={true} stripedRows={false}>
+                    <TableRow selectable={false}>
+                      <TableRowColumn style={styles.idwidth} >testID</TableRowColumn>
+                      <TableRowColumn>User Name</TableRowColumn>
+                      <TableRowColumn>Program name</TableRowColumn>
+                      <TableRowColumn>Program year</TableRowColumn>
+                      <TableRowColumn>
+                        <RaisedButton primary={true} icon={<AddIcon/>}/>
+                      </TableRowColumn>
+                    </TableRow>
+              </TableBody>
+          </Table>
+          </Scrollbars>
       </div>
     );
   }
