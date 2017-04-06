@@ -25,42 +25,11 @@ function lowerCaseArray(courses) {
       result.push(courses[i].toLowerCase());
     }
   }
-  
+
   return result;
 }
 
-// Sorting function by Gerald Fullam, taken from Stack Overflow
-function sortByElement(path, reverse, primer, then) {
-    var get = function (obj, path) {
-            if (path) {
-                path = path.split('.');
-                for (var i = 0, len = path.length - 1; i < len; i++) {
-                    obj = obj[path[i]];
-                }
-
-                return obj[path[len]];
-            }
-
-            return obj;
-        },
-        prime = function (obj) {
-
-            return primer ? primer(get(obj, path)) : get(obj, path);
-        };
-
-    return function (a, b) {
-        var A = prime(a),
-            B = prime(b);
-
-        return (
-            (A < B) ? -1 :
-            (A > B) ? 1 :
-            (typeof then === 'function') ? then(a, b) : 0
-        ) * [1, -1][+!!reverse];
-    };
-}
-
-function updateTopThirty(course, applicant, offerData) {
+function updateTopThirty(res, course, applicant, offerData) {
     // Compute rank of 'applicant' for 'course'
 
     var ranking = 100;
@@ -160,8 +129,7 @@ function updateTopThirty(course, applicant, offerData) {
 }
 
 
-exports.updateRecommendations = function(utorid) {
-  console.log(utorid);
+exports.updateRecommendations = function(res, utorid) {
 	var applicantQuery = 'SELECT * FROM applicants WHERE utorid=$1';
 	var applicant = null;
 	pool.query(applicantQuery, [utorid], function(err, result) {
@@ -205,8 +173,7 @@ exports.updateRecommendations = function(utorid) {
         var courses = result.rows;
 
         for (var i = 0; i < courses.length; i++) {
-          console.log("12123123dieeeeeeeeeee");
-          updateTopThirty(courses[i], applicant, offerData);
+          updateTopThirty(res, courses[i], applicant, offerData);
         }
       }
     });

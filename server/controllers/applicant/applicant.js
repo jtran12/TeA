@@ -15,7 +15,7 @@ exports.postApplicant = function(req, res) {
       sender.sendError(res, 400, err);
     }
     else {
-      recommendation.updateRecommendations(applicant.utorid);
+      recommendation.updateRecommendations(res, applicant.utorid);
       res.sendStatus(200);
     }
   });
@@ -62,7 +62,7 @@ exports.putApplicant = function(req, res) {
       sender.sendError(res, 404, "Applicant: " + applicant.utorid + " not found");
     }
     else {
-      recommendation.updateRecommendations(applicant.utorid);
+      recommendation.updateRecommendations(res, applicant.utorid);
       res.sendStatus(200);
     }
   });
