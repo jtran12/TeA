@@ -34,11 +34,9 @@ export default function applicantReducer(state = createInitialApplicantState(), 
       return Object.assign({}, state, {isFetching: true });
 
     case 'ASSIGN_APPLICANT_TO_COURSE_SUCCESS': {
-      const index = getIndex(action.applicant, state.applicants, 'utorid');
-      const courseArray = state.applicants[index].currentassignedcourses;
-      const courseIndex = getIndex(action.course, courseArray, 'course');
+      const index = getIndex(action.applicant.utorid, state.applicants, 'utorid');
       const newApplicants = state.applicants;
-      const newAssignedCourses = newApplicants[index].currentassignedcourses.push(courseArray[courseIndex]);
+      const newAssignedCourses = newApplicants[index].currentassignedcourses.concat(action.course);
       newApplicants[index].currentassignedcourses = newAssignedCourses;
       return Object.assign({}, state, {isFetching: false, applicants: newApplicants});
     }

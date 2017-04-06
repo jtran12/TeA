@@ -56,10 +56,12 @@ export function assignApplicantToCourse() {
   };
 }
 
-export function assignApplicantToCourseSuccess() {
+export function assignApplicantToCourseSuccess(course, applicant) {
   return {
     type: ASSIGN_APPLICANT_TO_COURSE_SUCCESS,
     isFetching: false,
+    course,
+    applicant
   };
 }
 
@@ -106,12 +108,12 @@ export function loadApplicants(curr) {
   };
 }
 
-export function assignApplicant(course, applicantID) {
+export function assignApplicant(course, applicant) {
   return (dispatch) => {
     dispatch(assignApplicantToCourse());
-    return ApplicantAPI.assignApplicantToCourse(course, applicantID).then(() => {
-      dispatch(assignApplicantToCourseSuccess(course, applicantID));
-      dispatch(courseActions.assignCourseToApplicantSuccess(course, applicantID));
+    return ApplicantAPI.assignApplicantToCourse(course, applicant).then(() => {
+      dispatch(assignApplicantToCourseSuccess(course, applicant));
+      dispatch(courseActions.assignCourseToApplicantSuccess(course, applicant));
     }).catch((error) => {
       dispatch(assignApplicantToCourseFailure(error));
     });

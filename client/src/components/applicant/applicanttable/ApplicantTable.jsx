@@ -70,7 +70,7 @@ class ApplicantTable extends React.Component {
                       <TableRowColumn>{applicant.program.toUpperCase()}</TableRowColumn>
                       <TableRowColumn>{applicant.year}</TableRowColumn>
                       <TableRowColumn>
-                        <RaisedButton onClick={() => this.props.assign(course.course, applicant.utorid)}
+                        <RaisedButton onClick={() => this.props.assign(course, applicant)}
                                       primary={true} icon={<AddIcon/>}/>
                       </TableRowColumn>
                     </TableRow>
@@ -98,7 +98,7 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     loadApplicants: (curr) => dispatch(applicantActions.loadApplicants(curr)),
-    assign: (course, applicantID) => dispatch(applicantActions.assign(course, applicantID))
+    assign: (course, applicant) => dispatch(applicantActions.assignApplicant(course, applicant))
   }
 };
 

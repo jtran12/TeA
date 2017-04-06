@@ -69,7 +69,8 @@ class CourseTable extends React.Component {
                       <TableRowColumn style={styles.idwidth} >{course.maxta}</TableRowColumn>
                       <TableRowColumn style={styles.idwidth} >{course.currentta}</TableRowColumn>
                       <TableRowColumn>
-                        <RaisedButton primary={true} icon={<AddIcon/>}/>
+                        <RaisedButton onClick={() => this.props.assign(course, applicant)}
+                          primary={true} icon={<AddIcon/>}/>
                       </TableRowColumn>
                     </TableRow>
                   ))
@@ -95,7 +96,8 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    loadCourses: (curr) => dispatch(courseActions.loadCourses(curr))
+    loadCourses: (curr) => dispatch(courseActions.loadCourses(curr)),
+    assign: (course, applicant) => dispatch(courseActions.assignCourse(course, applicant))
   }
 };
 
