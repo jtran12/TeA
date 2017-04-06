@@ -28,10 +28,21 @@ class CourseTable extends React.Component {
     this.props.loadCourses(this.props.courses.courses);
   }
 
+  getIndex(value, arr, prop) {
+    for (let i = 0; i < arr.length; i += 1) {
+      if (arr[i][prop] === value) {
+        return i;
+      }
+    }
+    return -1;
+  }
 
   render() {
     const styles = lodash.cloneDeep(this.constructor.styles);
-    const courses = this.props.courses.courses;
+    const applicant = this.props.applicant.selectedApplicant;
+    const courses = this.props.courses.courses.filter((course) => {
+      return this.getIndex(applicant.utorid, course.tas, 'utorid') === -1
+    });
 
     return (
       <div>
@@ -77,7 +88,8 @@ CourseTable.styles = {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    courses: state.course
+    courses: state.course,
+    applicant: state.applicant
   }
 };
 

@@ -33,8 +33,15 @@ export default function courseReducer(state = createInitialCourseState(), action
     case 'ASSIGN_COURSE_TO_APPLICANT':
       return Object.assign({}, state, {isFetching: true });
 
-    case 'ASSIGN_COURSE_TO_APPLICANT_SUCCESS':
-      return Object.assign({}, state, {isFetching: false });
+    case 'ASSIGN_COURSE_TO_APPLICANT_SUCCESS': {
+      const index = getIndex(action.course, state.courses, 'course');
+      const applicantArray = state.courses[index].tas;
+      const applicantIndex = getIndex(action.applicant, applicantArray, 'utorid');
+      const newCourse = state.courses;
+      const newAssignedApplicants = newCourse[index].tas.push(applicantArray[applicantIndex]);
+      newCourse[index].tas = newAssignedApplicants;
+      return Object.assign({}, state, {isFetching: false, courses: newCourse});
+    }
 
     case 'ASSIGN_COURSE_TO_APPLICANT_FAILURE':
       return Object.assign({}, state, {isFetching: false });
