@@ -66,13 +66,13 @@ function updateTopThirty(res, course, applicant, offerData) {
 	// Prefer applicants who have previously TA'd the course
 	var courseCode = courseCodeParser(course.course);
 	courseArrayCodeParser(applicant.tacourses);
-	if (applicant.tacourses.includes(courseCode[0])) {
+	if (applicant.tacourses.includes(courseCode)) {
 		ranking += 10;
 	}
 
 	courseArrayCodeParser(applicant.courses);
 	// Give a little bump to applicants who previously took the course
-	if (applicant.courses.includes(courseCode[0])) {
+	if (applicant.courses.includes(courseCode)) {
 		ranking += 5;
 	}
 
