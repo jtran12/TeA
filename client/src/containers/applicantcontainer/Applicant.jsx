@@ -38,7 +38,8 @@ class Applicant extends React.Component {
                       autoHide
                       autoHideTimeout={500}
                       autoHideDuration={200}>
-            <ApplicantView selected={ this.props.applicant.selectedApplicant }/>
+            <ApplicantView unassign={this.props.unassignApplicant}
+                           selected={ this.props.applicant.selectedApplicant }/>
           </Scrollbars>
         </div>
       </div>
@@ -80,6 +81,7 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     loadApplicants: (curr) => dispatch(applicantActions.loadApplicants(curr)),
+    unassignApplicant: (course, applicantID) => dispatch(applicantActions.unassignApplicant(course, applicantID))
   }
 };
 

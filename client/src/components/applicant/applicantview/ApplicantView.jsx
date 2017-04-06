@@ -81,22 +81,25 @@ class ApplicantView extends React.Component {
                     <TableHeaderColumn />
                   </TableRow>
                 </TableHeader>
-                <TableBody displayRowCheckbox={false} showRowHover={false} stripedRows={true}>
+                <TableBody displayRowCheckbox={false} showRowHover={false} stripedRows={false}>
                 {
-                  applicant.currentAssignedCourses.length > 0 ?
-                  applicant.currentAssignedCourses.map((course, index) => {
+                  applicant.currentassignedcourses.length > 0 ?
+                  applicant.currentassignedcourses.map((course, index) => {
                     return <TableRow selectable={false} key={index}>
                         <TableRowColumn style={styles.idwidth}>{course.course}</TableRowColumn>
                         <TableRowColumn>{course.head_instructor}</TableRowColumn>
                       <TableRowColumn>{course.currentta}</TableRowColumn>
                       <TableRowColumn>{course.maxta}</TableRowColumn>
                         <TableRowColumn>
-                          <RaisedButton secondary={true} icon={<RemoveIcon/>}/>
+                          <RaisedButton onClick={() => this.props.unassign(course.course, applicant.utorid)}
+                                        secondary={true} icon={<RemoveIcon/>}/>
                         </TableRowColumn>
                       </TableRow>
                   })
                     :
-                    <p> I'm not assigned to any course yet! </p>
+                    <TableRow selectable={false}>
+                    <TableRowColumn style={styles.notassigned}>I'm not assigned to any courses yet!</TableRowColumn>
+                    </TableRow>
                 }
                 </TableBody>
               </Table>
@@ -159,6 +162,11 @@ ApplicantView.styles = {
   },
   notSelected: {
     margin: '10% 0'
+  },
+  notassigned: {
+    padding: "15px",
+    marginBottom: "0",
+    color: "#DE3E3E"
   }
 };
 
