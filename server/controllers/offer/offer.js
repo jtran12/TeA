@@ -39,31 +39,32 @@ exports.updateAssignedCourse = function(utorid, prevCourse, course, res) {
         sender.sendError(res, 404, "Applicant not found.");
       }
       else {
-          console.log(result.rows[0]);
-          console.log(result.rows[0].utorid);
-          var courses = result.rows[0].currentAssignedCourses || [];
-          console.log(courses);
+          var courses = result.rows[0].currentassignedcourses || [];
 
           if (prevCourse === null && course !== null) {
-            console.log("POST. Adding a course to currentAssignedCourses");
             courses.push(course);
           }
           else if (prevCourse !== null && course !== null) {
-            console.log("PUT. Editing a course in currentAssignedCourses");
-            var index = courses.indexof(prevCourse);
+            // No functionality for this in the current MVP, offers should just be deleted
+            // Instead of edited since it'd be troublesome if they accepted it and have to
+            // Accept all over again
+            var index = courses.indexOf(prevCourse);
             if (index !== -1) {
                 courses[index] = course;
             } else {
-                sender.sendError(res, 404, "The previous course for applicant is not found");
+                res.sendStatus(200);
+                
+                return;
             }
           }
           else if (prevCourse !== null && course === null) {
-            console.log("DELETE. Deleting a course.");
-            var index = courses.indexof(course);
+            var index = courses.indexOf(prevCourse);
             if (index !== -1) {
                 courses.splice(index, 1);
             } else {
-                sender.sendError(res, 404, "The previous course for applicant isn't found")
+                res.sendStatus(200);
+                
+                return;
             }
           } else {
             sender.sendError(res, 400, "Course was not updated for applicant.");
@@ -170,7 +171,6 @@ exports.putOffer = function(req, res) {
       var data = result.rows[0];
       var assigned = body.assigned || data.assigned;
       var accepted = body.accepted || data.accepted;
-      var course = body.course || data.course;
       var query = "UPDATE applications SET assigned=$1, accepted=$2 WHERE utorid=$3 AND course=$4";
 
       /* Extra functionality for an edge case here: if body.accepted is true
@@ -186,12 +186,14 @@ exports.putOffer = function(req, res) {
           else if (!result.rowCount) {
               sender.sendError(res, 404, "Offer not found");
           }
-          else {
-              if (body.course !== data.course) {
-                  exports.updateAssignedCourse(body.utorid, data.course, body.course, res);
-              }
-              res.sendStatus(200);
-
+          else if (body.assigned === "true" && data.assigned === false) {
+            // Adding the course as assigned to the TA
+            exports.updateAssignedCourse(body.utorid, null, data.course, res);
+          } else if (body.assigned === "false" && data.assigned === true) {
+            // Removing the course from TA's assigned
+            exports.updateAssignedCourse(body.utorid, data.course, null, res);
+          } else {
+            res.sendStatus(200);
           }
       });
     }
