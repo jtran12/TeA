@@ -115,6 +115,7 @@ export function assignCourse(course, applicantID) {
     dispatch(assignCourseToApplicant());
     return CourseAPI.assignCourseToApplicant(course, applicantID).then(() => {
       dispatch(assignCourseToApplicantSuccess(course, applicantID));
+      dispatch(applicantActions.assignApplicantToCourseSuccess(course, applicantID));
     }).catch((error) => {
       dispatch(assignCourseToApplicantFailure(error));
     });
