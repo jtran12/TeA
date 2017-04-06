@@ -93,7 +93,7 @@ exports.updateAssignedCourse = function(utorid, prevCourse, course, res) {
 exports.postOffer = function(req, res) {
 
     var body = req.body;
-    var course = genCourse(body);
+    var course = body.course;
 
     if (!course) {
         sender.sendError(res, 400, "Missing course fields");
@@ -133,7 +133,7 @@ exports.postOffer = function(req, res) {
 exports.getOffer = function(req, res) {
 
     var utorid = req.query.utorid;
-    var course = courseParser(req);
+    var course = req.query.course;
 
     if (!utorid || !course) {
         sender.sendError(res, 400, "Offer not found");

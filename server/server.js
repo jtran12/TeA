@@ -9,6 +9,10 @@ var bodyParser = require('body-parser');
 // Setup application
 global.appRoot = path.resolve(__dirname);
 
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({
+    extended : true
+}));
 app.use(express.static('public'));
 
 app.use(session({
@@ -24,11 +28,6 @@ app.use(function(req, res, next) {
     res.header('Access-Control-Allow-Headers', 'Content-Type');
     next();
 });
-
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({
-  extended : true
-}));
 
 require('./controllers/routes.js')(app);
 

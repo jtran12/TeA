@@ -1,19 +1,19 @@
 import fetch from 'isomorphic-fetch';
 
-class CourseAPI {
+class ApplicantAPI {
 
-  static getCourses(currSize) {
-    const COURSE_API = `http://localhost:3000/course/bulk?limit=10&offset=${currSize}`;
-    return fetch(COURSE_API)
+  static getApplicants(currSize) {
+    const APPLICANT_API = `http://localhost:3000/applicant/all?limit=10&offset=${currSize}`;
+    return fetch(APPLICANT_API)
       .then(response => response.json())
       .catch(error => error);
   }
 
   // course refers to:
-  //  - the current selected course in course view
+  //  - courses listed on the assign courses modal in applicant view
   // applicantID refers to:
-  //  - applicants listed on the assign applicants modal in course view
-  static assignCourseToApplicant(course, applicantID) {
+  //  - the current selected application in applicant view
+  static assignApplicantToCourse(course, applicantID) {
     const init = {
       method: 'POST',
       body: JSON.stringify({
@@ -31,4 +31,4 @@ class CourseAPI {
   }
 }
 
-export default CourseAPI;
+export default ApplicantAPI;

@@ -33,7 +33,6 @@ function updateTopThirty(course, applicant, offerData) {
     // Compute rank of 'applicant' for 'course'
 
     var ranking = 100;
-
     for (var j = 0; j < offerData.length; j++) {
     var offer = offerData[j];
 
@@ -94,20 +93,20 @@ function updateTopThirty(course, applicant, offerData) {
 	}
 
 
-  var recommendationsLength = course.recommended_applicants.length;
-  for (var i = 0; i < recommendationsLength; i++) {
+	var recommendationsLength = course.recommended_applicants.length;
+	for (var i = 0; i < course.recommended_applicants.length; i++) {
+		var currID = course.recommended_applicants[i].split(" ")[0];
 		var currRank = course.recommended_applicants[i].split(" ")[1];
-    var currID = course.recommended_applicants[i].split(" ")[0];
-    // If utorid already in array, remove it
-    if (currID === applicant.utorid) {
-      course.recommended_applicants.splice(i, 1);
-      i--;
-      continue;
-    }
+		// If utorid already in array, remove it
+		if (currID === applicant.utorid) {
+			course.recommended_applicants.splice(i, 1);
+			i--;
+			continue;
+		}
 
 		if (ranking > currRank) {
-      course.recommended_applicants.splice(i, 0, applicant.utorid + " " + ranking);
-      break;
+			course.recommended_applicants.splice(i, 0, applicant.utorid + " " + ranking);
+			break;
 		}
 	}
 
@@ -171,7 +170,6 @@ exports.updateRecommendations = function(utorid) {
         sender.sendError(res, 400, err);
       } else {
         var courses = result.rows;
-
         for (var i = 0; i < courses.length; i++) {
           updateTopThirty(courses[i], applicant, offerData);
         }

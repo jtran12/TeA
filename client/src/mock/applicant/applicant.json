@@ -1,0 +1,21 @@
+{
+  "data": [
+    {
+      "utorid": "anniann",
+      "studentnumber": "1000918273",
+      "familyname": "Anni",
+      "givenname": "Ann",
+      "program": "phd",
+      "year": 2,
+      "phonenumber": "4164164169",
+      "email": "anniann@mail.ca",
+      "studentdepartment": "Computer Science",
+      "tacourses": [],
+      "courses": [],
+      "declined": false,
+      "declinedcount": 0,
+      "declinedcourses": [],
+      "appliedcourses": []
+    }
+  ]
+}
