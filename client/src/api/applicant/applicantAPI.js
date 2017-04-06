@@ -16,7 +16,7 @@ class ApplicantAPI {
   static assignApplicantToCourse(course, applicant) {
     const init = {
       headers: {
-        'Accept': 'application/json',
+        Accept: 'application/json',
         'Content-Type': 'application/json',
       },
       method: 'POST',
