@@ -94,7 +94,7 @@ These functionalities have been scrapped due to change of focus and prioritizing
 ## Authors
 
 - Tim Pan [github/Timpan5](https://github.com/Timpan5)
-- Ken [github/Darkmoot](https://github.com/Darkmoot)
+- Ken Lee [github/Darkmoot](https://github.com/Darkmoot)
 - Tony Lee [github/tony-h-lee](https://github.com/tony-h-lee)
 - Andrew Xia [github/andrew-x](https://github.com/andrew-x)
 - Jason Tran [github/jtran12](https://github.com/jtran12)
