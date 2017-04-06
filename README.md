@@ -15,8 +15,8 @@ Note: Does not contain full functionality for applicant registration and assumes
 
 - [Install](#install)
 - [Usage](#usage)
-- [User Cases](#user_cases)
-- [Authors](#license)
+- [User Cases](#user-cases)
+- [Authors](#authors)
 
 ## Install
 
