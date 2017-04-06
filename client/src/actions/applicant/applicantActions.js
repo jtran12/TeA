@@ -117,8 +117,8 @@ export function assignApplicant() {
 export function unassignApplicant() {
   return (dispatch) => {
     dispatch(unassignApplicantToCourse());
-    return ApplicantAPI.assignApplicantToCourse().then((applicants) => {
-      dispatch(unassignApplicantToCourseSuccess(applicants));
+    return ApplicantAPI.unassignApplicantToCourse().then((msg) => {
+      dispatch(unassignApplicantToCourseSuccess(msg));
     }).catch((error) => {
       dispatch(unassignApplicantToCourseFailure(error));
     });
