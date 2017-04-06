@@ -67,36 +67,6 @@ class ApplicantView extends React.Component {
           </div>
           <Card style={styles.card}>
             <CardHeader
-              title="Preferred Courses"
-              actAsExpander={true}
-              showExpandableButton={true} />
-            <CardText expandable={true}>
-              <Table fixedHeader={true}>
-                <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
-                  <TableRow>
-                    <TableHeaderColumn style={styles.idwidth}>ID</TableHeaderColumn>
-                    <TableHeaderColumn>Professor</TableHeaderColumn>
-                    <TableHeaderColumn>Previously Assigned</TableHeaderColumn>
-                    <TableHeaderColumn>Course Coordinator Preferred</TableHeaderColumn>
-                    <TableHeaderColumn />
-                  </TableRow>
-                </TableHeader>
-                <TableBody displayRowCheckbox={false} showRowHover={true} stripedRows={true}>
-                  <TableRow selectable={false}>
-                    <TableRowColumn style={styles.idwidth}>CSC302</TableRowColumn>
-                    <TableRowColumn>Professor Teacherson</TableRowColumn>
-                    <TableRowColumn>True</TableRowColumn>
-                    <TableRowColumn>False</TableRowColumn>
-                    <TableRowColumn>
-                      <RaisedButton primary={true} icon={<AddIcon/>}/>
-                    </TableRowColumn>
-                  </TableRow>
-                </TableBody>
-              </Table>
-            </CardText>
-          </Card>
-          <Card style={styles.card}>
-            <CardHeader
               title="Assigned Courses"
               actAsExpander={true}
               showExpandableButton={true} />
@@ -104,23 +74,27 @@ class ApplicantView extends React.Component {
               <Table fixedHeader={true}>
                 <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
                   <TableRow>
-                    <TableHeaderColumn style={styles.idwidth}>ID</TableHeaderColumn>
-                    <TableHeaderColumn>Professor</TableHeaderColumn>
-                    <TableHeaderColumn>Previously Assigned</TableHeaderColumn>
-                    <TableHeaderColumn>Course Coordinator Preferred</TableHeaderColumn>
+                    <TableHeaderColumn style={styles.idwidth}>Course</TableHeaderColumn>
+                    <TableHeaderColumn>Head Instructor</TableHeaderColumn>
+                    <TableHeaderColumn>Current TAs</TableHeaderColumn>
+                    <TableHeaderColumn>Max TAs</TableHeaderColumn>
                     <TableHeaderColumn />
                   </TableRow>
                 </TableHeader>
-                <TableBody displayRowCheckbox={false} showRowHover={true} stripedRows={true}>
-                  <TableRow selectable={false}>
-                    <TableRowColumn style={styles.idwidth}>CSC302</TableRowColumn>
-                    <TableRowColumn>Professor Teacherson</TableRowColumn>
-                    <TableRowColumn>True</TableRowColumn>
-                    <TableRowColumn>False</TableRowColumn>
-                    <TableRowColumn>
-                      <RaisedButton secondary={true} icon={<RemoveIcon/>}/>
-                    </TableRowColumn>
-                  </TableRow>
+                <TableBody displayRowCheckbox={false} showRowHover={false} stripedRows={true}>
+                {
+                  applicant.currentAssignedCourses.map((course, index) => {
+                    return <TableRow selectable={false} key={index}>
+                        <TableRowColumn style={styles.idwidth}>{course.course}</TableRowColumn>
+                        <TableRowColumn>{course.head_instructor}</TableRowColumn>
+                      <TableRowColumn>{course.currentta}</TableRowColumn>
+                      <TableRowColumn>{course.maxta}</TableRowColumn>
+                        <TableRowColumn>
+                          <RaisedButton secondary={true} icon={<RemoveIcon/>}/>
+                        </TableRowColumn>
+                      </TableRow>
+                  })
+                }
                 </TableBody>
               </Table>
             </CardText>
