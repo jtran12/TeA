@@ -8,7 +8,7 @@ const LOAD_COURSES_FAILURE = 'LOAD_COURSES_FAILURE';
 const ASSIGN_COURSE_TO_APPLICANT = 'ASSIGN_COURSE_TO_APPLICANT';
 const ASSIGN_COURSE_TO_APPLICANT_SUCCESS = 'ASSIGN_COURSE_TO_APPLICANT_SUCCESS';
 const ASSIGN_COURSE_TO_APPLICANT_FAILURE = 'ASSIGN_COURSE_TO_APPLICANT_FAILURE';
-const UNASSIGN_COURSE_TO_APPLICANT= 'UNASSIGN_COURSE_TO_APPLICANT';
+const UNASSIGN_COURSE_TO_APPLICANT = 'UNASSIGN_COURSE_TO_APPLICANT';
 const UNASSIGN_COURSE_TO_APPLICANT_SUCCESS = 'UNASSIGN_COURSE_TO_APPLICANT_SUCCESS';
 const UNASSIGN_COURSE_TO_APPLICANT_FAILURE = 'UNASSIGN_COURSE_TO_APPLICANT_FAILURE';
 
@@ -124,9 +124,9 @@ export function unassignApplicant(course, applicantID) {
   return (dispatch) => {
     dispatch(unassignCourseToApplicant());
     return CourseAPI.unassignCourseToApplicant(course, applicantID).then(() => {
-        dispatch(unassignCourseToApplicantSuccess(course, applicantID));
-  }).catch((error) => {
+      dispatch(unassignCourseToApplicantSuccess(course, applicantID));
+    }).catch((error) => {
       dispatch(unassignCourseToApplicantFailure(error));
-  });
+    });
   };
 }
