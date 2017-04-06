@@ -162,36 +162,6 @@ class CourseView extends React.Component {
           </Card>
           <Card style={styles.card}>
             <CardHeader
-              title="Requested Applicants"
-              actAsExpander={true}
-              showExpandableButton={true} />
-            <CardText expandable={true}>
-              <Table fixedHeader={true}>
-                <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
-                  <TableRow>
-                    <TableHeaderColumn style={styles.idwidth}>ID</TableHeaderColumn>
-                    <TableHeaderColumn>First Name</TableHeaderColumn>
-                    <TableHeaderColumn>Last Name</TableHeaderColumn>
-                    <TableHeaderColumn>Enrollment Level</TableHeaderColumn>
-                    <TableHeaderColumn />
-                  </TableRow>
-                </TableHeader>
-                <TableBody displayRowCheckbox={false} showRowHover={true} stripedRows={true}>
-                  <TableRow selectable={false}>
-                    <TableRowColumn style={styles.idwidth}>1001143223</TableRowColumn>
-                    <TableRowColumn>Test</TableRowColumn>
-                    <TableRowColumn>User</TableRowColumn>
-                    <TableRowColumn>UG - 2</TableRowColumn>
-                    <TableRowColumn>
-                      <RaisedButton primary={true} icon={<AddIcon/>}/>
-                    </TableRowColumn>
-                  </TableRow>
-                </TableBody>
-              </Table>
-            </CardText>
-          </Card>
-          <Card style={styles.card}>
-            <CardHeader
               title="Assigned Applicants"
               actAsExpander={true}
               showExpandableButton={true} />
@@ -214,37 +184,6 @@ class CourseView extends React.Component {
                     <TableRowColumn>UG - 2</TableRowColumn>
                     <TableRowColumn style={styles.actionwidth}>
                       <RaisedButton secondary={true} icon={<RemoveIcon/>}/>
-                    </TableRowColumn>
-                  </TableRow>
-                </TableBody>
-              </Table>
-            </CardText>
-          </Card>
-          <Card style={styles.card}>
-            <CardHeader
-              title="Past Assignments"
-              actAsExpander={true}
-              showExpandableButton={true} />
-            <CardText expandable={true}>
-              <Table fixedHeader={true}>
-                <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
-                  <TableRow>
-                    <TableHeaderColumn style={styles.idwidth}>ID</TableHeaderColumn>
-                    <TableHeaderColumn>First Name</TableHeaderColumn>
-                    <TableHeaderColumn>Last Name</TableHeaderColumn>
-                    <TableHeaderColumn style={styles.sessionwidth}>Session</TableHeaderColumn>
-                    <TableHeaderColumn>Is Applicant</TableHeaderColumn>
-                    <TableHeaderColumn />
-                  </TableRow>
-                </TableHeader>
-                <TableBody displayRowCheckbox={false} showRowHover={true} stripedRows={true}>
-                  <TableRow selectable={false}>
-                    <TableRowColumn style={styles.idwidth}>1001143223</TableRowColumn>
-                    <TableRowColumn>Test</TableRowColumn>
-                    <TableRowColumn>User</TableRowColumn>
-                    <TableRowColumn style={styles.sessionwidth}>2015 Spring</TableRowColumn>
-                    <TableRowColumn>True</TableRowColumn>
-                    <TableRowColumn>
                     </TableRowColumn>
                   </TableRow>
                 </TableBody>
