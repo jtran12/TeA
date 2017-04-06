@@ -32,16 +32,9 @@ class ApplicantAPI {
 
   static unassignApplicantToCourse(course, applicantID) {
     const init = {
-      method: 'POST',
-      body: JSON.stringify({
-        course: course.course,
-        coursecode: course.corsecode,
-        term: course.term,
-        year: course.year,
-        utorid: applicantID
-      })
+      method: 'DELETE'
     };
-    const APPLICANT_API = 'http://localhost:3000/offer';
+    const APPLICANT_API = `http://localhost:3000/offer?course=${course}&utorid=${applicantID}`;
     return fetch(APPLICANT_API, init)
       .then(response => response.json())
       .catch(error => error);
