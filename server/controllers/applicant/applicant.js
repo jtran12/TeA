@@ -1,6 +1,7 @@
 var sender = require(appRoot + '/controllers/sender.js');
 var pool = require(appRoot + '/controllers/database/database.js').pool;
 var recommendation = require(appRoot + '/controllers/recommender/recommender.js');
+var async = require('async');
 
 
 exports.postApplicant = function(req, res) {
@@ -25,12 +26,13 @@ exports.postApplicant = function(req, res) {
 
 exports.getApplicant = function(req, res) {
   var utorid = req.query.utorid.toLowerCase();
+  var response = {};
 
   if (!utorid) {
     sender.sendError(res, 400, "Invalid parameter: UTORid");
   }
   else {
-    var query = "SELECT * FROM applicants WHERE utorid=$1";
+    var query = "SELECT * FROM applicants WHERE applicants.utorid=$1";
     pool.query(query, [utorid], function(err, result) {
       if (err) {
         sender.sendError(res, 400, err);
@@ -39,7 +41,21 @@ exports.getApplicant = function(req, res) {
           sender.sendError(res, 404, "Applicant with UTORid: " + utorid + " not found");
       }
       else {
-          sender.sendData(res, result.rows);
+          response.applicant = result.rows[0];
+        // Get assigned courses
+          query = "SELECT * FROM courses c LEFT JOIN applications a ON (c.course = a.course) WHERE a.utorid=$1";
+          pool.query(query, [result.rows[0].utorid], function(err, result) {
+              if (err) {
+                  sender.sendError(res, 400, err);
+              }
+              else if (!result.rows.length) {
+                  sender.sendError(res, 404, "Offer with UTORid: " + utorid + " not found");
+              }
+              else {
+                response.assignedCourses = result.rows;
+                  sender.sendData(res, response);
+              }
+          });
       }
     });
   }
@@ -119,15 +135,34 @@ exports.postApplicantFilter = function(req, res) {
 };
 
 exports.getAllApplicants = function(req, res) {
+  var response = {};
   var limit = req.query.limit || 'ALL';
   var offset = req.query.offset || 0;
   var query = "SELECT * FROM applicants ORDER BY utorid ASC LIMIT " + limit + " OFFSET " + offset;
+  var index = -1;
   pool.query(query, function(err, result) {
     if (err) {
       sender.sendError(res, 400, err);
     }
     else {
-      sender.sendData(res, result.rows);
+      var currIndex = null;
+      response = result.rows;
+      query = "SELECT * FROM applications a LEFT JOIN courses c ON (a.course = c.course) WHERE a.utorid=$1";
+      async.map(response, function(applicant, cb) {
+        pool.query(query, [applicant.utorid], function(err, courseResult) {
+            if (err) {
+                console.log(err);
+            }
+            else if (courseResult.rows) {
+              applicant.currentAssignedCourses = courseResult.rows;
+              cb(null, response);
+            }
+        });
+      }, function(err, result) {
+          sender.sendData(res, result);
+      });
+
+
     }
   });
 };
