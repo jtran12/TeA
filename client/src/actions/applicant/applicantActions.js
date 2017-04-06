@@ -1,4 +1,5 @@
 import ApplicantAPI from '../../api/applicant/applicantAPI';
+import * as courseActions from '../course/courseActions';
 
 const SELECT_APPLICANT = 'SELECT_APPLICANT';
 const DESELECT_APPLICANT = 'DESELECT_APPLICANT';
@@ -105,11 +106,11 @@ export function loadApplicants(curr) {
   };
 }
 
-export function assignApplicant() {
+export function assignApplicant(course, applicantID) {
   return (dispatch) => {
     dispatch(assignApplicantToCourse());
-    return ApplicantAPI.assignApplicantToCourse().then((applicants) => {
-      dispatch(assignApplicantToCourseSuccess(applicants));
+    return ApplicantAPI.assignApplicantToCourse(course, applicantID).then(() => {
+      dispatch(assignApplicantToCourseSuccess(course, applicantID));
     }).catch((error) => {
       dispatch(assignApplicantToCourseFailure(error));
     });
@@ -121,6 +122,7 @@ export function unassignApplicant(course, applicantID) {
     dispatch(unassignApplicantToCourse());
     return ApplicantAPI.unassignApplicantToCourse(course, applicantID).then(() => {
       dispatch(unassignApplicantToCourseSuccess(course, applicantID));
+      dispatch(courseActions.unassignCourseToApplicantSuccess(course, applicantID));
     }).catch((error) => {
       dispatch(unassignApplicantToCourseFailure(error));
     });
