@@ -105,30 +105,6 @@ class ApplicantView extends React.Component {
               </Table>
             </CardText>
           </Card>
-          <Card style={styles.card}>
-            <CardHeader
-              title="Past Assignments"
-              actAsExpander={true}
-              showExpandableButton={true} />
-            <CardText expandable={true}>
-              <Table fixedHeader={true}>
-                <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
-                  <TableRow>
-                    <TableHeaderColumn style={styles.idwidth}>ID</TableHeaderColumn>
-                    <TableHeaderColumn>Semester</TableHeaderColumn>
-                    <TableHeaderColumn>Professor</TableHeaderColumn>
-                  </TableRow>
-                </TableHeader>
-                <TableBody displayRowCheckbox={false} showRowHover={true} stripedRows={true}>
-                  <TableRow selectable={false}>
-                    <TableRowColumn style={styles.idwidth}>CSC302</TableRowColumn>
-                    <TableRowColumn>2017 - Spring</TableRowColumn>
-                    <TableRowColumn>Professor Teacherson</TableRowColumn>
-                  </TableRow>
-                </TableBody>
-              </Table>
-            </CardText>
-          </Card>
 
           <Dialog
             open={this.state.showAssignDialog}

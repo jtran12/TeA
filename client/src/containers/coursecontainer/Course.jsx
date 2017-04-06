@@ -6,6 +6,7 @@ import { Scrollbars } from 'react-custom-scrollbars';
 import CourseView from '../../components/course/courseview/CourseView.jsx';
 import CourseList from './CourseList.jsx';
 import * as courseActions from '../../actions/course/courseActions';
+import * as applicantActions from '../../actions/applicant/applicantActions';
 
 
 
@@ -37,7 +38,8 @@ class Course extends React.Component {
                       autoHide
                       autoHideTimeout={500}
                       autoHideDuration={200}>
-            <CourseView selected={ this.props.course.selectedCourse }/>
+            <CourseView unassign={this.props.unassignApplicant}
+                        selected={ this.props.course.selectedCourse }/>
           </Scrollbars>
         </div>
       </div>
@@ -70,6 +72,7 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     loadCourses: (curr) => dispatch(courseActions.loadCourses(curr)),
+    unassignApplicant: (course, applicantID) => dispatch(courseActions.unassignApplicant(course, applicantID))
   }
 };
 
