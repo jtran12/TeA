@@ -1,5 +1,14 @@
 import createInitialCourseState from '../../state/course/courseState';
 
+function getIndex(value, arr, prop) {
+  for (let i = 0; i < arr.length; i += 1) {
+    if (arr[i][prop] === value) {
+      return i;
+    }
+  }
+  return -1;
+}
+
 export default function courseReducer(state = createInitialCourseState(), action) {
 
   switch (action.type) {
@@ -34,10 +43,10 @@ export default function courseReducer(state = createInitialCourseState(), action
       return Object.assign({}, state, {isFetching: true });
 
     case 'UNASSIGN_COURSE_TO_APPLICANT_SUCCESS': {
-      const index = getIndex(action.course, state.course, 'course');
+      const index = getIndex(action.course, state.courses, 'course');
       const applicantArray = state.courses[index].tas;
       const applicantIndex = getIndex(action.applicant, applicantArray, 'utorid');
-      const newCourse = state.course;
+      const newCourse = state.courses;
       const newAssignedApplicants =
           [...newCourse[index].tas.slice(0, applicantIndex),
         ...newCourse[index].tas.slice(applicantIndex + 1)];
