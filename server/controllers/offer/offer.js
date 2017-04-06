@@ -63,7 +63,7 @@ exports.updateAssignedCourse = function(utorid, prevCourse, course, res) {
             if (index !== -1) {
                 courses.splice(index, 1);
             } else {
-                sender.sendError(res, 404, "The previous course for applicant isn't found");
+                sender.sendError(res, 404, "The previous course for applicant isn't found")
             }
           } else {
             sender.sendError(res, 400, "Course was not updated for applicant.");
