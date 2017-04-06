@@ -23,13 +23,11 @@ class ApplicantTable extends React.Component {
 
   constructor(props){
     super(props);
-
   }
 
   componentDidMount() {
-    this.props.loadApplicants([]);
+    this.props.loadApplicants(this.props.applicant.applicants);
   }
-
 
   render() {
     const styles = lodash.cloneDeep(this.constructor.styles);
@@ -50,7 +48,7 @@ class ApplicantTable extends React.Component {
               </TableRow>
             </TableHeader>
             {/* The table headers should allow sortable which will be included in a function later */}
-            
+
               <TableBody displayRowCheckbox={false} showRowHover={true} stripedRows={false}>
                {
                   applicants.map((applicant, index) =>  (
