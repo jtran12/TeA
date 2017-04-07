@@ -37,7 +37,7 @@ function updateTopThirty(res, course, applicant, offerData) {
       // Make sure applicant not already offered this course.
       // If they are, do not put them in the recommendation list and return.
 
-      if ((applicant.utorid.toLowerCase() === offer.utorid.toLowerCase()) && (offer.course.toLowerCase() === args.query.course.toLowerCase())) {
+      if ((offer.course.toLowerCase() === course.course.toLowerCase())) {
         return;
       }
     }
