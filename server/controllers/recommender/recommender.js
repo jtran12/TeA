@@ -1,6 +1,5 @@
 var sender = require(appRoot + '/controllers/sender.js');
 var pool = require(appRoot + '/controllers/database/database.js').pool;
-var pool2 = require(appRoot + '/controllers/database/database.js').pool;
 
 function courseCodeParser(course) {
   var regex = /[a-z]+[0-9]+/i;
@@ -149,32 +148,30 @@ exports.updateRecommendations = function(res, utorid) {
           applicant.declinedcourses = lowerCaseArray(applicant.declinedcourses);
           applicant.appliedcourses = lowerCaseArray(applicant.appliedcourses);
           applicant.currentassignedcourses = lowerCaseArray(applicant.currentassignedcourses);
-      }
-    });
-
-	var offersQuery = 'SELECT * FROM applications WHERE utorid=$1';
-	var offerData = null;
-    pool.query(offersQuery, [utorid], function(offErr, offResult) {
-        if (offErr) {
-            sender.sendError(res, 400, offErr);
-        } else if (!offResult.rows.length) {
-            offerData = [];
-        } else {
-            offerData = offResult.rows;
-        }
-    });
-
-    var courseQuery = 'SELECT * FROM courses';
-    pool.query(courseQuery, function(err, result) {
-      if (err) {
-        sender.sendError(res, 400, err);
-      } else {
-        var courses = result.rows;
-        for (var i = 0; i < courses.length; i++) {
-          updateTopThirty(res, courses[i], applicant, offerData);
-        }
-      }
-    });
+		  
+		var offersQuery = 'SELECT * FROM applications WHERE utorid=$1';
+		var offerData = [];
+		pool.query(offersQuery, [utorid], function(offErr, offResult) {
+			if (offErr) {
+				sender.sendError(res, 400, offErr);
+			} else if (offResult.rows.length) {
+				offerData = offResult.rows;
+				
+				var courseQuery = 'SELECT * FROM courses';
+				pool.query(courseQuery, function(err, result) {
+				  if (err) {
+					sender.sendError(res, 400, err);
+				  } else {
+					var courses = result.rows;
+					for (var i = 0; i < courses.length; i++) {
+					  updateTopThirty(res, courses[i], applicant, offerData);
+					}
+				  }
+				});	
+			}
+		});
+    }
+  });
 };
 
 /**
