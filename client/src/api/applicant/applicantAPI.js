@@ -25,7 +25,7 @@ class ApplicantAPI {
         coursecode: course.coursecode,
         term: course.term,
         year: course.year,
-        utorid: applicantID
+        utorid: applicant.utorid
       })
     };
     const APPLICANT_API = 'http://localhost:3000/offer';
