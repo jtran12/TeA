@@ -25,7 +25,11 @@ class Login extends React.Component {
   }
 
   onSubmit() {
-    browserHistory.push('/main');
+    if (this.state.username === 'zaleski') {
+      browserHistory.push('/instructor');
+    } else {
+      browserHistory.push('/main');
+    }
   }
 
   render() {
@@ -36,13 +40,6 @@ class Login extends React.Component {
         <Paper style={styles.LoginBox} className="center-block col-md-5 col-xs-8" zDepth={5}>
           <img src="../../static/tea.png" /><br/>
           <h3 style={styles.Title}>TeA </h3>
-          {
-            this.state.error !== '' ?
-              <div className="alert alert-danger" role="alert" style={styles.Error}>
-                {this.state.error}
-              </div> :
-              null
-          }
           <TextField floatingLabelText="Username"
                      name="username"
                      errorText={this.state.usernameValidate}
