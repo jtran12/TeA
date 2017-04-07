@@ -1,30 +1,27 @@
 import React from 'react';
 import lodash from 'lodash';
+import autobind from 'react-autobind';
 
 import {Table, TableHeader, TableHeaderColumn, TableBody, TableRow, TableRowColumn} from 'material-ui/Table'
-import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
-import {List, ListItem} from 'material-ui/List';
-import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
-import LinearProgress from 'material-ui/LinearProgress';
-import Dialog from 'material-ui/Dialog';
 
 import { connect } from 'react-redux';
 import { Scrollbars } from 'react-custom-scrollbars';
 import * as courseActions from '../../../actions/course/courseActions';
 
 import AddIcon from 'material-ui/svg-icons/content/add';
-import RemoveIcon from 'material-ui/svg-icons/content/clear';
-import CourseCoordinatorIcon from 'material-ui/svg-icons/social/person-outline';
 
 class CourseTable extends React.Component {
 
   constructor(props){
     super(props);
-
+    autobind(this);
   }
 
   componentDidMount() {
+    this.props.loadCourses(this.props.courses.courses);
+  }
+  onLoadMore(){
     this.props.loadCourses(this.props.courses.courses);
   }
 
@@ -77,6 +74,17 @@ class CourseTable extends React.Component {
                }
               </TableBody>
           </Table>
+          {
+            this.props.courses.full ? null :
+              this.props.courses.isFetching ?
+                <div className="courseMore" style={styles.courseMore}>
+                  <p style={styles.courseMoreP} > fetching... </p>
+                </div>
+                :
+                <div className="courseMore" style={styles.courseMore}>
+                  <p style={styles.courseMoreP} onClick={this.onLoadMore}> more courses </p>
+                </div>
+          }
           </Scrollbars>
       </div>
     );
@@ -84,7 +92,16 @@ class CourseTable extends React.Component {
 }
 
 CourseTable.styles = {
-
+  courseMore: {
+    cursor: 'pointer',
+    background: 'rgb(119, 119, 119)',
+    textAlign: 'center',
+    padding: '15px'
+  },
+  courseMoreP: {
+    color: '#FFF',
+    margin: '0'
+  }
 };
 
 const mapStateToProps = (state, ownProps) => {

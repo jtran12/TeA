@@ -22,7 +22,10 @@ class ApplicantAPI {
       method: 'POST',
       body: JSON.stringify({
         course: course.course,
-        utorid: applicant.utorid
+        coursecode: course.coursecode,
+        term: course.term,
+        year: course.year,
+        utorid: applicantID
       })
     };
     const APPLICANT_API = 'http://localhost:3000/offer';
