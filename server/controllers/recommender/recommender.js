@@ -30,7 +30,6 @@ function lowerCaseArray(courses) {
 
 function updateTopThirty(res, course, applicant, offerData) {
     // Compute rank of 'applicant' for 'course'
-
     var ranking = 100;
     for (var j = 0; j < offerData.length; j++) {
     var offer = offerData[j];
@@ -93,16 +92,21 @@ function updateTopThirty(res, course, applicant, offerData) {
 
 
 	var recommendationsLength = course.recommended_applicants.length;
+	
 	for (var i = 0; i < course.recommended_applicants.length; i++) {
 		var currID = course.recommended_applicants[i].split(" ")[0];
-		var currRank = course.recommended_applicants[i].split(" ")[1];
+
 		// If utorid already in array, remove it
 		if (currID === applicant.utorid) {
 			course.recommended_applicants.splice(i, 1);
 			i--;
 			continue;
 		}
+	}
 
+	recommendationsLength = course.recommended_applicants.length;
+	for (var i = 0; i < course.recommended_applicants.length; i++) {
+		var currRank = course.recommended_applicants[i].split(" ")[1];
 		if (ranking > currRank) {
 			course.recommended_applicants.splice(i, 0, applicant.utorid + " " + ranking);
 			break;
@@ -130,6 +134,7 @@ function updateTopThirty(res, course, applicant, offerData) {
 exports.updateRecommendations = function(res, utorid) {
 	var applicantQuery = 'SELECT * FROM applicants WHERE utorid=$1';
 	var applicant = null;
+
 	pool.query(applicantQuery, [utorid], function(err, result) {
       if (err) {
           sender.sendError(res, 400, err);
@@ -156,19 +161,18 @@ exports.updateRecommendations = function(res, utorid) {
 				sender.sendError(res, 400, offErr);
 			} else if (offResult.rows.length) {
 				offerData = offResult.rows;
-				
-				var courseQuery = 'SELECT * FROM courses';
-				pool.query(courseQuery, function(err, result) {
-				  if (err) {
-					sender.sendError(res, 400, err);
-				  } else {
-					var courses = result.rows;
-					for (var i = 0; i < courses.length; i++) {
-					  updateTopThirty(res, courses[i], applicant, offerData);
-					}
-				  }
-				});	
 			}
+			var courseQuery = 'SELECT * FROM courses';
+			pool.query(courseQuery, function(err, result) {
+			  if (err) {
+				sender.sendError(res, 400, err);
+			  } else {
+				var courses = result.rows;
+				for (var i = 0; i < courses.length; i++) {
+				  updateTopThirty(res, courses[i], applicant, offerData);
+				}
+			  }
+			});	
 		});
     }
   });
