@@ -1,5 +1,6 @@
 import React from 'react';
 import lodash from 'lodash';
+import autobind from 'react-autobind';
 
 import {Table, TableHeader, TableHeaderColumn, TableBody, TableRow, TableRowColumn} from 'material-ui/Table'
 import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
@@ -19,7 +20,7 @@ class CourseView extends React.Component {
 
   constructor(props){
     super(props);
-
+    autobind(this);
     this.state = {
       showAssignDialog: false,
 
@@ -49,11 +50,7 @@ class CourseView extends React.Component {
           studentLevel: 'Year 1 Undergraduate Student'
         }
       ]
-
     };
-
-    this.onOpenAssignDialog = this.onOpenAssignDialog.bind(this);
-    this.onCloseAssignDialog = this.onCloseAssignDialog.bind(this);
   }
 
   onOpenAssignDialog(){
@@ -107,7 +104,11 @@ class CourseView extends React.Component {
                             mode="determinate"
                             max={course.maxta}
                             value={course.currentta} />
-            <RaisedButton primary={true} label="Assign Applicants" onClick={this.onOpenAssignDialog}/>
+            {
+              this.props.instructor ? null :
+                <RaisedButton primary={true} label="Assign Applicants" onClick={this.onOpenAssignDialog}/>
+            }
+
           </div>
           <div className="row" style={styles.info}>
             <Card style={styles.card}>
@@ -150,16 +151,19 @@ class CourseView extends React.Component {
               </TableBody>
             </Table>
           </div>
+          {
+            this.props.instructor ? null :
+              <Card style={styles.card}>
+                <CardHeader
+                  title="Recommended Applicants"
+                  actAsExpander={false}
+                  showExpandableButton={false} />
+                <CardText expandable={false}>
+                  <ApplicantRecommendations/>
+                </CardText>
+              </Card>
+          }
 
-          <Card style={styles.card}>
-            <CardHeader
-              title="Recommended Applicants"
-              actAsExpander={false}
-              showExpandableButton={false} />
-            <CardText expandable={false}>
-              <ApplicantRecommendations/>
-            </CardText>
-          </Card>
           <Card style={styles.card}>
             <CardHeader
               title="Assigned Applicants"
