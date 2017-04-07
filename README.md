@@ -93,6 +93,8 @@ These functionalities have been scrapped due to change of focus and prioritizing
 
 ## Authors
 
+This project was created equally by each team member and Github contribution underrepresents this fact.
+
 - Tim Pan [github/Timpan5](https://github.com/Timpan5)
 - Ken Lee [github/Darkmoot](https://github.com/Darkmoot)
 - Tony Lee [github/tony-h-lee](https://github.com/tony-h-lee)
