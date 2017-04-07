@@ -21,14 +21,18 @@ class Login extends React.Component {
   }
 
   onTextFieldChange(e){
-    this.setState({[e.target.name]: e.target.value, error: '', usernameValidate: '', passwordValidate: ''});
+    this.setState({[e.target.name]: e.target.value, usernameValidate: ''});
   }
 
   onSubmit() {
     if (this.state.username === 'zaleski') {
       browserHistory.push('/instructor');
-    } else {
+    } else if (this.state.username === 'anniann') {
+      browserHistory.push('/applicant');
+    } else if (this.state.username === 'admin') {
       browserHistory.push('/main');
+    } else {
+      this.setState({usernameValidate: 'Invalid username'});
     }
   }
 

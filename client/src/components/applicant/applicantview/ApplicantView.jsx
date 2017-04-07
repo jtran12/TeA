@@ -1,14 +1,12 @@
 import React from 'react';
 import lodash from 'lodash';
+import autobind from 'react-autobind';
 
 import {Table, TableHeader, TableHeaderColumn, TableBody, TableRow, TableRowColumn} from 'material-ui/Table'
-import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
-import FlatButton from 'material-ui/FlatButton';
+import {Card, CardHeader, CardText} from 'material-ui/Card';
 import RaisedButton from 'material-ui/RaisedButton';
-import LinearProgress from 'material-ui/LinearProgress';
 import Dialog from 'material-ui/Dialog';
 
-import AddIcon from 'material-ui/svg-icons/content/add';
 import RemoveIcon from 'material-ui/svg-icons/content/clear';
 import CourseTable from '../../course/coursetable/CourseTable.jsx';
 
@@ -62,9 +60,13 @@ class ApplicantView extends React.Component {
               </TableBody>
             </Table>
           </div>
-          <div className="row text-center">
-            <RaisedButton primary={true} label="Assign to Course" onClick={this.onOpenAssignDialog}/>
-          </div>
+          {
+            this.props.applicant ? null :
+              <div className="row text-center">
+                <RaisedButton primary={true} label="Assign to Course" onClick={this.onOpenAssignDialog}/>
+              </div>
+          }
+
           <Card style={styles.card}>
             <CardHeader
               title="Assigned Courses"
