@@ -153,7 +153,7 @@ exports.updateRecommendations = function(res, utorid) {
           applicant.declinedcourses = lowerCaseArray(applicant.declinedcourses);
           applicant.appliedcourses = lowerCaseArray(applicant.appliedcourses);
           applicant.currentassignedcourses = lowerCaseArray(applicant.currentassignedcourses);
-		  
+
 		var offersQuery = 'SELECT * FROM applications WHERE utorid=$1';
 		var offerData = [];
 		pool.query(offersQuery, [utorid], function(offErr, offResult) {
@@ -164,15 +164,15 @@ exports.updateRecommendations = function(res, utorid) {
 			}
 			var courseQuery = 'SELECT * FROM courses';
 			pool.query(courseQuery, function(err, result) {
-			  if (err) {
+        if (err) {
 				sender.sendError(res, 400, err);
-			  } else {
-				var courses = result.rows;
-				for (var i = 0; i < courses.length; i++) {
-				  updateTopThirty(res, courses[i], applicant, offerData);
-				}
-			  }
-			});	
+        } else {
+          var courses = result.rows;
+          for (var i = 0; i < courses.length; i++) {
+            updateTopThirty(res, courses[i], applicant, offerData);
+          }
+        }
+			});
 		});
     }
   });
