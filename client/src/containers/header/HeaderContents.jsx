@@ -30,7 +30,7 @@ class HeaderContents extends React.Component {
       d = document,
       documentElement = d.documentElement,
       body = d.getElementsByTagName('body')[0],
-      width = w.innerWidth || documentElement.clientWidth || body.clientWidth
+      width = w.innerWidth || documentElement.clientWidth || body.clientWidth;
 
       if(width < 750) {
         this.setState({
