@@ -1,31 +1,28 @@
 import React from 'react';
 import lodash from 'lodash';
+import autobind from 'react-autobind';
 
 import {Table, TableHeader, TableHeaderColumn, TableBody, TableRow, TableRowColumn} from 'material-ui/Table'
-import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
-import {List, ListItem} from 'material-ui/List';
-import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
-import LinearProgress from 'material-ui/LinearProgress';
-import Dialog from 'material-ui/Dialog';
 
 import { connect } from 'react-redux';
 import { Scrollbars } from 'react-custom-scrollbars';
 import * as applicantActions from '../../../actions/applicant/applicantActions';
 
 import AddIcon from 'material-ui/svg-icons/content/add';
-import RemoveIcon from 'material-ui/svg-icons/content/clear';
-import CourseCoordinatorIcon from 'material-ui/svg-icons/social/person-outline';
-
-
 
 class ApplicantTable extends React.Component {
 
   constructor(props){
     super(props);
+    autobind(this);
   }
 
   componentDidMount() {
+    this.props.loadApplicants(this.props.applicant.applicants);
+  }
+
+  onLoadMore() {
     this.props.loadApplicants(this.props.applicant.applicants);
   }
 
@@ -65,6 +62,17 @@ class ApplicantTable extends React.Component {
                }
               </TableBody>
           </Table>
+          {
+            this.props.applicant.full ? null :
+              this.props.applicant.isFetching ?
+                <div className="applicantMore" style={styles.applicantMore}>
+                  <p style={styles.applicantMoreP}> fetching... </p>
+                </div>
+                :
+                <div className="applicantMore" style={styles.applicantMore}>
+                  <p style={styles.applicantMoreP} onClick={this.onLoadMore}> more applicants </p>
+                </div>
+          }
           </Scrollbars>
       </div>
     );
@@ -72,7 +80,16 @@ class ApplicantTable extends React.Component {
 }
 
 ApplicantTable.styles = {
-
+  applicantMore: {
+    cursor: 'pointer',
+    background: 'rgb(119, 119, 119)',
+    textAlign: 'center',
+    padding: '15px'
+  },
+  applicantMoreP: {
+    color: '#FFF',
+    margin: '0'
+  }
 };
 
 const mapStateToProps = (state, ownProps) => {

@@ -18,7 +18,7 @@ class ApplicantAPI {
       method: 'POST',
       body: JSON.stringify({
         course: course.course,
-        coursecode: course.corsecode,
+        coursecode: course.coursecode,
         term: course.term,
         year: course.year,
         utorid: applicantID
