@@ -24,9 +24,22 @@ class CourseTable extends React.Component {
   onLoadMore(){
     this.props.loadCourses(this.props.courses.courses);
   }
+
+  getIndex(value, arr, prop) {
+    for (let i = 0; i < arr.length; i += 1) {
+      if (arr[i][prop] === value) {
+        return i;
+      }
+    }
+    return -1;
+  }
+
   render() {
     const styles = lodash.cloneDeep(this.constructor.styles);
-    const courses = this.props.courses.courses;
+    const applicant = this.props.applicant.selectedApplicant;
+    const courses = this.props.courses.courses.filter((course) => {
+      return this.getIndex(applicant.utorid, course.tas, 'utorid') === -1
+    });
 
     return (
       <div>
@@ -53,7 +66,8 @@ class CourseTable extends React.Component {
                       <TableRowColumn style={styles.idwidth} >{course.maxta}</TableRowColumn>
                       <TableRowColumn style={styles.idwidth} >{course.currentta}</TableRowColumn>
                       <TableRowColumn>
-                        <RaisedButton primary={true} icon={<AddIcon/>}/>
+                        <RaisedButton onClick={() => this.props.assign(course, applicant)}
+                          primary={true} icon={<AddIcon/>}/>
                       </TableRowColumn>
                     </TableRow>
                   ))
@@ -92,13 +106,15 @@ CourseTable.styles = {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    courses: state.course
+    courses: state.course,
+    applicant: state.applicant
   }
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    loadCourses: (curr) => dispatch(courseActions.loadCourses(curr))
+    loadCourses: (curr) => dispatch(courseActions.loadCourses(curr)),
+    assign: (course, applicant) => dispatch(courseActions.assignCourse(course, applicant))
   }
 };
 

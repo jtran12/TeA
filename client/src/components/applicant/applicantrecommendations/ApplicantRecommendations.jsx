@@ -32,36 +32,30 @@ class ApplicantRecommendations extends React.Component {
 
     return (
       <div className="recommendations">
-        <Scrollbars style={{ width: 600, height: 400 }}>
-          <Table fixedHeader={false}>
-            <TableHeader displaySelectAll={false} adjustForCheckbox={false} sortable={true}>
-              <TableRow>
-                <TableHeaderColumn style={styles.idwidth} tooltip="Unique ID for each student">
-                Utorid</TableHeaderColumn>
-                <TableHeaderColumn tooltip="Score is calculated based on our recommendation system">
-                Recommendation Score</TableHeaderColumn>
-                <TableHeaderColumn />
-              </TableRow>
-            </TableHeader>
-            {/* The table headers should allow sortable which will be included in a function later */}
-            
-              <TableBody displayRowCheckbox={false} showRowHover={true} stripedRows={false}>
-               {
-                  course.recommended_applicants.map((applicant, index) =>  (
-                    <TableRow selectable={false} key={index}>
-                      <TableRowColumn style={styles.idwidth} >
-                      {applicant.slice(0, applicant.indexOf(" "))}</TableRowColumn>
-                      <TableRowColumn style={styles.idwidth} >
-                      {applicant.slice(applicant.indexOf(" "))}</TableRowColumn>
-                      <TableRowColumn>
-                        <RaisedButton primary={true} icon={<AddIcon/>}/>
-                      </TableRowColumn>
-                    </TableRow>
-                  ))
-               }
-              </TableBody>
-          </Table>
-          </Scrollbars>
+        <Table fixedHeader={false}>
+          <TableHeader displaySelectAll={false} adjustForCheckbox={false} sortable={true}>
+            <TableRow>
+              <TableHeaderColumn style={styles.idwidth} tooltip="Unique ID for each student">
+              Utorid</TableHeaderColumn>
+              <TableHeaderColumn tooltip="Score is calculated based on our recommendation system">
+              Recommendation Score</TableHeaderColumn>
+            </TableRow>
+          </TableHeader>
+          {/* The table headers should allow sortable which will be included in a function later */}
+
+            <TableBody displayRowCheckbox={false} showRowHover={true} stripedRows={false}>
+             {
+                course.recommended_applicants.map((applicant, index) =>  (
+                  <TableRow selectable={false} key={index}>
+                    <TableRowColumn style={styles.idwidth} >
+                    {applicant.slice(0, applicant.indexOf(" "))}</TableRowColumn>
+                    <TableRowColumn style={styles.idwidth} >
+                    {applicant.slice(applicant.indexOf(" "))}</TableRowColumn>
+                  </TableRow>
+                ))
+             }
+            </TableBody>
+        </Table>
       </div>
     );
   }

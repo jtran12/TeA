@@ -117,8 +117,7 @@ exports.postOffer = function(req, res) {
                   sender.sendError(res, 400, err);
               }
               else {
-                  // Update applicant's currentAssignedCourses
-                  exports.updateAssignedCourse(body.utorid, null, course, res);
+                  res.sendStatus(200);
               }
           });
       }
